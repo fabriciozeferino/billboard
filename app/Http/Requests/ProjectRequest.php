@@ -26,6 +26,23 @@ class ProjectRequest extends FormRequest
         return [
             'title' => 'required',
             'description' => 'required',
+            'owner_id' => 'required'
         ];
     }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return array
+     */
+    protected function prepareForValidation()
+    {
+        return [
+            'title' => $this->title,
+            'description' => $this->description,
+            'owner_id' => auth()->id()
+        ];
+    }
+
+
 }

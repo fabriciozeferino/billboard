@@ -3,7 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
+/**
+ * @property mixed owner
+
+ */
 class Project extends Model
 {
     protected $guarded = [];

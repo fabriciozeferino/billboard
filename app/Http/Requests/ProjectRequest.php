@@ -37,12 +37,28 @@ class ProjectRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        return [
-            'title' => $this->title,
-            'description' => $this->description,
-            'owner_id' => auth()->id()
-        ];
+        $this->merge([
+            'title' => $this->get('title'),
+            'description' => $this->get('description'),
+            'owner_id' => auth()->id(),
+        ]);
+
+        /*if (is_array($items = $this->get('items', []))) {
+            $this->merge(['items' => array_filter($items)]);
+        }*/
     }
 
-
+    /**
+     * Custom message for validation
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'title.required' => 'Title is required!',
+            'description.required' => 'Description is required!',
+            'password.required' => 'Password is required!'
+        ];
+    }
 }

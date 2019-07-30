@@ -7,7 +7,6 @@ use App\Project;
 
 class ProjectsController extends Controller
 {
-
     public function index()
     {
         $projects = auth()->user()->projects;
@@ -17,18 +16,24 @@ class ProjectsController extends Controller
 
     public function show(Project $project)
     {
-        if (auth()->user()->isNot($project->owner)){
+        if (auth()->user()->isNot($project->owner)) {
             abort(403);
         }
 
-            return view('projects.show', compact('project'));
+        return view('projects.show', compact('project'));
     }
 
     public function store(ProjectRequest $request)
     {
+        //dd($request->all());
         Project::create($request->all());
 
         return redirect('/projects');
+    }
+
+    public function create()
+    {
+        return view('projects.create');
     }
 }
 

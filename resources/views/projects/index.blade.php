@@ -1,22 +1,27 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>BirdBoard</title>
-</head>
-<body>
-<h1>Birdboard</h1>
-<ul>
-    @forelse ($projects as $project)
-        <li>
-            <a href="{{ $project->path() }}">{{ $project->title }}</a>
-        </li>
-    @empty
-        <li>No projects yet.</li>
-    @endforelse
-</ul>
-</body>
-</html>
+@extends('layouts.app')
+
+@section('content')
+    <nav class="navbar navbar-light bg-light pr-0">
+        <a class="navbar-brand">My Projects</a>
+
+        <a class="nav-link btn btn-primary" href="{{ route('projects.create') }}">New Project</a>
+    </nav>
+    <div class="card-columns">
+        @forelse ($projects as $project)
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bold">{{ $project->title }}</h5>
+                    <p class="card-text">{{ Illuminate\Support\Str::limit($project->description, 100) }}</p>
+                </div>
+
+                <div class="card-footer">
+                    <a href="{{ $project->path() }}">Edit</a>
+                </div>
+            </div>
+
+        @empty
+            <li>No projects yet.</li>
+        @endforelse
+    </div>
+
+@endsection

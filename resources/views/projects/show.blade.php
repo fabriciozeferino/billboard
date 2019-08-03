@@ -1,11 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-    <div>
-        <h1>{{ $project->title }}</h1>
-        <p>{{ $project->description }}</p>
-        <a href="/projects" class="btn btn-primary">Back</a>
+
+    @include('projects.nav')
+
+    <div class="container-fluid">
+        <div class="row py-3">
+            <div class="col-sm-8">
+
+                @include('projects.task')
+            </div>
+            <div class="col-sm-4">
+                @include('projects.card')
+            </div>
+        </div>
     </div>
-    test test
-    @include('projects.card')
+    <a href="/projects" class="btn btn-primary">Back</a>
+
 @endsection

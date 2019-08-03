@@ -2,29 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TaskRequest;
+use App\Http\Requests\TaskCreateRequest;
+use App\Http\Requests\TaskUpdateRequest;
 use App\Project;
 use App\Task;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 
 class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param Project $project
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
-
         return view('projects.index', compact('projects'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function create()
     {
@@ -33,16 +35,16 @@ class TaskController extends Controller
 
     /**
      * @param Project $project
-     * @param TaskRequest $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @param TaskCreateRequest $request
+     * @return RedirectResponse|Redirector
      */
-    public function store(Project $project, TaskRequest $request)
+    public function store(Project $project, TaskCreateRequest $request)
     {
         if (auth()->user()->isNot($project->owner)) {
             abort(403);
         }
 
-        $project->addTask($request->body);
+        $project->addTask($request->all());
 
         return redirect($project->path());
     }
@@ -50,8 +52,8 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Task  $task
-     * @return \Illuminate\Http\Response
+     * @param Task $task
+     * @return void
      */
     public function show(Task $task)
     {
@@ -61,8 +63,8 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Task  $task
-     * @return \Illuminate\Http\Response
+     * @param Task $task
+     * @return void
      */
     public function edit(Task $task)
     {
@@ -72,20 +74,29 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Task  $task
-     * @return \Illuminate\Http\Response
+     * @param Project $project
+     * @param Task $task
+     * @param TaskUpdateRequest $request
+     * @return void
      */
-    public function update(Request $request, Task $task)
+    public function update(Project $project, Task $task, TaskUpdateRequest $request)
     {
-        //
+        if (auth()->user()->isNot($project->owner)) {
+            abort(403);
+        }
+
+        //dd($request->all());
+
+        $project->tasks()->find($task->id)->update($request->all());
+
+        return redirect($project->path());
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Task  $task
-     * @return \Illuminate\Http\Response
+     * @param Task $task
+     * @return void
      */
     public function destroy(Task $task)
     {

@@ -3,12 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-/**
- * @property mixed owner
 
- */
 class Project extends Model
 {
     protected $guarded = [];
@@ -22,16 +20,27 @@ class Project extends Model
         return "/projects/{$this->id}";
     }
 
+
+    /**
+     * @return BelongsTo
+     */
     public function owner()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo('App\User');
     }
 
-    public function addTask($body)
+    /**
+     * @param $task
+     * @return Model
+     */
+    public function addTask($task)
     {
-        return $this->tasks()->create(compact('body'));
+        return $this->tasks()->create($task);
     }
 
+    /**
+     * @return HasMany
+     */
     public function tasks()
     {
         return $this->hasMany('App\Task');

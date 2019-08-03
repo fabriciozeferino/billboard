@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Project;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -13,7 +14,7 @@ class ManageProjectsTest extends TestCase
     /** @test */
     public function guest_cannot_manage_projects()
     {
-        $project = factory('App\Project')->create();
+        $project = factory(Project::class)->create();
 
         $this->get('/projects')->assertRedirect('login');
         $this->get($project->path())->assertRedirect('login');
@@ -26,14 +27,23 @@ class ManageProjectsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $this->actingAs(factory('App\User')->create());
+        $this->signIn();
 
         $this->get('/projects/create')->assertStatus(200);
 
-        $attributes = factory('App\Project')->raw();
+        $attributes = factory(Project::class)->raw(["owner_id" => auth()->id()]);
 
-        $this->post('/projects', $attributes)->assertStatus(302);
-        //$this->post('/projects', $attributes)->assertRedirect('/projects');
+        $response = $this->post('/projects', $attributes);
+
+        $response->assertStatus(302);
+
+        $this->assertDatabaseHas('projects', $attributes);
+
+        $project = Project::where($attributes)->first();
+
+        $this->get($project->path())
+        ->assertSee($attributes['title'])
+        ->assertSee($attributes['description']);
     }
 
     /** @test */
@@ -43,12 +53,11 @@ class ManageProjectsTest extends TestCase
 
         $this->withoutExceptionHandling();
 
-        $project = factory('App\Project')->create(['owner_id' => auth()->id()]);
+        $project = factory(Project::class)->create(['owner_id' => auth()->id()]);
 
 
         $this->get($project->path())
-            ->assertSee($project->title)
-            ->assertSee($project->description);
+            ->assertSee($project->title);
     }
 
     /** @test */
@@ -58,7 +67,7 @@ class ManageProjectsTest extends TestCase
 
         //$this->withoutExceptionHandling();
 
-        $project = factory('App\Project')->create();
+        $project = factory(Project::class)->create();
 
         $this->get($project->path())->assertStatus(403);
     }
@@ -69,7 +78,7 @@ class ManageProjectsTest extends TestCase
     {
         $this->signIn();
 
-        $attributes = factory('App\Project')->raw(['title' => '']);
+        $attributes = factory(Project::class)->raw(['title' => '']);
 
         $this->post('/projects', $attributes)->assertSessionHasErrors('title');
     }
@@ -79,7 +88,7 @@ class ManageProjectsTest extends TestCase
     {
         $this->signIn();
 
-        $attributes = factory('App\Project')->raw(['description' => '']);
+        $attributes = factory(Project::class)->raw(['description' => '']);
 
         $this->post('/projects', $attributes)->assertSessionHasErrors('description');
     }

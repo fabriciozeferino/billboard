@@ -22,7 +22,7 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm navbar-fixed-top">
-            <div class="container">
+            <div class="container-fluid py-1">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
@@ -72,7 +72,7 @@
             </div>
         </nav>
 
-        <main class="container py-3">
+        <main class="container-fluid py-1">
             @yield('content')
         </main>
     </div>

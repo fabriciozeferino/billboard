@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TaskRequest extends FormRequest
+class TaskCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,22 @@ class TaskRequest extends FormRequest
     public function rules()
     {
         return [
-            'body' => 'required'
+            'body' => 'required',
+
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return array
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'project_id' => (int)$this->project->id,
+            //'owner_id' => (int)auth()->id(),
+            'body' => $this->get('body')
+        ]);
     }
 }

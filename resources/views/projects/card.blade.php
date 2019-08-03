@@ -1,10 +1,7 @@
 <div class="card">
-    <div class="card-body">
+    <div class="card-body p-3">
         <h5 class="card-title font-weight-bold">{{ $project->title }}</h5>
-        <p class="card-text">{{ Illuminate\Support\Str::limit($project->description, 100) }}</p>
-    </div>
-
-    <div class="card-footer">
-        <a href="{{ $project->path() }}">Edit</a>
+        <p class="card-text">{{ $project->description }}</p>
+        <a href="{{ $project->path() }}" class="{{--stretched-link--}}"></a>
     </div>
 </div>

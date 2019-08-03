@@ -10672,3 +10672,17 @@ a.text-dark:focus {
   }
 }
 
+@media (max-width: 575.98px) {
+  .btn-size {
+    width: 100%;
+  }
+}
+
+.container-fluid {
+  max-width: 970px;
+}
+
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: none;
+}
+

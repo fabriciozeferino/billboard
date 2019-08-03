@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -37,9 +38,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * @return HasMany
+     */
     public function projects()
     {
-        return $this->hasMany(Project::class, 'owner_id');
+
+
+        return $this->hasMany(Project::class, 'owner_id')->orderBy('updated_at', 'desc');
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class, 'owner_id');
     }
 
 

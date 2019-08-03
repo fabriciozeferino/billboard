@@ -3,11 +3,12 @@
 namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ProjectTest extends TestCase
 {
-    use RefreshDatabase;
+    use withFaker, RefreshDatabase;
 
     /** @test */
     public function it_has_a_path()
@@ -29,8 +30,12 @@ class ProjectTest extends TestCase
     public function it_can_add_a_task()
     {
         $project = factory('App\Project')->create();
+        $task = factory('App\Task')->raw([
+            'project_id' => $project->id,
+            //'owner_id' => $project->owner_id
+        ]);
 
-        $task = $project->addTask('New test');
+        $task = $project->addTask($task);
 
         $this->assertCount(1, $project->tasks);
         $this->assertTrue($project->tasks->contains($task));

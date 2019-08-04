@@ -42,12 +42,46 @@ class ManageProjectsTest extends TestCase
         $project = Project::where($attributes)->first();
 
         $this->get($project->path())
-        ->assertSee($attributes['title'])
-        ->assertSee($attributes['description']);
+            ->assertSee($attributes['title'])
+            ->assertSee($attributes['description']);
     }
 
     /** @test */
-    public function a_user_can_view_their_projects()
+    public function an_authenticated_user_can_update_a_project()
+    {
+        $this->signIn();
+
+        $project = factory(Project::class)->create(["owner_id" => auth()->id()]);
+
+        $new_labels = factory(Project::class)->raw(["owner_id" => auth()->id()]);
+
+        $this->patch($project->path(), $new_labels);
+
+        $this->assertDatabaseHas('projects', $new_labels);
+
+        $this->get($project->path())->assertSee($new_labels['title']);
+
+        foreach ($new_labels as $value) {
+            $this->get($project->path())->assertSee($value);
+        }
+
+    }
+
+    /** @test */
+    public function an_authenticated_user_can_not_update_a_project_of_others()
+    {
+        $this->signIn();
+
+        $project = factory(Project::class)->create();
+
+        $this->patch($project->path(), [])->assertStatus(403);
+    }
+
+
+
+    /** @test */
+    public
+    function a_user_can_view_their_projects()
     {
         $this->signIn();
 
@@ -61,7 +95,8 @@ class ManageProjectsTest extends TestCase
     }
 
     /** @test */
-    public function an_authenticated_user_cannot_view_the_projects_of_others()
+    public
+    function an_authenticated_user_cannot_view_the_projects_of_others()
     {
         $this->signIn();
 
@@ -74,7 +109,8 @@ class ManageProjectsTest extends TestCase
 
 
     /** @test */
-    public function a_project_require_a_title()
+    public
+    function a_project_require_a_title()
     {
         $this->signIn();
 
@@ -84,7 +120,8 @@ class ManageProjectsTest extends TestCase
     }
 
     /** @test */
-    public function a_project_require_a_description()
+    public
+    function a_project_require_a_description()
     {
         $this->signIn();
 

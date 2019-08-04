@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProjectRequest;
+use App\Http\Requests\ProjectCreateRequest;
+use App\Http\Requests\ProjectUpdateRequest;
 use App\Project;
+
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
@@ -27,18 +29,17 @@ class ProjectsController extends Controller
      */
     public function show(Project $project)
     {
-        if (auth()->user()->isNot($project->owner)) {
-            abort(403);
-        }
+        $this->authorize('update', $project);
+
 
         return view('projects.show', compact('project'));
     }
 
     /**
-     * @param ProjectRequest $request
+     * @param ProjectCreateRequest $request
      * @return RedirectResponse|Redirector
      */
-    public function store(ProjectRequest $request)
+    public function store(ProjectCreateRequest $request)
     {
         //dd($request->all());
         $project = Project::create($request->all());
@@ -52,6 +53,15 @@ class ProjectsController extends Controller
     public function create()
     {
         return view('projects.create');
+    }
+
+    public function update(Project $project, ProjectUpdateRequest $request)
+    {
+        $this->authorize('update', $project);
+
+        $project->update($request->all());
+
+        return redirect($project->path());
     }
 }
 

@@ -5,19 +5,38 @@ namespace Tests\Setup;
 
 
 use App\Project;
+use App\Task;
+use App\User;
 
 class ProjectFactory
 {
-    private $tasksCount;
+    private $tasksCount = 0;
+    private $user;
 
     public function withTasks($count)
     {
         $this->tasksCount = $count;
+
+        return $this;
+    }
+
+    public function ownedBy($user)
+    {
+        $this->user = $user;
+
+        return $this;
     }
 
     public function create()
     {
-        factory(Project::class)->create();
+        $project = factory(Project::class)->create([
+            'owner_id' => $this->user ?? factory(User::class)
+        ]);
 
+        factory(Task::class, $this->tasksCount)->create([
+           'project_id' => $project->id
+        ]);
+
+        return $project;
     }
 }

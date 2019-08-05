@@ -9,9 +9,9 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::resource('/projects', 'ProjectsController');
+    Route::resource('projects', 'ProjectController');
 
-    Route::resource('/projects/{project}/tasks/{task}', 'TaskController');
+    Route::resource('projects/{project}/tasks', 'TaskController');
 
     Route::get('/home', 'HomeController@index')->name('home');
 });

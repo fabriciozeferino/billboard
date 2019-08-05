@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Project;
+use Facades\Tests\Setup\ProjectFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -14,19 +15,19 @@ class ManageProjectsTest extends TestCase
     /** @test */
     public function guest_cannot_manage_projects()
     {
-        $project = factory(Project::class)->create();
+        $project = ProjectFactory::create();
 
         $this->get('/projects')->assertRedirect('login');
         $this->get($project->path())->assertRedirect('login');
         $this->get('/projects/create')->assertRedirect('login');
         $this->post('/projects', $project->toArray())->assertRedirect('login');
+        $this->get($project->path() . '/edit')->assertRedirect('login');
     }
+
 
     /** @test */
     public function a_user_can_create_a_project()
     {
-        $this->withoutExceptionHandling();
-
         $this->signIn();
 
         $this->get('/projects/create')->assertStatus(200);
@@ -46,26 +47,28 @@ class ManageProjectsTest extends TestCase
             ->assertSee($attributes['description']);
     }
 
+
     /** @test */
     public function an_authenticated_user_can_update_a_project()
     {
-        $this->signIn();
+        $this->withoutExceptionHandling();
+        $project = ProjectFactory::create();
 
-        $project = factory(Project::class)->create(["owner_id" => auth()->id()]);
+        $randon_fields = factory(Project::class)->raw(["owner_id" => $project->owner_id]);
 
-        $new_labels = factory(Project::class)->raw(["owner_id" => auth()->id()]);
+        $this->actingAs($project->owner)
+            ->patch($project->path(), $randon_fields);
 
-        $this->patch($project->path(), $new_labels);
+        $this->assertDatabaseHas('projects', $randon_fields);
 
-        $this->assertDatabaseHas('projects', $new_labels);
-
-        $this->get($project->path())->assertSee($new_labels['title']);
-
-        foreach ($new_labels as $value) {
+        foreach ($randon_fields as $value) {
             $this->get($project->path())->assertSee($value);
         }
 
+        $this->get($project->path() . '/edit')->assertStatus(200);
+
     }
+
 
     /** @test */
     public function an_authenticated_user_can_not_update_a_project_of_others()
@@ -78,19 +81,13 @@ class ManageProjectsTest extends TestCase
     }
 
 
-
     /** @test */
     public
     function a_user_can_view_their_projects()
     {
-        $this->signIn();
+        $project = ProjectFactory::create();
 
-        $this->withoutExceptionHandling();
-
-        $project = factory(Project::class)->create(['owner_id' => auth()->id()]);
-
-
-        $this->get($project->path())
+        $this->actingAs($project->owner)->get($project->path())
             ->assertSee($project->title);
     }
 
@@ -99,8 +96,6 @@ class ManageProjectsTest extends TestCase
     function an_authenticated_user_cannot_view_the_projects_of_others()
     {
         $this->signIn();
-
-        //$this->withoutExceptionHandling();
 
         $project = factory(Project::class)->create();
 
@@ -118,6 +113,7 @@ class ManageProjectsTest extends TestCase
 
         $this->post('/projects', $attributes)->assertSessionHasErrors('title');
     }
+
 
     /** @test */
     public

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Task extends Model
 {
@@ -35,5 +36,26 @@ class Task extends Model
     public function path()
     {
         return "/projects/{$this->project_id}/tasks/{$this->id}";
+    }
+
+    /**
+     * @param $description
+     */
+    public function recordLog($description)
+    {
+        $this->logs()->create([
+            'project_id' => $this->project_id,
+            'description' => $description,
+        ]);
+    }
+
+    /**
+     * The log feed for the project.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function logs()
+    {
+        return $this->morphMany(Log::class, 'subject')->latest();
     }
 }

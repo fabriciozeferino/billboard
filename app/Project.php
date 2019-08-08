@@ -13,6 +13,16 @@ class Project extends Model
 
 
     /**
+     * @param $task
+     * @return Model
+     */
+    public function addTask($task)
+    {
+        return $this->tasks()->create($task);
+    }
+
+
+    /**
      * @return string
      */
     public function path()
@@ -26,16 +36,7 @@ class Project extends Model
      */
     public function owner()
     {
-        return $this->belongsTo('App\User');
-    }
-
-    /**
-     * @param $task
-     * @return Model
-     */
-    public function addTask($task)
-    {
-        return $this->tasks()->create($task);
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -43,6 +44,23 @@ class Project extends Model
      */
     public function tasks()
     {
-        return $this->hasMany('App\Task');
+        return $this->hasMany(Task::class);
+    }
+
+    /**
+     * @param $description
+     */
+    public function recordLog($description)
+    {
+        $this->logs()->create([
+            'project_id' => $this->id,
+            'description' => $description,
+        ]);
+    }
+
+
+    public function logs()
+    {
+        return $this->morphMany(Log::class, 'subject')->latest();
     }
 }

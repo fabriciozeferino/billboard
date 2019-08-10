@@ -46,15 +46,17 @@ class TriggerLogTest extends TestCase
     {
         $project = ProjectFactory::create();
 
-        $unset = ['id', 'owner_id', 'updated_at', 'created_at'];
+        $remove = ['id', 'owner_id', 'updated_at', 'created_at'];
 
-        $old = $this->unsetUnnecessary($project->getOriginal(), $unset);
+        // Unset $remove
+        $old = array_diff_key($project->getOriginal(), array_flip($remove));
 
         $new_request = factory(Project::class)->raw(['owner_id' => $project->owner_id]);
 
         $this->actingAs($project->owner)->put($project->path(), $new_request);
 
-        $new = $this->unsetUnnecessary($project->refresh()->getOriginal(), $unset);
+        // Get arrayUnset $remove
+        $new = array_diff_key($project->refresh()->getOriginal(), array_flip($remove));
 
         tap($project->activities->last(), function ($activities) use ($old, $new) {
 

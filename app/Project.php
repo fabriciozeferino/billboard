@@ -80,8 +80,10 @@ class Project extends Model
     {
         if (!empty($this->old)) {
             return [
+                // get differences from arrays
                 'before' => array_diff($this->old, $this->getAttributes()),
-                'after' => $this->getChanges()
+                // unset array from values
+                'after' => array_diff_key($this->getChanges(), array_flip(['id', 'owner_id', 'project_id', 'updated_at',]))
             ];
         }
 

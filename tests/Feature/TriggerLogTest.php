@@ -19,12 +19,12 @@ class TriggerLogTest extends TestCase
 
         $project = ProjectFactory::create();
 
-        $this->assertCount(1, $project->logs);
-        $this->assertEquals('created', $project->logs->first()->description);
+        $this->assertCount(1, $project->activities);
+        $this->assertEquals('created', $project->activities->first()->description);
 
-        tap($project->logs->last(), function ($logs) {
-            $this->assertEquals('created', $logs->description);
-            $this->assertInstanceOf(Project::class, $logs->subject);
+        tap($project->activities->last(), function ($activities) {
+            $this->assertEquals('created', $activities->description);
+            $this->assertInstanceOf(Project::class, $activities->subject);
         });
     }
 
@@ -33,9 +33,9 @@ class TriggerLogTest extends TestCase
     {
         $project = ProjectFactory::withTasks(1)->create();
 
-        tap($project->tasks->first()->logs->last(), function ($logs) {
-            $this->assertEquals('created', $logs->description);
-            $this->assertInstanceOf(Task::class, $logs->subject);
+        tap($project->tasks->first()->activities->last(), function ($activities) {
+            $this->assertEquals('created', $activities->description);
+            $this->assertInstanceOf(Task::class, $activities->subject);
         });
     }
 
@@ -52,10 +52,10 @@ class TriggerLogTest extends TestCase
                 'completed' => true,
             ]);
 
-        tap($project->tasks->first()->logs->last(), function ($logs) {
-            $this->assertEquals('updated', $logs->description);
-            $this->assertInstanceOf(Task::class, $logs->subject);
-            $this->assertEquals('foobar', $logs->subject->body);
+        tap($project->tasks->first()->activities->last(), function ($activities) {
+            $this->assertEquals('updated', $activities->description);
+            $this->assertInstanceOf(Task::class, $activities->subject);
+            $this->assertEquals('foobar', $activities->subject->body);
         });
 
     }
@@ -73,9 +73,9 @@ class TriggerLogTest extends TestCase
         $this->actingAs($project->owner)
             ->patch($project->path(), $edited_project);
 
-        tap($project->logs->last(), function ($logs) {
-            $this->assertEquals('updated', $logs->description);
-            $this->assertInstanceOf(Project::class, $logs->subject);
+        tap($project->activities->last(), function ($activities) {
+            $this->assertEquals('updated', $activities->description);
+            $this->assertInstanceOf(Project::class, $activities->subject);
         });
     }
 

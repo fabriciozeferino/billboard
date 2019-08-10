@@ -50,17 +50,17 @@ class Project extends Model
     /**
      * @param $description
      */
-    public function recordLog($description)
+    public function recordActivity($description)
     {
-        $this->logs()->create([
+        $this->activities()->create([
             'project_id' => $this->id,
             'description' => $description,
         ]);
     }
 
 
-    public function logs()
+    public function activities()
     {
-        return $this->morphMany(Log::class, 'subject')->latest();
+        return $this->morphMany(Activity::class, 'subject')->latest();
     }
 }

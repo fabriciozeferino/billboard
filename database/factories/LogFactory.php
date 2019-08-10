@@ -2,10 +2,10 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Log;
+use App\Activity;
 use Faker\Generator as Faker;
 
-$factory->define(Log::class, function (Faker $faker) {
+$factory->define(Activity::class, function (Faker $faker) {
     return [
         //
     ];

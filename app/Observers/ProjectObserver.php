@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Log;
+use App\Activity;
 use App\Project;
 
 class ProjectObserver
@@ -15,7 +15,7 @@ class ProjectObserver
      */
     public function created(Project $project)
     {
-        $project->recordLog('created');
+        $project->recordActivity('created');
     }
 
     /**
@@ -26,7 +26,7 @@ class ProjectObserver
      */
     public function updated(Project $project)
     {
-        $project->recordLog('updated');
+        $project->recordActivity('updated');
     }
 
     /**
@@ -37,7 +37,7 @@ class ProjectObserver
      */
     public function deleted(Project $project)
     {
-        $project->recordLog('deleted');
+        $project->recordActivity('deleted');
 
     }
 }

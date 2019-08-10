@@ -43,7 +43,7 @@ class Task extends Model
      */
     public function recordLog($description)
     {
-        $this->logs()->create([
+        $this->activities()->create([
             'project_id' => $this->project_id,
             'description' => $description,
         ]);
@@ -54,8 +54,8 @@ class Task extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function logs()
+    public function activities()
     {
-        return $this->morphMany(Log::class, 'subject')->latest();
+        return $this->morphMany(Activity::class, 'subject')->latest();
     }
 }

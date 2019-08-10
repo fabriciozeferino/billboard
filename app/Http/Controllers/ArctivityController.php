@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Log;
+use App\Activity;
 use Illuminate\Http\Request;
 
-class LogController extends Controller
+class ArctivityController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class LogController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Log  $log
+     * @param  \App\Activity  $activity
      * @return \Illuminate\Http\Response
      */
-    public function show(Log $log)
+    public function show(Activity $activity)
     {
         //
     }
@@ -52,10 +52,10 @@ class LogController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Log  $log
+     * @param  \App\Activity  $activity
      * @return \Illuminate\Http\Response
      */
-    public function edit(Log $log)
+    public function edit(Activity $activity)
     {
         //
     }
@@ -64,10 +64,10 @@ class LogController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Log  $log
+     * @param  \App\Activity  $activity
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Log $log)
+    public function update(Request $request, Activity $activity)
     {
         //
     }
@@ -75,10 +75,10 @@ class LogController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Log  $log
+     * @param  \App\Activity  $activity
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Log $log)
+    public function destroy(Activity $activity)
     {
         //
     }

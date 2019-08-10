@@ -9,8 +9,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Project extends Model
 {
-    protected $guarded = [];
+    /**
+     * The project's old attributes.
+     *
+     * @var array
+     */
+    public $old = [];
 
+    protected $guarded = [];
 
     /**
      * @param $task
@@ -21,22 +27,12 @@ class Project extends Model
         return $this->tasks()->create($task);
     }
 
-
     /**
      * @return string
      */
     public function path()
     {
         return "/projects/{$this->id}";
-    }
-
-
-    /**
-     * @return BelongsTo
-     */
-    public function owner()
-    {
-        return $this->belongsTo(User::class);
     }
 
     /**
@@ -48,6 +44,22 @@ class Project extends Model
     }
 
     /**
+     * @return BelongsTo
+     */
+    public function owner()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function activities()
+    {
+        return $this->morphMany(Activity::class, 'subject')->latest();
+    }
+
+    /**
      * @param $description
      */
     public function recordActivity($description)
@@ -55,12 +67,24 @@ class Project extends Model
         $this->activities()->create([
             'project_id' => $this->id,
             'description' => $description,
+            'changes' => $this->activityChanges($description)
         ]);
     }
 
 
-    public function activities()
+    /**
+     * @param $description
+     * @return array|null
+     */
+    private function activityChanges($description)
     {
-        return $this->morphMany(Activity::class, 'subject')->latest();
+        if (!empty($this->old)) {
+            return [
+                'before' => array_diff($this->old, $this->getAttributes()),
+                'after' => $this->getChanges()
+            ];
+        }
+
+        return null;
     }
 }

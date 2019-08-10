@@ -40,7 +40,7 @@ class ProjectCreateRequest extends FormRequest
         $this->merge([
             'title' => $this->get('title'),
             'description' => $this->get('description'),
-            'owner_id' => auth()->id(),
+            'owner_id' => (int)auth()->id(),
         ]);
 
         /*if (is_array($items = $this->get('items', []))) {

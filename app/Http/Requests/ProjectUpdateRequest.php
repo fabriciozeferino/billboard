@@ -39,7 +39,7 @@ class ProjectUpdateRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'owner_id' => auth()->id(),
+            'owner_id' => (int)auth()->id(),
         ]);
 
 

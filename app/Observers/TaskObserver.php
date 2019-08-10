@@ -37,7 +37,6 @@ class TaskObserver
     public function deleted(Task $task)
     {
         $task->recordLog('deleted');
-
     }
 
     /**

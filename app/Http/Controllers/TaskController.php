@@ -85,8 +85,6 @@ class TaskController extends Controller
             abort(403);
         }
 
-        //dd($request->all());
-
         $project->tasks()->find($task->id)->update($request->all());
 
         return redirect($project->path());

@@ -25,6 +25,8 @@ class TriggerLogTest extends TestCase
         tap($project->activities->last(), function ($activities) {
             $this->assertEquals('created', $activities->description);
             $this->assertInstanceOf(Project::class, $activities->subject);
+
+            $this->assertNull($activities->changes);
         });
     }
 
@@ -36,6 +38,35 @@ class TriggerLogTest extends TestCase
         tap($project->tasks->first()->activities->last(), function ($activities) {
             $this->assertEquals('created', $activities->description);
             $this->assertInstanceOf(Task::class, $activities->subject);
+        });
+    }
+
+    /** @test */
+    public function updating_a_project()
+    {
+        $project = ProjectFactory::create();
+
+        $unset = ['id', 'owner_id', 'updated_at', 'created_at'];
+
+        $old = $this->unsetUnnecessary($project->getOriginal(), $unset);
+
+        $new_request = factory(Project::class)->raw(['owner_id' => $project->owner_id]);
+
+        $this->actingAs($project->owner)->put($project->path(), $new_request);
+
+        $new = $this->unsetUnnecessary($project->refresh()->getOriginal(), $unset);
+
+        tap($project->activities->last(), function ($activities) use ($old, $new) {
+
+            $this->assertEquals('updated', $activities->description);
+            $this->assertInstanceOf(Project::class, $activities->subject);
+
+            $expected = [
+                'before' => $old,
+                'after' => $new,
+            ];
+
+            $this->assertEquals($expected, $activities->changes);
         });
     }
 
@@ -60,24 +91,17 @@ class TriggerLogTest extends TestCase
 
     }
 
-    /** @test */
-    public function updating_a_project()
+    /**
+     * @param $array
+     * @param $unset
+     * @return array
+     */
+    private function unsetUnnecessary($array, $unset)
     {
-        $project = ProjectFactory::create();
+        foreach($unset as $key) {
+            unset($array[$key]);
+        }
 
-        $edited_project = factory(Project::class)
-            ->raw([
-                'owner_id' => $project->owner_id
-            ]);
-
-        $this->actingAs($project->owner)
-            ->patch($project->path(), $edited_project);
-
-        tap($project->activities->last(), function ($activities) {
-            $this->assertEquals('updated', $activities->description);
-            $this->assertInstanceOf(Project::class, $activities->subject);
-        });
+        return $array;
     }
-
-
 }

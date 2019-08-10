@@ -5,16 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProjectCreateRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Project;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Redirector;
-use Illuminate\View\View;
+
 
 class ProjectController extends Controller
 {
     /**
-     * @return Factory|View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
@@ -24,7 +20,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * @return Factory|View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
@@ -34,7 +30,7 @@ class ProjectController extends Controller
     /**
      * @param ProjectCreateRequest $request
      * @param Project $project
-     * @return RedirectResponse|Redirector
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(ProjectCreateRequest $request, Project $project)
     {
@@ -45,7 +41,7 @@ class ProjectController extends Controller
 
     /**
      * @param Project $project
-     * @return Factory|View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit(Project $project)
     {
@@ -55,8 +51,7 @@ class ProjectController extends Controller
     /**
      * @param Project $project
      * @param ProjectUpdateRequest $request
-     * @return RedirectResponse|Redirector
-     * @throws AuthorizationException
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Project $project, ProjectUpdateRequest $request)
     {
@@ -67,12 +62,12 @@ class ProjectController extends Controller
 
     /**
      * @param Project $project
-     * @return Factory|View
-     * @throws AuthorizationException
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Project $project)
     {
-        $this->authorize('update', $project);
+        $this->authorize('view', $project);
 
         return view('projects.show', compact('project'));
     }

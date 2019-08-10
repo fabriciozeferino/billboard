@@ -20,6 +20,7 @@ class Activity extends Model
     /**
      * Get the subject of the log.
      *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function subject()
     {

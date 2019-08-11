@@ -1,5 +1,5 @@
-<h2>Tasks</h2>
-<div class="card mb-3 p-0">
+<h5>Tasks</h5>
+<div class="card mb-3 p-0 border-0 rounded shadow-sm">
 
     <form action="{{ $project->path() . '/tasks' }}" method="POST">
         @csrf
@@ -8,7 +8,7 @@
 
 </div>
 @foreach($project->tasks as $task)
-    <div class="card mb-3">
+    <div class="card mb-3 rounded shadow-sm border-0">
         <form action="{{ $project->path() . '/tasks/' . $task->id }}" method="POST" class="form-row align-content">
             @method('PATCH')
             @csrf

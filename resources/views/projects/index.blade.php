@@ -8,10 +8,10 @@
         @forelse ($projects as $project)
             @include('projects.card')
         @empty
-            <li>No projects yet.</li>
+            <ul>
+                <li>No projects yet.</li>
+            </ul>
         @endforelse
     </div>
-
-
 
 @endsection

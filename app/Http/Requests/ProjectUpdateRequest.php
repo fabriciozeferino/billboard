@@ -25,8 +25,9 @@ class ProjectUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
-            'description' => 'required',
+            //'title' => 'required',
+            //'description' => 'required',
+            'notes' => 'max:255',
             'owner_id' => 'required'
         ];
     }
@@ -41,10 +42,5 @@ class ProjectUpdateRequest extends FormRequest
         $this->merge([
             'owner_id' => (int)auth()->id(),
         ]);
-
-
-        /*if (is_array($items = $this->get('items', []))) {
-            $this->merge(['items' => array_filter($items)]);
-        }*/
     }
 }

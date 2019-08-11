@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Task extends Model
 {
+    use RecordsActivity;
+
     /**
      * The task's old attributes.
      *
@@ -45,16 +47,6 @@ class Task extends Model
         return "/projects/{$this->project_id}/tasks/{$this->id}";
     }
 
-    /**
-     * @param $description
-     */
-    public function recordLog($description)
-    {
-        $this->activities()->create([
-            'project_id' => $this->project_id,
-            'description' => $description,
-        ]);
-    }
 
     /**
      * The log feed for the project.
@@ -65,6 +57,4 @@ class Task extends Model
     {
         return $this->morphMany(Activity::class, 'subject')->latest();
     }
-
-
 }

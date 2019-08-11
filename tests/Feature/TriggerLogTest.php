@@ -90,13 +90,6 @@ class TriggerLogTest extends TestCase
         // Get arrayUnset $remove
         $new = array_diff_key($project->tasks->first()->refresh()->getOriginal(), array_flip($remove));
 
-
-//        $this->actingAs($project->owner)
-//            ->patch($project->tasks->first()->path(), [
-//                'body' => 'foobar',
-//                'completed' => true,
-//            ]);
-
         tap($project->tasks->first()->activities->last(), function ($activities) use ($old, $new) {
 
             $this->assertEquals('updated', $activities->description);

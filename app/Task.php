@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Task extends Model
 {
+    /**
+     * The task's old attributes.
+     *
+     * @var array
+     */
+    public $old = [];
+
     protected $guarded = [];
 
     protected $touches = ['project'];
@@ -58,4 +65,6 @@ class Task extends Model
     {
         return $this->morphMany(Activity::class, 'subject')->latest();
     }
+
+
 }

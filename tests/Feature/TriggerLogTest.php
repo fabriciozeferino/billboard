@@ -79,31 +79,37 @@ class TriggerLogTest extends TestCase
 
         $project = ProjectFactory::withTasks(1)->create();
 
-        $this->actingAs($project->owner)
-            ->patch($project->tasks->first()->path(), [
-                'body' => 'foobar',
-                'completed' => true,
-            ]);
+        $remove = ['id', 'owner_id', 'updated_at', 'created_at', 'project_id'];
 
-        tap($project->tasks->first()->activities->last(), function ($activities) {
+        $old = array_diff_key($project->tasks->first()->getOriginal(), array_flip($remove));
+
+        $new_request = factory(Task::class)->raw(['completed' => true]);
+
+        $this->actingAs($project->owner)->put($project->tasks->first()->path(), $new_request);
+
+        // Get arrayUnset $remove
+        $new = array_diff_key($project->tasks->first()->refresh()->getOriginal(), array_flip($remove));
+
+
+//        $this->actingAs($project->owner)
+//            ->patch($project->tasks->first()->path(), [
+//                'body' => 'foobar',
+//                'completed' => true,
+//            ]);
+
+        tap($project->tasks->first()->activities->last(), function ($activities) use ($old, $new) {
+
             $this->assertEquals('updated', $activities->description);
             $this->assertInstanceOf(Task::class, $activities->subject);
-            $this->assertEquals('foobar', $activities->subject->body);
+
+            $expected = [
+                'before' => $old,
+                'after' => $new,
+            ];
+
+            $this->assertEquals($expected, $activities->changes);
         });
 
     }
 
-    /**
-     * @param $array
-     * @param $unset
-     * @return array
-     */
-    private function unsetUnnecessary($array, $unset)
-    {
-        foreach($unset as $key) {
-            unset($array[$key]);
-        }
-
-        return $array;
-    }
 }

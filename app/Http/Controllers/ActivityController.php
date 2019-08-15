@@ -3,10 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Activity;
+use App\Project;
+use App\Services\ActivityService;
 use Illuminate\Http\Request;
 
 class ActivityController extends Controller
 {
+    /**
+     * @var ActivityService
+     */
+    private $service;
+
+    /**
+     * ActivityController constructor.
+     * @param ActivityService $service
+     */
+    public function __construct(ActivityService $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -30,7 +46,7 @@ class ActivityController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -41,18 +57,21 @@ class ActivityController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Activity  $activity
-     * @return \Illuminate\Http\Response
+     * @param Project $project
+     * @param \App\Activity $activity
+     * @return void
      */
-    public function show(Activity $activity)
+    public function show(Project $project)
     {
-        //
+        $activities = $this->service->render($project);
+
+        return response()->json($activities);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Activity  $activity
+     * @param \App\Activity $activity
      * @return \Illuminate\Http\Response
      */
     public function edit(Activity $activity)
@@ -63,8 +82,8 @@ class ActivityController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Activity  $activity
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Activity $activity
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Activity $activity)
@@ -75,7 +94,7 @@ class ActivityController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Activity  $activity
+     * @param \App\Activity $activity
      * @return \Illuminate\Http\Response
      */
     public function destroy(Activity $activity)

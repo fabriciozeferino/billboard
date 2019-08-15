@@ -10,12 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Project extends Model
 {
     use RecordsActivity;
-    /**
-     * The project's old attributes.
-     *
-     * @var array
-     */
-    public $old = [];
 
     protected $guarded = [];
 
@@ -52,11 +46,8 @@ class Project extends Model
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    public function activities()
+    public function activity()
     {
-        return $this->morphMany(Activity::class, 'subject')->latest();
+        return $this->hasMany(Activity::class)->latest();
     }
 }

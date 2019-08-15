@@ -4,18 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 class Task extends Model
 {
     use RecordsActivity;
-
-    /**
-     * The task's old attributes.
-     *
-     * @var array
-     */
-    public $old = [];
 
     protected $guarded = [];
 
@@ -47,14 +40,4 @@ class Task extends Model
         return "/projects/{$this->project_id}/tasks/{$this->id}";
     }
 
-
-    /**
-     * The log feed for the project.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    public function activities()
-    {
-        return $this->morphMany(Activity::class, 'subject')->latest();
-    }
 }

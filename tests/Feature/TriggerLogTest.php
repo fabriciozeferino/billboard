@@ -15,14 +15,12 @@ class TriggerLogTest extends TestCase
     /** @test */
     public function creating_a_project()
     {
-        $this->withoutExceptionHandling();
-
         $project = ProjectFactory::create();
 
-        $this->assertCount(1, $project->activities);
         $this->assertEquals('created', $project->activities->first()->description);
 
         tap($project->activities->last(), function ($activities) {
+
             $this->assertEquals('created', $activities->description);
             $this->assertInstanceOf(Project::class, $activities->subject);
 
@@ -105,4 +103,31 @@ class TriggerLogTest extends TestCase
 
     }
 
+    /** @test */
+    public function a_project_has_activities()
+    {
+        $this->withoutExceptionHandling();
+
+        $project = ProjectFactory::create();
+
+        $response = $this->actingAs($project->owner)
+            ->get($project->path() . '/activities');
+
+        $response->assertStatus(200);
+
+        $response->assertJsonStructure(['data' => [
+            '*' => ['id', 'user_id', 'user_name', 'message', 'description']
+        ]]);
+
+        $response->assertJson([
+            'data' => [
+                [
+                    'id' => $project->activity->first()->id,
+                    'user_id' => $project->owner->id,
+                    'user_name' => $project->owner->name,
+                    'description' => 'created'
+                ]
+            ]
+        ]);
+    }
 }

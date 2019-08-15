@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+
 trait RecordsActivity
 {
     /**
@@ -9,16 +11,20 @@ trait RecordsActivity
      *
      * @var array
      */
-    /*public $oldAttributes = [];*/
+    public $oldAttributes = [];
+
 
     /**
-     * Boot the trait.
+     * * Handle the task "updating" event.
+     *
+     *
      */
-    /*public static function bootRecordsActivity()
+    public static function bootRecordsActivity()
     {
         foreach (self::recordableEvents() as $event) {
+
             static::$event(function ($model) use ($event) {
-                $model->recordActivity($model->activityDescription($event));
+                $model->recordActivity($event);
             });
 
             if ($event === 'updated') {
@@ -27,104 +33,55 @@ trait RecordsActivity
                 });
             }
         }
-    }*/
-
-    /**
-     * Get the description of the activity.
-     *
-     * @param  string $description
-     * @return string
-     */
-    /*protected function activityDescription($description)
-    {
-        return "{$description}_" . strtolower(class_basename($this));
-    }*/
+    }
 
     /**
      * Fetch the model events that should trigger activity.
      *
      * @return array
      */
-    /*protected static function recordableEvents()
+    protected static function recordableEvents()
     {
         if (isset(static::$recordableEvents)) {
             return static::$recordableEvents;
         }
 
-        return ['created', 'updated'];
-    }*/
+        return ['created', 'updated', 'deleted'];
+    }
 
-    /**
-     * Record activity for a project.
-     *
-     * @param string $description
-     */
-    /*public function recordActivity($description)
-    {
-        $this->activity()->create([
-            'user_id' => ($this->project ?? $this)->owner->id,
-            'description' => $description,
-            'changes' => $this->activityChanges(),
-            'project_id' => class_basename($this) === 'Project' ? $this->id : $this->project_id
-        ]);
-    }*/
-
-    /**
-     * The activity feed for the project.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    /*public function activity()
-    {
-        if (get_class($this) === Project::class) {
-            return $this->hasMany(Activity::class)->latest();
-        }
-
-        return $this->morphMany(Activity::class, 'subject')->latest();
-    }*/
-
-    /**
-     * Fetch the changes to the model.
-     *
-     * @return array|null
-     */
-    /*protected function activityChanges()
-    {
-        if ($this->wasChanged()) {
-            return [
-                'before' => array_except(
-                    array_diff($this->oldAttributes, $this->getAttributes()), 'updated_at'
-                ),
-                'after' => array_except(
-                    $this->getChanges(), 'updated_at'
-                )
-            ];
-        }
-    }*/
 
     /**
      * @param $description
      */
     public function recordActivity($description)
     {
+        // this has relationship project?? No, than it's a project ($this->project ?? $this)
         $this->activities()->create([
-            'project_id' => $this->id,
+            'user_id' => ($this->project ?? $this)->owner->id,
+            'project_id' => ($this->project ?? $this)->id,
             'description' => $description,
             'changes' => $this->activityChanges()
         ]);
     }
 
+    /**
+     * The log feed for the project.
+     *
+     * @return MorphMany
+     */
+    public function activities()
+    {
+        return $this->morphMany(Activity::class, 'subject')->latest();
+    }
 
     /**
      * @return array|null
      */
     public function activityChanges()
     {
-        if (!empty($this->old)) {
+        if (!empty($this->oldAttributes)) {
             return [
-                // get differences from arrays
-                'before' => array_diff($this->old, $this->getAttributes()),
-                // unset array from values
+                'before' => array_diff($this->oldAttributes, $this->getAttributes()),
                 'after' => array_diff_key($this->getChanges(), array_flip(['id', 'owner_id', 'project_id', 'updated_at',]))
             ];
         }

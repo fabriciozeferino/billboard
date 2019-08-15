@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProjectCreateRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Project;
+use App\Services\ActivityService;
 
 
 class ProjectController extends Controller
@@ -69,7 +70,12 @@ class ProjectController extends Controller
     {
         $this->authorize('view', $project);
 
-        return view('projects.show', compact('project'));
+        $activities = ((new ActivityService())->render($project));
+
+        return view('projects.show', [
+            'project' => $project,
+            'activities' => $activities
+        ]);
     }
 }
 

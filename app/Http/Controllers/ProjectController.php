@@ -72,10 +72,28 @@ class ProjectController extends Controller
 
         $activities = ((new ActivityService())->render($project));
 
+
+
         return view('projects.show', [
             'project' => $project,
             'activities' => $activities
         ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Task $task
+     * @return void
+     * @throws \Exception
+     */
+    public function destroy(Project $project)
+    {
+        $this->authorize('delete', $project);
+
+            $project->delete();
+
+            return redirect('projects');
     }
 }
 

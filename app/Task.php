@@ -2,11 +2,8 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-
-class Task extends Model
+class Task extends AbstractModel
 {
     use RecordsActivity;
 

@@ -2,8 +2,7 @@
 
 namespace App;
 
-use App\AbstractModel;
-
+use App\Http\Resources\ActivityResource;
 
 
 class Project extends AbstractModel
@@ -22,19 +21,19 @@ class Project extends AbstractModel
     }
 
     /**
-     * @return string
-     */
-    public function path()
-    {
-        return "/projects/{$this->id}";
-    }
-
-    /**
      * @return HasMany
      */
     public function tasks()
     {
         return $this->hasMany(Task::class);
+    }
+
+    /**
+     * @return string
+     */
+    public function path()
+    {
+        return "/projects/{$this->id}";
     }
 
     /**
@@ -48,5 +47,10 @@ class Project extends AbstractModel
     public function activity()
     {
         return $this->hasMany(Activity::class)->latest();
+    }
+
+    public function activitiesResource(){
+
+        return new ActivityResource($this->activity()->paginate());
     }
 }

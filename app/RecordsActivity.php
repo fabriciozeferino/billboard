@@ -75,13 +75,22 @@ trait RecordsActivity
     }
 
     /**
+     * Creates Before|After array
+     *
      * @return array|null
      */
     public function activityChanges()
     {
+        /*if (!empty($this->oldAttributes)) {
+            dd([
+                'before' => array_diff($this->oldAttributes, $this->getAttributes()),
+                'after' => array_diff_key($this->getChanges(), array_flip(['id', 'owner_id', 'project_id', 'updated_at',]))
+            ]);
+        }*/
+
         if (!empty($this->oldAttributes)) {
             return [
-                'before' => array_diff($this->oldAttributes, $this->getAttributes()),
+                'before' => array_diff_key(array_diff($this->oldAttributes, $this->getAttributes()), array_flip(['id', 'owner_id', 'project_id', 'updated_at',])),
                 'after' => array_diff_key($this->getChanges(), array_flip(['id', 'owner_id', 'project_id', 'updated_at',]))
             ];
         }

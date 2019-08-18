@@ -18,7 +18,12 @@
 <script>
     export default {
         props: ['activities'],
+        mounted() {
+            //console.log(this.activities);
+            this.activities.data.map((data) => console.log(data))
+        }
     }
+
 </script>
 
 <style scoped>

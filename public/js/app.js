@@ -1856,7 +1856,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['activities']
+  props: ['activities'],
+  mounted: function mounted() {
+    //console.log(this.activities);
+    this.activities.data.map(function (data) {
+      return console.log(data);
+    });
+  }
 });
 
 /***/ }),

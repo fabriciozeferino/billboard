@@ -42,6 +42,7 @@ class TriggerLogTest extends TestCase
     /** @test */
     public function updating_a_project()
     {
+
         $project = ProjectFactory::create();
 
         $remove = ['id', 'owner_id', 'updated_at', 'created_at'];

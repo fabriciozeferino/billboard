@@ -52,7 +52,7 @@ class ManageProjectsTest extends TestCase
     /** @test */
     public function an_authenticated_user_can_update_a_project()
     {
-        $this->withoutExceptionHandling();
+        //$this->withoutExceptionHandling();
         $project = ProjectFactory::create();
 
         $randon_fields = factory(Project::class)->raw(["owner_id" => $project->owner_id]);

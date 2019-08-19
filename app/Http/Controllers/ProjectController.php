@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectCreateRequest;
 use App\Http\Requests\ProjectUpdateRequest;
-use App\Http\Resources\ActivityResource;
 use App\Project;
 
 
@@ -72,9 +71,11 @@ class ProjectController extends Controller
 
         //dd($project->activitiesResource()->resource);
 
+        //return response($project->activitiesResource()->resource, 200);
+
         return view('projects.show', [
             'project' => $project,
-            'activities' => $project->activitiesResource()->resource
+            //'activities' => $project->activitiesResource()->resource
         ]);
     }
 

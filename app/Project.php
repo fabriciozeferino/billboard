@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Http\Resources\ActivityResource;
 
 
 class Project extends AbstractModel
@@ -29,14 +28,6 @@ class Project extends AbstractModel
     }
 
     /**
-     * @return string
-     */
-    public function path()
-    {
-        return "/projects/{$this->id}";
-    }
-
-    /**
      * @return BelongsTo
      */
     public function owner()
@@ -44,13 +35,26 @@ class Project extends AbstractModel
         return $this->belongsTo(User::class);
     }
 
+
+    /**
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public function activity()
     {
-        return $this->hasMany(Activity::class)->latest();
+        return $this->hasMany(Activity::class);/*->latest()->paginate(5);*/
     }
 
-    public function activitiesResource(){
+    public function activityResponse()
+    {
+        return $this->activity()->with('user')->paginate(5);
 
-        return new ActivityResource($this->activity()->paginate());
+    }
+
+    /**
+     * @return string
+     */
+    public function path()
+    {
+        return "/projects/{$this->id}";
     }
 }

@@ -63,9 +63,7 @@ class ActivityController extends Controller
      */
     public function show(Project $project)
     {
-        $activities = $this->service->render($project);
-
-        return response()->json($activities);
+        return response()->json($project->activityResponse());
     }
 
     /**

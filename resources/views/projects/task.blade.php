@@ -1,4 +1,4 @@
-<h5>Tasks</h5>
+<h2 class="font-weight-bolder">Tasks</h2>
 <div class="card mb-3 p-0 border-0 rounded shadow-sm">
 
     <form action="{{ $project->path() . '/tasks' }}" method="POST">

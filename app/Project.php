@@ -35,19 +35,12 @@ class Project extends AbstractModel
         return $this->belongsTo(User::class);
     }
 
-
-    /**
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     */
-    public function activity()
+    public function activitiesWithOwnerAndSubject()
     {
-        return $this->hasMany(Activity::class);/*->latest()->paginate(5);*/
-    }
-
-    public function activityResponse()
-    {
-        return $this->activity()->with('user')->paginate(5);
-
+        return $this->hasMany(Activity::class)
+            ->with(['user', 'subject'])
+            ->latest()
+            ->paginate(5);
     }
 
     /**

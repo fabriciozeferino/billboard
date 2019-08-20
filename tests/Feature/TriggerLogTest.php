@@ -116,19 +116,36 @@ class TriggerLogTest extends TestCase
 
         $response->assertStatus(200);
 
-        $response->assertJsonStructure(['data' => [
-            '*' => ['id', 'user_id', 'user_name', 'message', 'description']
-        ]]);
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'id',
+                    'user_id',
+                    'description',
+                    'user' => [
+                        'name'
+                    ],
+                ]
+            ]]);
+
 
         $response->assertJson([
             'data' => [
                 [
-                    'id' => $project->activity->first()->id,
+                    'id' => $project->activitiesWithOwnerAndSubject()->first()->id,
                     'user_id' => $project->owner->id,
-                    'user_name' => $project->owner->name,
-                    'description' => 'created'
+                    'subject_type' => $project->activitiesWithOwnerAndSubject()->first()->subject_type,
+                    'subject' => ['title' => $project->title],
+                    'user' => ['name' => $project->owner->name],
+                    'description' => 'created',
+                    'updated_at' => $project->updated_at,
+                    'created_at' => $project->created_at,
                 ]
             ]
+        ]);
+
+        $response->assertJsonMissing([
+            'password' => $project->owner->password
         ]);
     }
 }

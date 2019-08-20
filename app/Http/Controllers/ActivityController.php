@@ -63,7 +63,7 @@ class ActivityController extends Controller
      */
     public function show(Project $project)
     {
-        return response()->json($project->activityResponse());
+        return response()->json($project->activitiesWithOwnerAndSubject());
     }
 
     /**

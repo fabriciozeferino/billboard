@@ -10,31 +10,19 @@
                 <div class="media-body lh-125 border-bottom border-gray">
                     <div>
                         <strong class="mt-0 mr-auto text-muted">{{ activity.user.name }}</strong>
-                        <small class="float-right">11 mins ago</small>
+                        <small class="float-right text-muted">{{ moment(activity.updated_at).fromNow() }}</small>
                     </div>
 
-                    <small>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras
-                        purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi
-                        vulputate fringilla. Donec lacinia congue felis in faucibus.</small>
+                    <small class="small-description" v-if="activity.description == 'created'">
+                        {{ `The ${activity.subject_type.replace("App\\", '')} "${activity.subject.title}" was
+                        ${activity.description} ${moment(activity.updated_at).fromNow()}` }}
+                    </small>
+
+
+                    <small class="small-description" v-if="activity.description == 'updated'">updated...</small>
                 </div>
             </li>
         </ul>
-
-
-        <div class="media text-muted pt-3" v-for="activity in laravelData.data" :key="activity.id">
-            <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg"
-                 preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
-                <rect width="100%" height="100%" fill="#007bff"></rect>
-            </svg>
-            <p class="media-body pb-1 mb-0 small lh-125 border-bottom border-gray">
-
-
-                <strong class="mr-auto text-gray-dark">{{ activity.user.name }}</strong>
-                <small>11 mins ago</small>
-
-            </p>
-        </div>
-
 
         <div class="d-block text-right mt-3">
             <pagination :data="laravelData" :show-disabled="true" size="small" align="center"
@@ -73,4 +61,8 @@
 </script>
 
 <style scoped>
+
+    .small-description:first-letter {
+        text-transform: capitalize;
+    }
 </style>

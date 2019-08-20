@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factory;
 
 $factory->define(Task::class, function (Faker $faker) {
     return [
-        'body' => $faker->sentence,
+        'title' => $faker->sentence,
         'project_id' => factory(App\Project::class)->create(),
         /*'owner_id' => function () {
             return factory(App\User::class)->create()->id;

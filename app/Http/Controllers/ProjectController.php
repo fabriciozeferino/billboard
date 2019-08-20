@@ -69,13 +69,8 @@ class ProjectController extends Controller
     {
         $this->authorize('view', $project);
 
-        //dd($project->activitiesResource()->resource);
-
-        //return response($project->activitiesResource()->resource, 200);
-
         return view('projects.show', [
-            'project' => $project,
-            //'activities' => $project->activitiesResource()->resource
+            'project' => $project
         ]);
     }
 

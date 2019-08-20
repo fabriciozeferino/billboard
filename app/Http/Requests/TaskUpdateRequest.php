@@ -24,7 +24,7 @@ class TaskUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'body' => 'required',
+            'title' => 'required',
             //'completed' => 'boolean'
 
         ];
@@ -40,7 +40,7 @@ class TaskUpdateRequest extends FormRequest
         $this->merge([
             'project_id' => (int)$this->project->id,
             //'owner_id' => (int)auth()->id(),
-            'body' => $this->get('body'),
+            'title' => $this->get('title'),
             'completed' => $this->get('completed') ?: 0
         ]);
     }

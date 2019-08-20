@@ -3,7 +3,7 @@
 
     <form action="{{ $project->path() . '/tasks' }}" method="POST">
         @csrf
-        <input type="text" name="body" class="form-control border-0" placeholder="Add new task...">
+        <input type="text" name="title" class="form-control border-0" placeholder="Add new task...">
     </form>
 
 </div>
@@ -14,7 +14,7 @@
             @csrf
             <div class="col-11">
                 <div class="">
-                    <input type="text" name="body" value="{{ $task->body }}" class="form-control border-0"
+                    <input type="text" name="title" value="{{ $task->title }}" class="form-control border-0"
                            placeholder="Add new task...">
                 </div>
             </div>

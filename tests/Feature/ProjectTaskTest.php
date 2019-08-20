@@ -27,15 +27,17 @@ class ProjectTaskTest extends TestCase
     /** @test */
     public function only_the_owner_of_a_project_may_add_tasks()
     {
+        //$this->withoutExceptionHandling();
         $this->signIn();
 
         $project = ProjectFactory::create();
         $task = factory(Task::class)->raw(['project_id' => $project->id]);
 
+
         $this->post($project->path() . '/tasks', $task)
             ->assertStatus(403);
 
-        $this->assertDatabaseMissing('tasks', ['body' => 'task body']);
+        $this->assertDatabaseMissing('tasks', ['title' => $task['title']]);
     }
 
     /** @test */
@@ -65,19 +67,19 @@ class ProjectTaskTest extends TestCase
             ->post($project->path() . '/tasks', $task);
 
         $this->get($project->path())
-            ->assertSee($task['body']);
+            ->assertSee($task['title']);
     }
 
     /** @test */
-    public function a_task_require_a_body()
+    public function a_task_require_a_title()
     {
         $project = ProjectFactory::create();
 
-        $task = factory(Task::class)->raw(['body' => '']);
+        $task = factory(Task::class)->raw(['title' => '']);
 
         $this->actingAs($project->owner)
             ->post($project->path() . '/tasks', $task)
-            ->assertSessionHasErrors('body');
+            ->assertSessionHasErrors('title');
     }
 
     /** @test */
@@ -87,12 +89,12 @@ class ProjectTaskTest extends TestCase
 
         $this->actingAs($project->owner)
             ->patch($project->tasks->first()->path(), [
-            'body' => 'Body changed',
+            'title' => 'Title changed',
             'completed' => '1'
         ]);
 
         $this->assertDatabaseHas('tasks', [
-            'body' => 'Body changed',
+            'title' => 'Title changed',
             'completed' => '1'
         ]);
     }

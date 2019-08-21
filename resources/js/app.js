@@ -8,9 +8,8 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-import moment from 'moment'
 
-Vue.prototype.moment = moment;
+Vue.use(require('vue-moment'));
 
 /**
  * The following block of code may be used to automatically register your

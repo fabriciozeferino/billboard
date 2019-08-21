@@ -5,12 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProjectCreateRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Project;
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
+use Illuminate\View\View;
 
 
 class ProjectController extends Controller
 {
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function index()
     {
@@ -20,7 +26,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function create()
     {
@@ -30,7 +36,7 @@ class ProjectController extends Controller
     /**
      * @param ProjectCreateRequest $request
      * @param Project $project
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse|Redirector
      */
     public function store(ProjectCreateRequest $request, Project $project)
     {
@@ -41,7 +47,7 @@ class ProjectController extends Controller
 
     /**
      * @param Project $project
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function edit(Project $project)
     {
@@ -51,7 +57,7 @@ class ProjectController extends Controller
     /**
      * @param Project $project
      * @param ProjectUpdateRequest $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function update(Project $project, ProjectUpdateRequest $request)
     {
@@ -62,8 +68,8 @@ class ProjectController extends Controller
 
     /**
      * @param Project $project
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @return Factory|View
+     * @throws AuthorizationException
      */
     public function show(Project $project)
     {
@@ -79,7 +85,7 @@ class ProjectController extends Controller
      *
      * @param Task $task
      * @return void
-     * @throws \Exception
+     * @throws Exception
      */
     public function destroy(Project $project)
     {

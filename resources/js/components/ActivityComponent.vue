@@ -1,23 +1,41 @@
 <template>
     <div>
 
-        <div class="media mb-2" v-for="activity in laravelData.data" :key="activity.id">
-            <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg"
-                 preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
-                <rect width="100%" height="100%" fill="#007bff"></rect>
-            </svg>
+        <div class="media mb-2 border-bottom border-gray" v-for="(activity, key) in laravelData.data"
+             :key="activity.id">
+
+            <div class="mr-2" v-if="activity.description === 'created'">
+                <icon-base width="20"
+                           height="20"
+                           icon-name="created"
+                           iconColor="#2D3748">
+                    <add-outline/>
+                </icon-base>
+            </div>
+
+            <div class="mr-2" v-if="activity.description === 'updated'">
+                <icon-base width="20"
+                           height="20"
+                           icon-name="created"
+                           iconColor="#2D3748">
+                    <edit-pencil/>
+                </icon-base>
+            </div>
+
             <div class="media-body">
 
-                <div class="border-bottom border-gray">
+                <div>
                     <div>
                         <strong class="mt-0 mr-auto text-muted">{{ activity.user.name }}</strong>
                     </div>
                     <small class="small-description">{{ renderMessage(activity) }}</small>
-                    <small class="float-right text-muted" v-if="activity.description === 'updated'"><a
-                        href="#">Changes</a></small>
 
-                    <div class="media border-top border-gray">
+                    <small class="float-right text-muted" v-if="activity.description === 'updated'">
+                        <a data-toggle="collapse" :href="'#collapse' + activity.id"
+                           aria-expanded="false" :aria-controls="'collapse' + activity.id">Changes</a>
+                    </small>
 
+                    <div class="media border-top border-gray collapse" :id="'collapse' + activity.id">
                         <div class="media-body">
                             <div class="mt-0" v-if="activity.description === 'updated'">
                                 <small v-for="(change, key) in activity.changes.before"> The <strong>{{ key }}</strong>
@@ -43,11 +61,18 @@
 </template>
 
 <script>
+    import EditPencil from './icons/EditPencil.vue'
+    import AddOutline from './icons/AddOutline.vue'
+
     export default {
+        components: {
+            EditPencil,
+            AddOutline
+        },
         props: ['project_id'],
         data() {
             return {
-                laravelData: {},
+                laravelData: {}
             }
         },
         created() {
@@ -62,6 +87,8 @@
                 axios.get('/projects/' + this.project_id + '/activities?page=' + page)
                     .then(response => this.laravelData = response.data)
                     .catch(error => console.log(error))
+
+
             },
             renderMessage(activity) {
 
@@ -87,15 +114,17 @@
                         break;
 
                 }
+            },
+            showChanges(slider) {
+                slider.showEdit = true
+            },
+            hideChanges(slider) {
+                slider.showEdit = false
             }
-        },
+        }
     }
 
 </script>
 
 <style scoped>
-
-    .small-description:first-letter {
-        text-transform: capitalize;
-    }
 </style>

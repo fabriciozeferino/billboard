@@ -22,8 +22,12 @@ Vue.use(require('vue-moment'));
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
+
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('activity-component', require('./components/ActivityComponent.vue').default);
+
+// Icons
+Vue.component('icon-base', require('./components/IconBase.vue').default);
 
 
 /**

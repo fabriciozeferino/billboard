@@ -25,6 +25,8 @@ Vue.use(require('vue-moment'));
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('activity-component', require('./components/ActivityComponent.vue').default);
+Vue.component('navbar-component', require('./components/shared/NavbarComponent.vue').default);
+Vue.component('project-card', require('./components/ProjectCard.vue').default);
 
 // Icons
 Vue.component('icon-base', require('./components/IconBase.vue').default);

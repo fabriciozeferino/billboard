@@ -1,4 +1,5 @@
-<nav class="navbar navbar-light bg-light">
+
+{{--<nav class="navbar navbar-light bg-light">
     <div class="col-sm-8">
         <a class="text-muted breadcrumb-item" >My Projects @if(isset($project)) / {{ $project->title }} @endif</a>
     </div>
@@ -10,5 +11,5 @@
         @endif
     </div>
 </nav>
-<hr class="p-0 mt-0">
+<hr class="p-0 mt-0">--}}
 

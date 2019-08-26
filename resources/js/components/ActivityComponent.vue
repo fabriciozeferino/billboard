@@ -69,14 +69,13 @@
             EditPencil,
             AddOutline
         },
-        props: ['project_id'],
+        created() {
+            this.getResults();
+        },
         data() {
             return {
                 laravelData: {}
             }
-        },
-        created() {
-            this.getResults();
         },
         methods: {
             getResults(page) {
@@ -89,6 +88,9 @@
                     .catch(error => console.log(error))
 
 
+            },
+            hideChanges(slider) {
+                slider.showEdit = false
             },
             renderMessage(activity) {
 
@@ -117,11 +119,9 @@
             },
             showChanges(slider) {
                 slider.showEdit = true
-            },
-            hideChanges(slider) {
-                slider.showEdit = false
             }
-        }
+        },
+        props: ['project_id']
     }
 
 </script>

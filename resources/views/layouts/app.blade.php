@@ -17,12 +17,16 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-<div id="app">
-    <nav class="navbar navbar-expand-md navbar-light bg-white navbar-fixed-top">
-        <div class="container-fluid py-1">
+<div id="app" class="antialiased text-gray-900 bg-gray-100 h-screen">
+    {{--<nav class="flex items-center justify-between flex-wrap bg-white p-6">
+        <div class="flex items-center flex-shrink-0 text-white mr-6">
+            <svg class="fill-current h-8 w-8 mr-2" width="54" height="54" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z"/></svg>
+            <span class="font-semibold text-xl tracking-tight">Birdboard</span>
+        </div>
+        <div class="container mx-auto  py-1">
             <a class="navbar-brand" href="{{ url('/') }}">
                 {{ config('app.name', 'Laravel') }}
             </a>
@@ -74,16 +78,25 @@
                 </ul>
             </div>
         </div>
-    </nav>
+    </nav>--}}
 
-    <main class="container-fluid">
+
+    <div class="bg-white p-3 shadow w-full">
+        <div class="max-w-md sm:max-w-xl lg:max-w-6xl mx-auto">
+            <navbar-component></navbar-component>
+        </div>
+    </div>
+
+    <main class="max-w-xl sm:max-w-xl lg:max-w-6xl mx-auto px-8 lg:px-12 pt-8">
         @yield('content')
     </main>
 
-    <footer class="bg-dark text-white-50">
+    <footer class="bg-gray-200 text-gray-700 w-full text-center border-t border-grey p-4">
         @include('projects.footer')
     </footer>
 
 </div>
+
+<script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>

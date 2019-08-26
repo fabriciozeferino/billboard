@@ -2,40 +2,36 @@
 
 @section('content')
     <div class="w-full max-w-4xl">
-        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="post" action="{{ route('projects.store') }}">
+        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="post"
+              action="{{ route('projects.store') }}">
             @csrf
 
-            <h1>Create new Project</h1>
+            <h1 class="mb-6 font-bold text-xl">Create new Project</h1>
 
-            <div class="form-group">
-                <label class="col-form-label" for="title">Title</label>
-
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="title">Title</label>
                 <div>
-                    <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title"
+                    <input id="title" type="text"
+                           class="form-input mt-1 block w-full @error('title') border border-red-500 @enderror" name="title"
                            value="{{ old('title') }}" {{--required--}} autofocus>
-
                     @error('title')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
+                    <p class="text-red-500 text-xs italic">{{ $message }}</p>
                     @enderror
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-form-label" for="description">Description</label>
-
-                <div>
-                <textarea id="description" type="text" class="form-control @error('description') is-invalid @enderror"
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="description">Description</label>
+                <textarea id="description" type="text"
+                          class="form-textarea mt-1 block w-full @error('description') border border-red-500 @enderror"
+                          rows="3"
+                          placeholder="Enter the project's description..."
                           name="description" value="{{ old('description') }}" {{--required--}}
                           autofocus rows="3"></textarea>
 
-                    @error('description')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
+                @error('description')
+                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="flex items-center justify-between">

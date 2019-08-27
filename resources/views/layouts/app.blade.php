@@ -1,27 +1,27 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="h-full bg-gray-100" lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1 ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    {{--<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">--}}
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
-<div id="app" class="antialiased text-gray-900 bg-gray-100 h-screen">
-    {{--<nav class="flex items-center justify-between flex-wrap bg-white p-6">
+<body class="leading-none text-grey-darkest antialiased">
+<div id="app">
+    <layout :auth='@json(auth()->user())'></layout>
+</div>
+{{--<div id="app" class="leading-none text-gray-800 antialiased">
+    --}}{{--<nav class="flex items-center justify-between flex-wrap bg-white p-6">
         <div class="flex items-center flex-shrink-0 text-white mr-6">
             <svg class="fill-current h-8 w-8 mr-2" width="54" height="54" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z"/></svg>
             <span class="font-semibold text-xl tracking-tight">Birdboard</span>
@@ -78,7 +78,7 @@
                 </ul>
             </div>
         </div>
-    </nav>--}}
+    </nav>--}}{{--
 
 
     <div class="bg-white p-3 shadow w-full">
@@ -91,11 +91,11 @@
         @yield('content')
     </main>
 
-    <footer class="bg-gray-200 text-gray-700 w-full text-center border-t border-grey p-4">
+    <footer class="bg-gray-200 text-gray-700 w-full text-center border-t border-gray p-4">
         @include('projects.footer')
     </footer>
 
-</div>
+</div>--}}
 
 <script src="{{ mix('js/app.js') }}"></script>
 </body>

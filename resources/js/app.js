@@ -1,14 +1,11 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
 
 require('./bootstrap');
 
-window.Vue = require('vue');
+import PortalVue from 'portal-vue'
+import Vue from 'vue'
+//window.Vue = require('vue');
 
-
+Vue.use(PortalVue);
 Vue.use(require('vue-moment'));
 
 /**
@@ -25,11 +22,14 @@ Vue.use(require('vue-moment'));
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('activity-component', require('./components/ActivityComponent.vue').default);
-Vue.component('navbar-component', require('./components/shared/NavbarComponent.vue').default);
-Vue.component('project-card', require('./components/ProjectCard.vue').default);
+// Vue.component('navbar-component', require('./components/shared/NavbarComponent.vue').default);
+// Vue.component('project-card', require('./components/ProjectCard.vue').default);
 
 // Icons
-Vue.component('icon-base', require('./components/IconBase.vue').default);
+//Vue.component('icon-base', require('./components/IconBase.vue').default);
+
+Vue.component('layout', require('./shared/Layout.vue').default);
+
 
 
 /**
@@ -37,6 +37,8 @@ Vue.component('icon-base', require('./components/IconBase.vue').default);
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+
+
 
 const app = new Vue({
     el: '#app',

@@ -11,9 +11,9 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    {{--<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">--}}
+{{--<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">--}}
 
-    <!-- Styles -->
+<!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="leading-none text-grey-darkest antialiased">

@@ -10,7 +10,7 @@
             @csrf
 
             <div class="px-6 pt-6">
-                <label for="name" class="block text-gray-700 text-sm font-bold">{{ __('Name') }}</label>
+                <label for="name" class="block text-gray-700 text-sm font-bold mb-2">{{ __('Name') }}</label>
                 <input id="name" type="text"
                        class="form-input mt-1 block w-full @error('name') border-red-500 @enderror" name="name"
                        value="{{ old('name') }}" {{--required--}} {{--autocomplete="name"--}} autofocus>
@@ -22,7 +22,7 @@
             </div>
 
             <div class="px-6 pt-6">
-                <label for="email" class="block text-gray-700 text-sm font-bold">{{ __('E-mail Address') }}</label>
+                <label for="email" class="block text-gray-700 text-sm font-bold mb-2">{{ __('E-mail Address') }}</label>
                 <input id="email" type="email"
                        class="form-input mt-1 block w-full @error('email') border-red-500 @enderror" name="email"
                        value="{{ old('email') }}" {{--required--}} {{--autocomplete="email"--}} autofocus>
@@ -34,7 +34,7 @@
             </div>
 
             <div class="px-6 pt-6">
-                <label for="password" class="block text-gray-700 text-sm font-bold">{{ __('Password') }}</label>
+                <label for="password" class="block text-gray-700 text-sm font-bold mb-2">{{ __('Password') }}</label>
                 <input id="password" type="password"
                        class="form-input mt-1 block w-full @error('password') border-red-500 @enderror"
                        name="password" {{--required--}} autocomplete="current-password">
@@ -47,7 +47,7 @@
 
             <div class="px-6 py-6">
                 <label for="password-confirm"
-                       class="block text-gray-700 text-sm font-bold">{{ __('Confirm Password') }}</label>
+                       class="block text-gray-700 text-sm font-bold mb-2">{{ __('Confirm Password') }}</label>
                     <input id="password-confirm" type="password" class="form-input mt-1 block w-full"
                            name="password_confirmation" required autocomplete="new-password">
             </div>

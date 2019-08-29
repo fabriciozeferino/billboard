@@ -2,6 +2,7 @@
 
 @section('content')
 
+    <div>gello</div>
     @include('projects.card')
 
 @endsection

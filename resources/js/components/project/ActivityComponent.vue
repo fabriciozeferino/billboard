@@ -61,13 +61,11 @@
 </template>
 
 <script>
-    import EditPencil from './icons/EditPencil.vue'
-    import AddOutline from './icons/AddOutline.vue'
+
+
 
     export default {
         components: {
-            EditPencil,
-            AddOutline
         },
         created() {
             this.getResults();

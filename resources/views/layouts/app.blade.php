@@ -18,9 +18,7 @@
 </head>
 <body class="leading-none text-grey-darkest antialiased">
 <div id="app">
-    <layout :auth='@json(auth()->user())'>
-
-    </layout>
+    <app :auth='@json(auth()->user())'></app>
 </div>
 <script src="{{ mix('js/app.js') }}"></script>
 </body>

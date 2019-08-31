@@ -43,7 +43,12 @@
                         <main-menu/>
                     </div>
                     <div class="w-full overflow-hidden px-4 py-8 md:p-12">
-                        hgdhg
+
+                        <router-view :key="$route.fullPath" />
+
+
+                        <!--<router-view></router-view>-->
+
                         <!--<flash-messages />
                         <slot />-->
                     </div>

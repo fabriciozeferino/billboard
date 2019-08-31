@@ -16,3 +16,16 @@ use Illuminate\Http\Request;
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });*/
+
+Route::resource('projects', 'ProjectController');
+
+Route::group(['middleware' => 'auth'], function () {
+
+
+    /*Route::resource('projects/{project}/tasks', 'TaskController');
+
+   Route::get('projects/{project}/activities', 'ActivityController@show');
+
+   Route::get('/home', 'HomeController@index')->name('home');*/
+
+});

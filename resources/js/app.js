@@ -6,6 +6,7 @@ import VueRouter from 'vue-router'
 import PortalVue from 'portal-vue'
 import 'nprogress/nprogress.css'
 import router from "./router";
+import store from './store'
 
 Vue.use(VueRouter);
 Vue.use(PortalVue);
@@ -24,6 +25,7 @@ Vue.component('app', require('./App.vue').default);
 
 
 const app = new Vue({
-    router
+    router,
+    store
 }).$mount('#app');
 

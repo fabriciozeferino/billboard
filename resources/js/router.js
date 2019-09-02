@@ -7,6 +7,11 @@ import Home from './views/Home.vue'
 import Projects from './views/Projects.vue'
 import ProjectCreate from './views/ProjectCreate.vue'
 import Reports from './views/Reports.vue'
+import store from './store'
+
+import LoginComponent from "./components/auth/LoginComponent";
+import LogoutComponent from "./components/auth/LogoutComponent";
+import DashboardComponent from "./components/auth/DashboardComponent";
 
 Vue.use(Router);
 
@@ -14,24 +19,49 @@ const router = new Router({
     mode: 'history',
     routes: [
         {
+            path: '/',
+            redirect: {name: 'login'}
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: LoginComponent
+        },
+        {
+            path: '/logout',
+            name: 'logout',
+            component: LogoutComponent
+        },
+        {
+            path: '/dashboard',
+            name: 'dashboard',
+            component: DashboardComponent,
+            meta: { requiresAuth: true }
+        },
+
+
+        {
             path: '/home',
             name: 'home',
             component: Home,
+            meta: { requiresAuth: true },
             props: true
-        },{
+        }, {
             path: '/projects',
             name: 'projects',
             component: Projects,
-            props: true
+            meta: { requiresAuth: true },
         },
         {
             path: '/project/create',
             name: 'project-create',
+            meta: { requiresAuth: true },
             component: ProjectCreate
         },
         {
             path: '/reports',
             name: 'reports',
+            meta: { requiresAuth: true },
             component: Reports
         },
         /*{
@@ -68,7 +98,7 @@ const router = new Router({
         },
         {
             path: '*',
-            refirect: '/home'
+            redirect: {name: '404'}
             //redirect: {name: '404', params: {resource: 'page'}}
         }
     ]
@@ -76,7 +106,31 @@ const router = new Router({
 
 router.beforeEach((routeTo, routeFrom, next) => {
     NProgress.start();
-    next()
+
+    const loggedIn = localStorage.getItem('user');
+
+    //console.log(loggedIn);
+
+    if (routeTo.matched.some(route => route.meta.requiresAuth) && !loggedIn) {
+        next({ name: 'login' });
+        return
+    }
+    //next()
+
+    // check if the route requires authentication and user is not logged in
+    /*if (routeTo.matched.some(route => route.meta.requiresAuth) && !store.state.isLoggedIn) {
+        // redirect to login page
+        next({ name: 'login' });
+        return
+    }
+*/
+    // if logged in redirect to dashboard
+    if(routeTo.path === '/login' && loggedIn) {
+        next({ name: 'home' });
+        return
+    }
+
+    next();
 });
 
 router.afterEach(() => {

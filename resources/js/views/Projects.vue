@@ -20,15 +20,12 @@
         },
         methods: {
             fetchData() {
-                // this.error = this.users = null;
-                // this.loading = true;
-                window.axios
-                    .get('/api/projects')
+                axios.get('/api/v1/projects')
                     .then(response => {
-                        console.log(response);
-
                         this.projects = response.data
-                    });
+                    }).catch(error => {
+                     console.error(error)
+                })
             }
         },
 

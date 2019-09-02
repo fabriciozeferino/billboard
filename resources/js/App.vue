@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <layout :auth="auth"></layout>
+        <layout></layout>
     </div>
 </template>
 
@@ -8,9 +8,31 @@
     import Layout from './shared/Layout.vue'
 
     export default {
-        props: ['auth'],
         components: {
             Layout
+        },
+        created() {
+
+            /*if (localStorage.authUser) {
+                axios.get('/api/v1/auth/user ', {
+                        headers: {
+                            Authorization: 'Bearer ' + localStorage.getItem('token')
+                        }
+                    },
+                ).then(response => {
+
+
+                    store.commit('loginUser')
+                }).catch(error => {
+
+                    if (error.response.status === 401 || error.response.status === 403) {
+                        store.commit('logoutUser');
+                        localStorage.setItem('token', '');
+                        this.$router.push({name: 'login'});
+                    }
+                });
+            }*/
+
         }
     }
 </script>

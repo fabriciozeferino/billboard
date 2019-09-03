@@ -1,27 +1,50 @@
 <template>
-    <div class="text-center form-wrapper">
+    <div class="flex justify-center items-center">
+        <div class="w-full max-w-md">
+            <div class="block mx-auto w-full max-w-sm bg-white my-6 shadow-lg rounded-lg overflow-hidden">
+                <div>
+                    <div class="border-b py-8 font-bold text-black text-center text-xl tracking-widest uppercase bg-white">
+                        Login
+                    </div>
 
-        <form class="form-signin" v-on:submit.prevent="login">
+                    <form class="bg-gray-100" v-on:submit.prevent="login">
 
-            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                        <div class="px-6 pt-6">
+                            <label for="inputEmail" class="block text-gray-700 text-sm font-bold">E-mail Address</label>
+                            <input autofocus class="form-input mt-1 block w-full" id="inputEmail" placeholder="Email address"
+                                   required type="email" v-model="email">
+                        </div>
 
-            <label for="inputEmail" class="sr-only">Email:</label>
-            <input type="email" id="inputEmail" placeholder="Email address" required autofocus
-                   v-model="email">
+                        <div class="px-6 py-6">
+                            <label class="block text-gray-700 text-sm font-bold" for="inputPassword">Password</label>
+                            <input class="form-input mt-1 block w-full" id="inputPassword" placeholder="Password" required
+                                   type="password" v-model="password">
+                        </div>
 
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required
-                   v-model="password">
+                        <div class="border-t p-6 bg-white">
+                            <div class="flex justify-between items-center">
+                                <button class="btn-blue" type="submit">Sign in</button>
+                                <a class="px-6 py-3 text-blue-800 text-sm font-bold">Forgot Your Password?</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        </form>
-        <p>{{ loginError }}</p>
+            <div class="text-grey-700 text-sm text-center">
+
+                Don't have an account?
+                <a class="text-blue-600 font-bold" href="">Create</a>
+
+                Already have an account?
+                <a class="text-blue-600 font-bold" href="">Sign in</a>
+
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-   //import store from '../../store'
-
     export default {
         data() {
             return {
@@ -31,7 +54,7 @@
             }
         },
         methods: {
-            login () {
+            login() {
                 this.loginError = null;
 
                 this.$store
@@ -39,68 +62,9 @@
                         email: this.email,
                         password: this.password
                     })
-                    .then(() => {
-
-                        this.$router.push({ name: 'home' })
-                    })
-                    .catch(err => {
-                        this.error = err.response.data.error
-                    })
-            },
-            /*_login() {
-                this.loginError = false;
-                axios.post('/api/v1/auth/login', {
-                    email: this.email,
-                    password: this.password
-                }).then(response => {
-
-                    store.commit('loginUser');
-                    localStorage.setItem('token', response.data.access_token);
-                    this.$router.push({name: 'home'});
-                }).catch(error => {
-                    this.loginError = error
-                });
-            }*/
+                    .then(() => this.$router.push({name: 'home'}))
+                    .catch(err => this.error = err.response.data.error)
+            }
         }
     }
 </script>
-
-<style scoped>
-    .form-wrapper {
-        min-height: 100%;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-    }
-
-    .form-signin {
-        width: 100%;
-        max-width: 330px;
-        padding: 15px;
-        margin: 0 auto;
-    }
-
-    .form-signin .form-control {
-        position: relative;
-        box-sizing: border-box;
-        height: auto;
-        padding: 10px;
-        font-size: 16px;
-    }
-
-    .form-signin .form-control:focus {
-        z-index: 2;
-    }
-
-    .form-signin input[type="email"] {
-        margin-bottom: -1px;
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
-    }
-
-    .form-signin input[type="password"] {
-        margin-bottom: 10px;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-    }
-</style>

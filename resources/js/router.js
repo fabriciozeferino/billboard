@@ -10,7 +10,6 @@ import Reports from './views/Reports.vue'
 import store from './store'
 
 import LoginComponent from "./components/auth/LoginComponent";
-import LogoutComponent from "./components/auth/LogoutComponent";
 import DashboardComponent from "./components/auth/DashboardComponent";
 
 Vue.use(Router);
@@ -20,17 +19,12 @@ const router = new Router({
     routes: [
         {
             path: '/',
-            redirect: {name: 'login'}
+            redirect: {name: 'home'}
         },
         {
             path: '/login',
             name: 'login',
             component: LoginComponent
-        },
-        {
-            path: '/logout',
-            name: 'logout',
-            component: LogoutComponent
         },
         {
             path: '/dashboard',

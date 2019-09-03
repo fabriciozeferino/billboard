@@ -46,6 +46,7 @@
 
 <script>
     export default {
+
         data() {
             return {
                 email: '',
@@ -53,18 +54,22 @@
                 loginError: null,
             }
         },
+
         methods: {
+
             login() {
+
                 this.loginError = null;
 
                 this.$store
-                    .dispatch('login', {
+                    .dispatch('auth/login', {
                         email: this.email,
                         password: this.password
                     })
                     .then(() => this.$router.push({name: 'home'}))
                     .catch(err => this.error = err.response.data.error)
             }
+
         }
     }
 </script>

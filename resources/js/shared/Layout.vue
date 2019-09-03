@@ -105,7 +105,7 @@
                 this.showUserMenu = false
             },
             logout () {
-                this.$store.dispatch('logout');
+                this.$store.dispatch('auth/logout');
                 this.$router.push({name: 'login'});
             }
         },

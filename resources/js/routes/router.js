@@ -19,7 +19,7 @@ const router = new Router({
 router.beforeEach((routeTo, routeFrom, next) => {
     NProgress.start();
 
-    const loggedIn = localStorage.getItem('user');
+    const loggedIn = localStorage.getItem('token');
 
     if (routeTo.matched.some(route => route.meta.requiresAuth) && !loggedIn) {
         next({ name: 'login' });

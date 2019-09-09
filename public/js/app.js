@@ -1839,6 +1839,13 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_Layout_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./shared/Layout.vue */ "./resources/js/shared/Layout.vue");
+/* harmony import */ var _views_helper_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./views/helper.js */ "./resources/js/views/helper.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -1846,27 +1853,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     Layout: _shared_Layout_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  created: function created() {
-    /*if (localStorage.authUser) {
-        axios.get('/api/v1/auth/user ', {
-                headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
-                }
-            },
-        ).then(response => {
-              store.commit('loginUser')
-        }).catch(error => {
-             if (error.response.status === 401 || error.response.status === 403) {
-                store.commit('logoutUser');
-                localStorage.setItem('token', '');
-                this.$router.push({name: 'login'});
-            }
+  computed: _objectSpread({}, _views_helper_js__WEBPACK_IMPORTED_MODULE_1__["authComputed"], {}, _views_helper_js__WEBPACK_IMPORTED_MODULE_1__["authStates"]),
+  methods: _objectSpread({}, _views_helper_js__WEBPACK_IMPORTED_MODULE_1__["authMethods"]),
+  mounted: function mounted() {
+    var _this = this;
+
+    this.$store.subscribe(function (mutation, state) {
+      if (!state.auth.loggedIn) {
+        _this.$router.push({
+          name: 'login'
         });
-    }*/
+      }
+    });
+  },
+  created: function created() {
+    var token = localStorage.getItem('token');
+
+    if (token) {
+      this.$store.dispatch('auth/fetchToken', token);
+    }
+
+    axios.interceptors.response.use(undefined, function (err) {
+      return new Promise(function (resolve, reject) {
+        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+          this.$store.dispatch('auth/logout');
+        }
+
+        throw err;
+      });
+    });
   }
 });
 
@@ -1983,15 +2005,13 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       email: '',
-      password: '',
-      loginError: null
+      password: ''
     };
   },
   methods: {
     login: function login() {
       var _this = this;
 
-      this.loginError = null;
       this.$store.dispatch('auth/login', {
         email: this.email,
         password: this.password
@@ -1999,8 +2019,10 @@ __webpack_require__.r(__webpack_exports__);
         return _this.$router.push({
           name: 'home'
         });
-      })["catch"](function (err) {
-        return _this.error = err.response.data.error;
+      })["catch"](function () {
+        return _this.$router.push({
+          name: 'login'
+        });
       });
     }
   }
@@ -2178,13 +2200,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _MainMenu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MainMenu */ "./resources/js/shared/MainMenu.vue");
 /* harmony import */ var _Logo__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Logo */ "./resources/js/shared/Logo.vue");
 /* harmony import */ var _Icon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Icon */ "./resources/js/shared/Icon.vue");
-/* harmony import */ var _helper_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../helper.js */ "./resources/js/helper.js");
+/* harmony import */ var _views_helper_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/helper.js */ "./resources/js/views/helper.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -2259,7 +2282,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  computed: _objectSpread({}, _helper_js__WEBPACK_IMPORTED_MODULE_5__["authComputed"]),
+  computed: _objectSpread({}, _views_helper_js__WEBPACK_IMPORTED_MODULE_5__["authComputed"]),
   components: {
     Dropdown: _Dropdown__WEBPACK_IMPORTED_MODULE_0__["default"],
 
@@ -2269,7 +2292,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     Icon: _Icon__WEBPACK_IMPORTED_MODULE_4__["default"],
     PortalVue: portal_vue__WEBPACK_IMPORTED_MODULE_1___default.a
   },
-  //props: ['auth'],
   data: function data() {
     return {
       showUserMenu: false,
@@ -8011,7 +8033,7 @@ var render = function() {
             on: { click: _vm.hideDropdownMenus }
           },
           [
-            _vm.loggedIn
+            _vm.isLoggedIn
               ? _c("div", { staticClass: "md:flex" }, [
                   _c(
                     "div",
@@ -8158,7 +8180,11 @@ var render = function() {
                                     "block px-6 py-2 hover:bg-blue-500 hover:text-white",
                                   on: { click: _vm.logout }
                                 },
-                                [_vm._v("Logout\n                            ")]
+                                [
+                                  _vm._v(
+                                    "\n                                Logout\n                            "
+                                  )
+                                ]
                               )
                             ],
                             1
@@ -8172,7 +8198,7 @@ var render = function() {
               : _vm._e(),
             _vm._v(" "),
             _c("div", { staticClass: "flex flex-grow" }, [
-              _vm.loggedIn
+              _vm.isLoggedIn
                 ? _c(
                     "div",
                     {
@@ -29435,33 +29461,13 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-//window._ = require('lodash');
-
-/**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
- */
-
-/*try {
-    window.Popper = require('popper.js').default;
-    window.$ = window.jQuery = require('jquery');
-
-    require('bootstrap');
-} catch (e) {}*/
-
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-/**
- * Next we will register the CSRF Token as a common header with Axios so that
- * all outgoing HTTP requests automatically have it attached. This is just
- * a simple convenience so we don't have to attach every token manually.
- */
+var JWTtoken = localStorage.getItem('token');
+
+if (JWTtoken) {
+  window.axios.defaults.headers.common['Authorization'] = JWTtoken;
+}
 
 var token = document.head.querySelector('meta[name="csrf-token"]');
 
@@ -29693,28 +29699,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/helper.js":
-/*!********************************!*\
-  !*** ./resources/js/helper.js ***!
-  \********************************/
-/*! exports provided: authComputed */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "authComputed", function() { return authComputed; });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-var authComputed = _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('auth', ['loggedIn', 'user']));
-
-/***/ }),
-
 /***/ "./resources/js/routes/auth.js":
 /*!*************************************!*\
   !*** ./resources/js/routes/auth.js ***!
@@ -29873,7 +29857,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 });
 router.beforeEach(function (routeTo, routeFrom, next) {
   nprogress__WEBPACK_IMPORTED_MODULE_2___default.a.start();
-  var loggedIn = localStorage.getItem('user');
+  var loggedIn = localStorage.getItem('token');
 
   if (routeTo.matched.some(function (route) {
     return route.meta.requiresAuth;
@@ -30264,53 +30248,86 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getters", function() { return getters; });
 var namespaced = true;
 var state = {
-  user: null //loggedIn: false
-
+  user: {},
+  token: null,
+  loggedIn: false
 };
 var mutations = {
-  SET_USER_DATA: function SET_USER_DATA(state, userData) {
-    state.user = userData;
-    localStorage.setItem('user', JSON.stringify(userData.user));
-    axios.defaults.headers.common['Authorization'] = "Bearer ".concat(userData.access_token);
+  LOGIN: function LOGIN(state, response) {
+    var token = response.token;
+    var user = response.user;
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
+    axios.defaults.headers.common['Authorization'] = "Bearer ".concat(token);
+    state.token = token;
+    state.user = user;
+    state.loggedIn = true;
   },
-  CLEAR_USER_DATA: function CLEAR_USER_DATA() {
+  LOGOUT: function LOGOUT(state, _ref) {
+    var data = _ref.data;
+    console.log(data);
+    localStorage.removeItem('token');
     localStorage.removeItem('user');
-    axios.defaults.headers.common['Authorization'] = '';
-    location.reload();
+    delete axios.defaults.headers.common['Authorization'];
+    state.token = null;
+    state.user = {};
+    state.loggedIn = false; //location.reload()
+  },
+  UPDATE_TOKEN: function UPDATE_TOKEN(state, data) {
+    var token = data.token.token;
+    var user = data.user;
+    state.token = token;
+    state.user = user;
+    state.loggedIn = true; //state.user = JSON.parse(data.response.data.user);
+
+    axios.defaults.headers.common['Authorization'] = "Bearer ".concat(token);
   }
 };
 var actions = {
-  register: function register(_ref, credentials) {
-    var commit = _ref.commit;
-    return axios.post('//localhost:3000/register', credentials).then(function (_ref2) {
-      var data = _ref2.data;
+  register: function register(_ref2, credentials) {
+    var commit = _ref2.commit;
+    return axios.post('//localhost:3000/register', credentials).then(function (_ref3) {
+      var data = _ref3.data;
       commit('SET_USER_DATA', data);
     });
   },
-  login: function login(_ref3, credentials) {
-    var commit = _ref3.commit;
-    return axios.post('/api/v1/auth/login', credentials).then(function (_ref4) {
-      var data = _ref4.data;
-      commit('SET_USER_DATA', data);
+  login: function login(_ref4, credentials) {
+    var commit = _ref4.commit;
+    return axios.post('/api/v1/auth/login', credentials).then(function (response) {
+      commit('LOGIN', response.data);
     })["catch"](function (error) {
-      return console.log(error);
+      commit('LOGOUT');
+      console.error(error);
     });
   },
   logout: function logout(_ref5) {
     var commit = _ref5.commit;
-    return axios.post('/api/v1/auth/logout').then(function () {
-      return commit('CLEAR_USER_DATA');
+    return axios.post('/api/v1/auth/logout').then(function (data) {
+      commit('LOGOUT', data);
+    });
+    /*.catch(error => {
+         console.error(error);
+        console.log(error)
+    });*/
+  },
+  fetchToken: function fetchToken(_ref6, token) {
+    var commit = _ref6.commit;
+    return axios.post('api/v1/auth/check-token', {
+      token: token
+    }).then(function (response) {
+      commit('UPDATE_TOKEN', response.data);
     })["catch"](function (error) {
-      return console.log(error);
+      console.error(error);
+      commit('LOGOUT');
     });
   }
 };
 var getters = {
-  loggedIn: function loggedIn(state) {
-    return !!state.user;
+  isLoggedIn: function isLoggedIn(state) {
+    return !!state.token;
   },
   user: function user(state) {
-    return state.user.user;
+    return state.user;
   }
 };
 
@@ -30755,6 +30772,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Reports_vue_vue_type_template_id_0d7aee70___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/views/helper.js":
+/*!**************************************!*\
+  !*** ./resources/js/views/helper.js ***!
+  \**************************************/
+/*! exports provided: authComputed, authMethods, authStates */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "authComputed", function() { return authComputed; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "authMethods", function() { return authMethods; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "authStates", function() { return authStates; });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var authComputed = _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('auth', ['isLoggedIn', 'user']));
+var authMethods = _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('auth', ['logout', 'fetchToken']));
+var authStates = _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('auth', ['user', 'token', 'loggedIn']));
 
 /***/ }),
 

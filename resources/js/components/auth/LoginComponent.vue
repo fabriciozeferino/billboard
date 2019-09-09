@@ -50,8 +50,7 @@
         data() {
             return {
                 email: '',
-                password: '',
-                loginError: null,
+                password: ''
             }
         },
 
@@ -59,15 +58,13 @@
 
             login() {
 
-                this.loginError = null;
-
                 this.$store
                     .dispatch('auth/login', {
                         email: this.email,
                         password: this.password
                     })
                     .then(() => this.$router.push({name: 'home'}))
-                    .catch(err => this.error = err.response.data.error)
+                    .catch(() => this.$router.push({name: 'login'}));
             }
 
         }

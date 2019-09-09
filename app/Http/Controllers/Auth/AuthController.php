@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\User;
 use Auth;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use Tymon\JWTAuth\Facades\JWTAuth;
+
 
 class AuthController extends Controller
 {
@@ -19,8 +23,15 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if (!$token = $this->guard()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        try {
+            if (!$token = $this->guard()->attempt($credentials)) {
+                return response()->json(['status' => 'Unauthorized'], 401);
+            }
+        } catch (JWTException $exception) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+                'status' => 'fail'
+            ], 500);
         }
 
         return $this->respondWithToken($token);
@@ -31,7 +42,7 @@ class AuthController extends Controller
      */
     private function guard()
     {
-        return Auth::guard();
+        return Auth::guard('api');
     }
 
     /**
@@ -43,27 +54,20 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
+
         return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'user' => User::find(Auth::user()->id)
-        ]);
+            'token' => $token,
+            'user' => Auth::user()
+        ], 200);
     }
 
-    /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function user()
+    public function loginUserWithToken($token)
     {
-        $user = User::find(Auth::user()->id);
+        //$this->guard()->loginUsingId($credentials)
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $user
-        ]);
+        return $this->respondWithToken($token);
     }
+
 
     /**
      * Log the user out (Invalidate the token).
@@ -76,7 +80,7 @@ class AuthController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'msg' => 'Logged out Successfully.'
+            'message' => 'Logged out Successfully.'
         ], 200);
     }
 
@@ -88,5 +92,37 @@ class AuthController extends Controller
     public function refresh()
     {
         return $this->respondWithToken(auth()->refresh());
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function checkToken(Request $request)
+    {
+        $token = $request->only('token');
+
+        try {
+
+            if (!JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['token_invalid'], 401);
+            }
+
+        } catch (TokenExpiredException $e) {
+
+            return response()->json('token_expired', 401);
+
+        } catch (TokenInvalidException $e) {
+
+            return response()->json($e->getMessage(), 401);
+
+        } catch (JWTException $e) {
+
+            return response()->json('token_absent', 401);
+
+        }
+
+        //TODO : refresh token when refresh page $this->guard()->refresh()
+        return $this->respondWithToken($token);
     }
 }

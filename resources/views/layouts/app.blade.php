@@ -11,14 +11,13 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-{{--<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">--}}
 
 <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="leading-none text-grey-darkest antialiased">
 <div id="app">
-    <app :auth='@json(auth()->user())'></app>
+    <app></app>
 </div>
 <script src="{{ mix('js/app.js') }}"></script>
 </body>

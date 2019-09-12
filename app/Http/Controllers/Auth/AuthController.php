@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use Auth;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -16,22 +17,17 @@ class AuthController extends Controller
     /**
      * Get a JWT via given credentials.
      *
-     * @param Request $request
+     * @param LoginRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only(['email', 'password']);
 
-        try {
-            if (!$token = $this->guard()->attempt($credentials)) {
-                return response()->json(['status' => 'Unauthorized'], 401);
-            }
-        } catch (JWTException $exception) {
+        if (!$token = $this->guard()->attempt($credentials)) {
             return response()->json([
-                'message' => $exception->getMessage(),
-                'status' => 'fail'
-            ], 500);
+                'status' => 'Username or Password incorrect'
+            ], 401);
         }
 
         return $this->respondWithToken($token);

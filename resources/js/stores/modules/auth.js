@@ -9,7 +9,6 @@ export const state = {
 export const mutations = {
 
     LOGIN(state, response) {
-
         const token = response.token;
         const user = response.user;
 
@@ -24,9 +23,8 @@ export const mutations = {
         state.user = user;
         state.loggedIn = true;
     },
-    LOGOUT(state, {data}) {
 
-        console.log(data)
+    LOGOUT(state) {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
 
@@ -39,14 +37,12 @@ export const mutations = {
     },
 
     UPDATE_TOKEN(state, data) {
-
         const token = data.token.token;
         const user = data.user;
 
         state.token = token;
         state.user = user;
         state.loggedIn = true;
-        //state.user = JSON.parse(data.response.data.user);
 
         axios.defaults.headers.common['Authorization'] = `Bearer ${
             token
@@ -64,31 +60,56 @@ export const actions = {
             })
     },
 
-    login({commit}, credentials) {
+    login({commit, dispatch}, credentials) {
         return axios.post('/api/v1/auth/login', credentials)
             .then(response => {
 
                 commit('LOGIN', response.data);
             })
-            .catch(error => {
-                commit('LOGOUT');
+           /* .catch(function (error) {
 
-                console.error(error);
-            })
+                const notification = {
+                    type: 'error',
+                    message: 'There was a problem creating your event: '/!* + error.response.data*!/
+                };
+                dispatch('notifications/add', notification, {root: true})
+                throw error.message;
+                // Error
+                /!* if (error.response) {
+
+
+                     // The request was made and the server responded with a status code
+                     // that falls out of the range of 2xx
+                     console.log('The request was made and the server responded with a status code')
+                     console.log(error.response.data);
+                     console.log(error.response.status);
+                     console.log(error.response.headers);
+                 } else if (error.request) {
+                     // The request was made but no response was received
+                     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                     // http.ClientRequest in node.js
+                     console.log('The request was made but no response was received')
+                     console.log(error.request);
+                 } else {
+                     console.log('Something happened in setting up the request that triggered an Error')
+                     console.log('Error', error.message);
+                 }
+                 console.log(error.config);*!/
+            });*/
     },
 
     logout({commit}) {
         return axios
             .post('/api/v1/auth/logout')
-            .then((data) => {
+            .then(() => {
 
-                commit('LOGOUT', data)
+                commit('LOGOUT')
             })
-            /*.catch(error => {
+        /*.catch(error => {
 
-                console.error(error);
-                console.log(error)
-            });*/
+            console.error(error);
+            console.log(error)
+        });*/
     },
 
     fetchToken({commit}, token) {

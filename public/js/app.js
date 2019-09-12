@@ -2034,6 +2034,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -10547,118 +10559,150 @@ var render = function() {
                 }
               },
               [
-                _c("div", { staticClass: "px-6 pt-6" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "block text-gray-700 text-sm font-bold",
-                      attrs: { for: "inputEmail" }
-                    },
-                    [_vm._v("E-mail Address")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model.lazy",
-                        value: _vm.$v.email.$model,
-                        expression: "$v.email.$model",
-                        modifiers: { lazy: true }
-                      }
-                    ],
-                    staticClass: "form-input mt-1 block w-full",
-                    attrs: {
-                      autofocus: "",
-                      id: "inputEmail",
-                      placeholder: "Email address",
-                      type: "text"
-                    },
-                    domProps: { value: _vm.$v.email.$model },
-                    on: {
-                      change: function($event) {
-                        return _vm.$set(
-                          _vm.$v.email,
-                          "$model",
-                          $event.target.value
-                        )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _vm.$v.email.$dirty
-                  ? _c("div", [
-                      !_vm.$v.email.email
-                        ? _c("p", { staticClass: "error-login" }, [
-                            _vm._v("Please enter a valid E-mail address.")
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      !_vm.$v.email.required
-                        ? _c("p", { staticClass: "error-login" }, [
-                            _vm._v("Email is required.")
-                          ])
-                        : _vm._e()
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
                 _c("div", { staticClass: "px-6 py-6" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "block text-gray-700 text-sm font-bold",
-                      attrs: { for: "inputPassword" }
-                    },
-                    [_vm._v("Password")]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
+                  _c("div", [
+                    _c(
+                      "label",
                       {
-                        name: "model",
-                        rawName: "v-model.lazy",
-                        value: _vm.$v.password.$model,
-                        expression: "$v.password.$model",
-                        modifiers: { lazy: true }
-                      }
-                    ],
-                    staticClass: "form-input mt-1 block w-full",
-                    attrs: {
-                      id: "inputPassword",
-                      placeholder: "Password",
-                      type: "password"
-                    },
-                    domProps: { value: _vm.$v.password.$model },
-                    on: {
-                      change: function($event) {
-                        return _vm.$set(
-                          _vm.$v.password,
-                          "$model",
-                          $event.target.value
+                        staticClass: "block text-gray-700 text-sm font-bold",
+                        attrs: { for: "inputEmail" }
+                      },
+                      [
+                        _vm._v(
+                          "E-mail\n                                Address"
                         )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model.lazy",
+                          value: _vm.$v.email.$model,
+                          expression: "$v.email.$model",
+                          modifiers: { lazy: true }
+                        }
+                      ],
+                      staticClass: "form-input mt-1 block w-full",
+                      class: _vm.$v.email.$error ? " border-red-500" : null,
+                      attrs: {
+                        autofocus: "",
+                        id: "inputEmail",
+                        placeholder: "Email address",
+                        type: "text"
+                      },
+                      domProps: { value: _vm.$v.email.$model },
+                      on: {
+                        change: function($event) {
+                          return _vm.$set(
+                            _vm.$v.email,
+                            "$model",
+                            $event.target.value
+                          )
+                        }
                       }
-                    }
-                  })
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm.$v.email.$dirty
+                    ? _c("div", [
+                        !_vm.$v.email.email
+                          ? _c(
+                              "p",
+                              { staticClass: "text-red-500 text-xs italic" },
+                              [
+                                _vm._v(
+                                  "Please enter a valid\n                                E-mail\n                                address."
+                                )
+                              ]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        !_vm.$v.email.required
+                          ? _c(
+                              "p",
+                              { staticClass: "text-red-500 text-xs italic" },
+                              [_vm._v("Email is required.")]
+                            )
+                          : _vm._e()
+                      ])
+                    : _vm._e()
                 ]),
                 _vm._v(" "),
-                _vm.$v.password.$dirty
-                  ? _c("div", [
-                      !_vm.$v.password.required
-                        ? _c("p", {}, [_vm._v("Please enter your Password.")])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      !_vm.$v.password.minLength
-                        ? _c("p", {}, [
-                            _vm._v(
-                              "Password must have at least\n                            " +
-                                _vm._s(_vm.$v.password.$params.minLength.min) +
-                                " characters."
+                _c("div", { staticClass: "px-6 pb-6" }, [
+                  _c("div", [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "block text-gray-700 text-sm font-bold",
+                        attrs: { for: "inputPassword" }
+                      },
+                      [_vm._v("Password")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model.lazy",
+                          value: _vm.$v.password.$model,
+                          expression: "$v.password.$model",
+                          modifiers: { lazy: true }
+                        }
+                      ],
+                      staticClass: "form-input mt-1 block w-full",
+                      class: _vm.$v.password.$error ? " border-red-500" : null,
+                      attrs: {
+                        id: "inputPassword",
+                        placeholder: "Password",
+                        type: "password"
+                      },
+                      domProps: { value: _vm.$v.password.$model },
+                      on: {
+                        change: function($event) {
+                          return _vm.$set(
+                            _vm.$v.password,
+                            "$model",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm.$v.password.$dirty
+                    ? _c("div", [
+                        !_vm.$v.password.required
+                          ? _c(
+                              "p",
+                              { staticClass: "text-red-500 text-xs italic" },
+                              [
+                                _vm._v(
+                                  "Please enter your\n                                Password."
+                                )
+                              ]
                             )
-                          ])
-                        : _vm._e()
-                    ])
-                  : _vm._e(),
+                          : _vm._e(),
+                        _vm._v(" "),
+                        !_vm.$v.password.minLength
+                          ? _c(
+                              "p",
+                              { staticClass: "text-red-500 text-xs italic" },
+                              [
+                                _vm._v(
+                                  "Password must have\n                                at least " +
+                                    _vm._s(
+                                      _vm.$v.password.$params.minLength.min
+                                    ) +
+                                    " characters.\n                            "
+                                )
+                              ]
+                            )
+                          : _vm._e()
+                      ])
+                    : _vm._e()
+                ]),
                 _vm._v(" "),
                 _vm._m(0)
               ]
@@ -30588,43 +30632,12 @@ var actions = {
     return axios.post('/api/v1/auth/login', credentials).then(function (response) {
       commit('LOGIN', response.data);
     });
-    /* .catch(function (error) {
-          const notification = {
-             type: 'error',
-             message: 'There was a problem creating your event: '/!* + error.response.data*!/
-         };
-         dispatch('notifications/add', notification, {root: true})
-         throw error.message;
-         // Error
-         /!* if (error.response) {
-                // The request was made and the server responded with a status code
-              // that falls out of the range of 2xx
-              console.log('The request was made and the server responded with a status code')
-              console.log(error.response.data);
-              console.log(error.response.status);
-              console.log(error.response.headers);
-          } else if (error.request) {
-              // The request was made but no response was received
-              // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-              // http.ClientRequest in node.js
-              console.log('The request was made but no response was received')
-              console.log(error.request);
-          } else {
-              console.log('Something happened in setting up the request that triggered an Error')
-              console.log('Error', error.message);
-          }
-          console.log(error.config);*!/
-     });*/
   },
   logout: function logout(_ref4) {
     var commit = _ref4.commit;
     return axios.post('/api/v1/auth/logout').then(function () {
       commit('LOGOUT');
     });
-    /*.catch(error => {
-         console.error(error);
-        console.log(error)
-    });*/
   },
   fetchToken: function fetchToken(_ref5, token) {
     var commit = _ref5.commit;

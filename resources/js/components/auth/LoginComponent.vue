@@ -10,28 +10,40 @@
 
                     <form class="bg-gray-100" @submit.prevent="login">
 
-                        <div class="px-6 pt-6">
-                            <label for="inputEmail" class="block text-gray-700 text-sm font-bold">E-mail Address</label>
-                            <input autofocus class="form-input mt-1 block w-full" id="inputEmail"
-                                   placeholder="Email address"
-                                   type="text" v-model.lazy="$v.email.$model">
-                        </div>
-
-                        <div v-if="$v.email.$dirty">
-                            <p class="error-login" v-if="!$v.email.email">Please enter a valid E-mail address.</p>
-                            <p class="error-login" v-if="!$v.email.required">Email is required.</p>
-                        </div>
-
-
                         <div class="px-6 py-6">
-                            <label class="block text-gray-700 text-sm font-bold" for="inputPassword">Password</label>
-                            <input class="form-input mt-1 block w-full" id="inputPassword" placeholder="Password"
-                                   type="password" v-model.lazy="$v.password.$model">
+                            <div>
+                                <label for="inputEmail" class="block text-gray-700 text-sm font-bold">E-mail
+                                    Address</label>
+                                <input autofocus class="form-input mt-1 block w-full"
+                                       :class="$v.email.$error ? ' border-red-500' : null" id="inputEmail"
+                                       placeholder="Email address"
+                                       type="text" v-model.lazy="$v.email.$model">
+                            </div>
+                            <div v-if="$v.email.$dirty">
+                                <p class="text-red-500 text-xs italic" v-if="!$v.email.email">Please enter a valid
+                                    E-mail
+                                    address.</p>
+                                <p class="text-red-500 text-xs italic" v-if="!$v.email.required">Email is required.</p>
+                            </div>
                         </div>
-                        <div v-if="$v.password.$dirty">
-                            <p class="" v-if="!$v.password.required">Please enter your Password.</p>
-                            <p class="" v-if="!$v.password.minLength">Password must have at least
-                                {{ $v.password.$params.minLength.min }} characters.</p>
+
+
+                        <div class="px-6 pb-6">
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold"
+                                       for="inputPassword">Password</label>
+                                <input class="form-input mt-1 block w-full"
+                                       :class="$v.password.$error ? ' border-red-500' : null" id="inputPassword"
+                                       placeholder="Password"
+                                       type="password" v-model.lazy="$v.password.$model">
+                            </div>
+                            <div v-if="$v.password.$dirty">
+                                <p class="text-red-500 text-xs italic" v-if="!$v.password.required">Please enter your
+                                    Password.</p>
+                                <p class="text-red-500 text-xs italic" v-if="!$v.password.minLength">Password must have
+                                    at least {{ $v.password.$params.minLength.min }} characters.
+                                </p>
+                            </div>
                         </div>
 
 

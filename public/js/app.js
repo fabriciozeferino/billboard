@@ -2045,7 +2045,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2078,30 +2077,24 @@ __webpack_require__.r(__webpack_exports__);
           });
         })["catch"](function (error) {
           var notification = {
-            type: '',
+            type: 'error',
             title: '',
             text: ''
           };
 
           if (error.response) {
-            notification.type = 'error';
             notification.title = error.response.status;
             notification.text = error.response.data.status;
-            console.log('The request was made and the server responded with a status code');
 
             if (error.response.status === 422) {
               notification.text = 'Try again!';
             }
           } else if (error.request) {
-            notification.type = 'error';
             notification.title = 'The request was made but no response was received';
             notification.text = error.request;
-            console.log('The request was made but no response was received');
           } else {
-            notification.type = 'error';
             notification.title = 'Something happened in setting up the request that triggered an Error';
             notification.text = error.message;
-            console.log('Something happened in setting up the request that triggered an Error');
           }
 
           swal.fire(notification);
@@ -10613,7 +10606,7 @@ var render = function() {
                               { staticClass: "text-red-500 text-xs italic" },
                               [
                                 _vm._v(
-                                  "Please enter a valid\n                                E-mail\n                                address."
+                                  "\n                                Please enter a valid E-mail address.\n                            "
                                 )
                               ]
                             )
@@ -10623,7 +10616,11 @@ var render = function() {
                           ? _c(
                               "p",
                               { staticClass: "text-red-500 text-xs italic" },
-                              [_vm._v("Email is required.")]
+                              [
+                                _vm._v(
+                                  "\n                                Email is required.\n                            "
+                                )
+                              ]
                             )
                           : _vm._e()
                       ])
@@ -10656,6 +10653,7 @@ var render = function() {
                       attrs: {
                         id: "inputPassword",
                         placeholder: "Password",
+                        autofocus: "",
                         type: "password"
                       },
                       domProps: { value: _vm.$v.password.$model },
@@ -10679,7 +10677,7 @@ var render = function() {
                               { staticClass: "text-red-500 text-xs italic" },
                               [
                                 _vm._v(
-                                  "Please enter your\n                                Password."
+                                  "\n                                Please enter your Password.\n                            "
                                 )
                               ]
                             )
@@ -10691,7 +10689,7 @@ var render = function() {
                               { staticClass: "text-red-500 text-xs italic" },
                               [
                                 _vm._v(
-                                  "Password must have\n                                at least " +
+                                  "\n                                Password must have at least " +
                                     _vm._s(
                                       _vm.$v.password.$params.minLength.min
                                     ) +
@@ -10737,11 +10735,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "text-grey-700 text-sm text-center" }, [
-      _vm._v("\n\n            Don't have an account?\n            "),
+      _vm._v("\n            Don't have an account?\n            "),
       _c("a", { staticClass: "text-blue-600 font-bold", attrs: { href: "" } }, [
         _vm._v("Create")
       ]),
-      _vm._v("\n\n            Already have an account?\n            "),
+      _vm._v("\n            Already have an account?\n            "),
       _c("a", { staticClass: "text-blue-600 font-bold", attrs: { href: "" } }, [
         _vm._v("Sign in")
       ])

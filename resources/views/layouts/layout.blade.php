@@ -1,3 +1,4 @@
+{{--
 <!DOCTYPE html>
 <html class="h-full bg-gray-100" lang="en">
 <head>
@@ -35,3 +36,4 @@
 </div>
 </body>
 </html>
+--}}

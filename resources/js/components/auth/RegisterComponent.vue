@@ -5,11 +5,27 @@
                 <div>
                     <div
                         class="border-b py-8 font-bold text-black text-center text-xl tracking-widest uppercase bg-white">
-                        Login
+                        Register
                     </div>
-                    <form class="bg-gray-100" @submit.prevent="login">
+
+                    <form class="bg-gray-100" @submit.prevent="register">
 
                         <div class="px-6 py-6">
+                            <div>
+                                <label for="inputName" class="block text-gray-700 text-sm font-bold">Name</label>
+                                <input autofocus class="form-input mt-1 block w-full"
+                                       :class="$v.name.$error ? ' border-red-500' : null" id="inputName"
+                                       placeholder="Type your full name"
+                                       type="text" v-model.lazy="$v.name.$model">
+                            </div>
+                            <div v-if="$v.name.$dirty">
+                                <p class="text-red-500 text-xs italic" v-if="!$v.name.required">
+                                    Name is required.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="px-6 pb-6">
                             <div>
                                 <label for="inputEmail" class="block text-gray-700 text-sm font-bold">E-mail
                                     Address</label>
@@ -23,7 +39,7 @@
                                     Please enter a valid E-mail address.
                                 </p>
                                 <p class="text-red-500 text-xs italic" v-if="!$v.email.required">
-                                    Email is required.
+                                    E-mail is required.
                                 </p>
                             </div>
                         </div>
@@ -39,7 +55,7 @@
                             </div>
                             <div v-if="$v.password.$dirty">
                                 <p class="text-red-500 text-xs italic" v-if="!$v.password.required">
-                                    Please enter your Password.
+                                    Password is required.
                                 </p>
                                 <p class="text-red-500 text-xs italic" v-if="!$v.password.minLength">
                                     Password must have at least {{ $v.password.$params.minLength.min }} characters.
@@ -47,42 +63,64 @@
                             </div>
                         </div>
 
-
-                        <div class="border-t p-6 bg-white">
-                            <div class="flex justify-between items-center">
-                                <button class="btn-blue" type="submit">Sign in</button>
-                                <a class="px-6 py-3 text-blue-800 text-sm font-bold">Forgot Your Password?</a>
+                        <div class="px-6 pb-6">
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold"
+                                       for="inputPasswordConfirmation">Confirm Password</label>
+                                <input class="form-input mt-1 block w-full"
+                                       :class="$v.password_confirmation.$error ? ' border-red-500' : null"
+                                       id="inputPasswordConfirmation"
+                                       placeholder="Password" autofocus
+                                       type="password" v-model.lazy="$v.password_confirmation.$model">
+                            </div>
+                            <div v-if="$v.password_confirmation.$dirty">
+                                <p class="text-red-500 text-xs italic" v-if="!$v.password_confirmation.required">
+                                    Confirm Password is required
+                                </p>
+                                <p class="text-red-500 text-xs italic" v-if="!$v.password_confirmation.sameAsPassword">
+                                    Passwords must be identical.
+                                </p>
                             </div>
                         </div>
 
+                        <div class="border-t p-6 bg-white">
+                            <div class="flex justify-between items-center">
+                                <button class="btn-blue" type="submit">Register</button>
+                                <a class="px-6 py-3 text-blue-800 text-sm font-bold">Welcome!</a>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
 
             <div class="text-grey-700 text-sm text-center">
                 Don't have an account?
-                <router-link class="py-3 text-blue-600 hover:text-blue-800 font-bold " :to="{ name: 'register' }">
-                    Create
+                <router-link class="py-3 text-blue-600 hover:text-blue-800 font-bold " :to="{ name: 'login' }">
+                    Sign in
                 </router-link>
 
-                <!--<a class="text-blue-600 font-bold" href="">Sign in</a>-->
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import {email, minLength, required} from 'vuelidate/lib/validators'
+    import {email, minLength, required, sameAs} from 'vuelidate/lib/validators'
 
     export default {
         data() {
             return {
+                name: '',
                 email: '',
-                password: ''
+                password: '',
+                password_confirmation: ''
             }
         },
 
         validations: {
+            name: {
+                required,
+            },
             email: {
                 required,
                 email
@@ -90,16 +128,22 @@
             password: {
                 required,
                 minLength: minLength(6)
+            },
+            password_confirmation: {
+                required,
+                sameAsPassword: sameAs('password')
             }
         },
 
         methods: {
-            login() {
+            register() {
                 if (!this.$v.$invalid) {
                     this.$store
-                        .dispatch('auth/login', {
+                        .dispatch('auth/register', {
+                            name: this.name,
                             email: this.email,
-                            password: this.password
+                            password: this.password,
+                            password_confirmation: this.password_confirmation,
                         })
                         .then(() => this.$router.push({name: 'home'})
                         )

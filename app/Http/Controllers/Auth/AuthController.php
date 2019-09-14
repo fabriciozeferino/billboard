@@ -14,6 +14,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
+
     /**
      * Get a JWT via given credentials.
      *
@@ -26,7 +27,8 @@ class AuthController extends Controller
 
         if (!$token = $this->guard()->attempt($credentials)) {
             return response()->json([
-                'status' => 'Username or Password incorrect'
+                'status' => 'error',
+                'message' => 'Username or Password incorrect'
             ], 401);
         }
 
@@ -50,20 +52,11 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
-
         return response()->json([
             'token' => $token,
             'user' => Auth::user()
         ], 200);
     }
-
-    public function loginUserWithToken($token)
-    {
-        //$this->guard()->loginUsingId($credentials)
-
-        return $this->respondWithToken($token);
-    }
-
 
     /**
      * Log the user out (Invalidate the token).

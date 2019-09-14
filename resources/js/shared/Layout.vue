@@ -51,12 +51,10 @@
                     <div v-if="isLoggedIn" class="bg-blue-800 flex-no-shrink w-56 px-6 py-4 hidden md:block">
                         <main-menu/>
                     </div>
-                    <div class="w-full overflow-hidden px-4 py-8 md:p-12">
+                    <div class="w-full overflow-hidden px-4 py-8 md:p-12 bg-gray-200">
 
                         <router-view></router-view>
 
-                        <!--<flash-messages />
-                        <slot />-->
                     </div>
                 </div>
             </div>
@@ -82,7 +80,6 @@
 
         components: {
             Dropdown,
-            /*FlashMessages,*/
             Logo,
             MainMenu,
             Icon,

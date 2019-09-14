@@ -3,7 +3,9 @@
 namespace Tests;
 
 use App\User;
+use Auth;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -11,10 +13,30 @@ abstract class TestCase extends BaseTestCase
 
     protected function signIn($user = null)
     {
-        $user = $user ?: factory('App\User')->create();
+        $user = $user ?: factory(User::class)->create();
 
-        $this->actingAs($user);
+        $credentials = [
+            'email' => $user->email,
+            'password' => 'password'
+        ];
 
-        return $user;
+        $response = $this->json('POST', '/api/v1/auth/login', $credentials);
+
+        $response_data = $response->decodeResponseJson();
+
+        $headers = [
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'HTTP_Authorization' => 'Bearer ' . (string) $response_data['token'],
+        ];
+
+        $this->actingAs($user, 'api')
+            ->withHeaders($headers);
+
+
+        return [
+            'user' => $user,
+            'token' => $response_data['token']
+        ];
     }
 }

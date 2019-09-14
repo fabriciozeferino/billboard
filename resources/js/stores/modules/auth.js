@@ -53,10 +53,14 @@ export const mutations = {
 export const actions = {
 
     register({commit}, credentials) {
+
+        console.log(credentials)
         return axios
-            .post('//localhost:3000/register', credentials)
-            .then(({data}) => {
-                commit('SET_USER_DATA', data)
+            .post('/api/v1/auth/register', credentials)
+            .then(response => {
+
+                console.log(response.data);
+                commit('LOGIN', response.data)
             })
     },
 

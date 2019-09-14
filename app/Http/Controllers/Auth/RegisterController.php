@@ -1,72 +1,1 @@
-<?php
-
-namespace App\Http\Controllers\Auth;
-
-use App\User;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
-
-class RegisterController extends Controller
-{
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
-    use RegistersUsers;
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
-
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-    }
-
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-    }
-}
+<?phpnamespace App\Http\Controllers\Auth;use App\Http\Requests\RegisterUserRequest;use App\User;use App\Http\Controllers\Controller;use Auth;use Illuminate\Http\Request;use Illuminate\Support\Facades\Hash;use Illuminate\Support\Facades\Validator;use Illuminate\Foundation\Auth\RegistersUsers;class RegisterController extends Controller{    public function register(RegisterUserRequest $request)    {        // Create user        $user = $this->create($request->validated());        // Sign user in        $user_token = $this->guard()->login($user);        // Return Token        return $this->respondWithToken($user_token,201);    }    /**     * Return auth guard     */    private function guard()    {        return Auth::guard('api');    }    /**     * Get the token array structure.     *     * @param string $token     *     * @param $status     * @return \Illuminate\Http\JsonResponse     */    protected function respondWithToken($token, $status)    {        return response()->json([            'token' => $token,            'user' => Auth::user()        ], $status);    }    /**     * Get a validator for an incoming registration request.     *     * @param  array  $data     * @return \Illuminate\Contracts\Validation\Validator     */    protected function validator(array $data)    {        return Validator::make($data, [            'name' => ['required', 'string', 'max:255'],            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],            'password' => ['required', 'string', 'min:8', 'confirmed'],        ]);    }    /**     * Create a new user instance after a valid registration.     *     * @param  array  $data     * @return \App\User     */    protected function create(array $data)    {        return User::create([            'name' => $data['name'],            'email' => $data['email'],            'password' => Hash::make($data['password']),        ]);    }}

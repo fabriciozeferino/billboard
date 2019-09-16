@@ -1,8 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
-
 Route::prefix('v1')->group(function () {
 
     // Auth
@@ -10,9 +7,9 @@ Route::prefix('v1')->group(function () {
 
         Route::post('register', 'Auth\RegisterController@register');
 
-        Route::post('login', 'Auth\AuthController@login');
+        Route::post('login', 'Auth\LoginController@login');
 
-        Route::post('logout', 'Auth\AuthController@logout');
+        Route::post('logout', 'Auth\LoginController@logout');
 
         Route::get('refresh', 'Auth\AuthController@refresh');
 

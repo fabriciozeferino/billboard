@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginRequest;
-use Auth;
+
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
@@ -12,66 +10,8 @@ use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 
-class AuthController extends Controller
+class AuthController extends AbstractAuth
 {
-
-    /**
-     * Get a JWT via given credentials.
-     *
-     * @param LoginRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function login(LoginRequest $request)
-    {
-        $credentials = $request->only(['email', 'password']);
-
-        if (!$token = $this->guard()->attempt($credentials)) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Username or Password incorrect'
-            ], 401);
-        }
-
-        return $this->respondWithToken($token);
-    }
-
-    /**
-     * Return auth guard
-     */
-    private function guard()
-    {
-        return Auth::guard('api');
-    }
-
-    /**
-     * Get the token array structure.
-     *
-     * @param string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function respondWithToken($token)
-    {
-        return response()->json([
-            'token' => $token,
-            'user' => Auth::user()
-        ], 200);
-    }
-
-    /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function logout()
-    {
-        $this->guard()->logout();
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Logged out Successfully.'
-        ], 200);
-    }
 
     /**
      * Refresh a token.
@@ -80,7 +20,7 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        return $this->respondWithToken(auth()->refresh());
+        return $this->respondWithToken(auth()->refresh(), 200);
     }
 
     /**
@@ -108,10 +48,9 @@ class AuthController extends Controller
         } catch (JWTException $e) {
 
             return response()->json('token_absent', 401);
-
         }
 
         //TODO : refresh token when refresh page $this->guard()->refresh()
-        return $this->respondWithToken($token);
+        return $this->respondWithToken($token['token'], 200);
     }
 }

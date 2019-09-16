@@ -110,27 +110,12 @@
                         .catch(function (error) {
                             let notification = {
                                 type: 'error',
-                                title: '',
-                                text: ''
+                                title: 'Oops!',
                             };
 
-                            if (error.response) {
-                                notification.title = error.response.status;
-                                notification.text = error.response.data.status;
-
-                                if (error.response.status === 422) {
-                                    notification.text = 'Try again!';
-                                }
-
-                            } else if (error.request) {
-                                notification.title = 'The request was made but no response was received';
-                                notification.text = error.request;
-
-                            } else {
-                                notification.title = 'Something happened in setting up the request that triggered an Error';
-                                notification.text = error.message;
+                            if (error.response.data.status === 'error') {
+                                notification.text = error.response.data.message;
                             }
-
                             swal.fire(notification);
                         });
                 }

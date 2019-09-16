@@ -2,40 +2,43 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\User;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
+use App\Http\Requests\Auth\LoginRequest;
 
-class LoginController extends Controller
+class LoginController extends AbstractAuth
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
-    use AuthenticatesUsers;
-
     /**
-     * Where to redirect users after login.
+     * Get a JWT via given credentials.
      *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
      *
-     * @return void
+     * @param LoginRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function __construct()
+    public function login(LoginRequest $request)
     {
-        $this->middleware('guest')->except('logout');
+        $credentials = $request->only(['email', 'password']);
+
+        if (!$token = $this->guard()->attempt($credentials)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Username or Password incorrect'
+            ], 401);
+        }
+
+        return $this->respondWithToken($token, 200);
+    }
+
+    /**
+     * Log the user out (Invalidate the token).
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout()
+    {
+        $this->guard()->logout();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Logged out Successfully.'
+        ], 200);
     }
 }

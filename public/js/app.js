@@ -2047,6 +2047,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2068,6 +2069,8 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     login: function login() {
       var _this = this;
+
+      this.$v.$touch();
 
       if (!this.$v.$invalid) {
         this.$store.dispatch('auth/login', {
@@ -2225,6 +2228,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2256,6 +2264,8 @@ __webpack_require__.r(__webpack_exports__);
     register: function register() {
       var _this = this;
 
+      this.$v.$touch();
+
       if (!this.$v.$invalid) {
         this.$store.dispatch('auth/register', {
           name: this.name,
@@ -2278,7 +2288,15 @@ __webpack_require__.r(__webpack_exports__);
             notification.text = error.response.data.status;
 
             if (error.response.status === 422) {
-              notification.text = 'Try again!';
+              var errors = error.response.data.errors;
+              var list = "<ul>";
+
+              for (var prop in errors) {
+                list += "<li>".concat(errors[prop], "</li>");
+              }
+
+              list += "</lu>";
+              notification.html = list;
             }
           } else if (error.request) {
             notification.title = 'The request was made but no response was received';
@@ -10889,7 +10907,34 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _vm._m(0)
+                _c("div", { staticClass: "border-t p-6 bg-white" }, [
+                  _c(
+                    "div",
+                    { staticClass: "flex justify-between items-center " },
+                    [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn-blue",
+                          class: this.$v.$invalid
+                            ? " opacity-75 cursor-not-allowed bg-blue-800 hover:bg-blue-800 focus:bg-blue-800"
+                            : null,
+                          attrs: { type: "submit" }
+                        },
+                        [_vm._v("Sign in\n                            ")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass:
+                            "px-6 py-3 text-blue-800 text-sm font-bold"
+                        },
+                        [_vm._v("Forgot Your Password?")]
+                      )
+                    ]
+                  )
+                ])
               ]
             )
           ])
@@ -10904,7 +10949,7 @@ var render = function() {
           _c(
             "router-link",
             {
-              staticClass: "py-3 text-blue-600 hover:text-blue-800 font-bold ",
+              staticClass: "py-3 text-blue-600 hover:text-blue-800 font-bold",
               attrs: { to: { name: "register" } }
             },
             [_vm._v("\n                Create\n            ")]
@@ -10915,24 +10960,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "border-t p-6 bg-white" }, [
-      _c("div", { staticClass: "flex justify-between items-center" }, [
-        _c("button", { staticClass: "btn-blue", attrs: { type: "submit" } }, [
-          _vm._v("Sign in")
-        ]),
-        _vm._v(" "),
-        _c("a", { staticClass: "px-6 py-3 text-blue-800 text-sm font-bold" }, [
-          _vm._v("Forgot Your Password?")
-        ])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -11267,7 +11295,25 @@ var render = function() {
                     : _vm._e()
                 ]),
                 _vm._v(" "),
-                _vm._m(0)
+                _c("div", { staticClass: "border-t p-6 bg-white" }, [
+                  _c(
+                    "div",
+                    { staticClass: "flex justify-between items-center" },
+                    [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn-blue",
+                          class: this.$v.$invalid
+                            ? " opacity-75 cursor-not-allowed bg-blue-800 hover:bg-blue-800 focus:bg-blue-800"
+                            : null,
+                          attrs: { type: "submit" }
+                        },
+                        [_vm._v("Register\n                            ")]
+                      )
+                    ]
+                  )
+                ])
               ]
             )
           ])
@@ -11293,24 +11339,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "border-t p-6 bg-white" }, [
-      _c("div", { staticClass: "flex justify-between items-center" }, [
-        _c("button", { staticClass: "btn-blue", attrs: { type: "submit" } }, [
-          _vm._v("Register")
-        ]),
-        _vm._v(" "),
-        _c("a", { staticClass: "px-6 py-3 text-blue-800 text-sm font-bold" }, [
-          _vm._v("Welcome!")
-        ])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

@@ -3,6 +3,7 @@
         <div class="w-full max-w-md">
             <div class="block mx-auto w-full max-w-sm bg-white my-6 shadow-lg rounded-lg overflow-hidden">
                 <div>
+
                     <div
                         class="border-b py-8 font-bold text-black text-center text-xl tracking-widest uppercase bg-white">
                         Register
@@ -85,10 +86,14 @@
 
                         <div class="border-t p-6 bg-white">
                             <div class="flex justify-between items-center">
-                                <button class="btn-blue" type="submit">Register</button>
-                                <a class="px-6 py-3 text-blue-800 text-sm font-bold">Welcome!</a>
+                                <button class="btn-blue"
+                                        :class="this.$v.$invalid ? ' opacity-75 cursor-not-allowed bg-blue-800 hover:bg-blue-800 focus:bg-blue-800' : null"
+                                        type="submit">Register
+                                </button>
+                                <!--<a class="px-6 py-3 text-blue-800 text-sm font-bold">Welcome!</a>-->
                             </div>
                         </div>
+
                     </form>
                 </div>
             </div>
@@ -137,6 +142,9 @@
 
         methods: {
             register() {
+
+                this.$v.$touch();
+
                 if (!this.$v.$invalid) {
                     this.$store
                         .dispatch('auth/register', {
@@ -159,7 +167,15 @@
                                 notification.text = error.response.data.status;
 
                                 if (error.response.status === 422) {
-                                    notification.text = 'Try again!';
+                                    const errors = error.response.data.errors;
+
+                                    let list = `<ul>`;
+                                    for (const prop in errors) {
+                                        list += `<li>${errors[prop]}</li>`;
+                                    }
+                                    list += `</lu>`;
+
+                                    notification.html = list;
                                 }
 
                             } else if (error.request) {
@@ -176,5 +192,6 @@
                 }
             }
         }
+
     }
 </script>

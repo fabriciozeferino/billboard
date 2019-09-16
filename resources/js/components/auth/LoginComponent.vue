@@ -49,8 +49,11 @@
 
 
                         <div class="border-t p-6 bg-white">
-                            <div class="flex justify-between items-center">
-                                <button class="btn-blue" type="submit">Sign in</button>
+                            <div class="flex justify-between items-center ">
+                                <button class="btn-blue"
+                                        :class="this.$v.$invalid ? ' opacity-75 cursor-not-allowed bg-blue-800 hover:bg-blue-800 focus:bg-blue-800' : null"
+                                        type="submit">Sign in
+                                </button>
                                 <a class="px-6 py-3 text-blue-800 text-sm font-bold">Forgot Your Password?</a>
                             </div>
                         </div>
@@ -61,11 +64,9 @@
 
             <div class="text-grey-700 text-sm text-center">
                 Don't have an account?
-                <router-link class="py-3 text-blue-600 hover:text-blue-800 font-bold " :to="{ name: 'register' }">
+                <router-link class="py-3 text-blue-600 hover:text-blue-800 font-bold" :to="{ name: 'register' }">
                     Create
                 </router-link>
-
-                <!--<a class="text-blue-600 font-bold" href="">Sign in</a>-->
             </div>
         </div>
     </div>
@@ -95,6 +96,9 @@
 
         methods: {
             login() {
+
+                this.$v.$touch();
+
                 if (!this.$v.$invalid) {
                     this.$store
                         .dispatch('auth/login', {

@@ -68,7 +68,7 @@
             const token = localStorage.getItem('token');
 
             if (token) {
-                this.$store.dispatch('auth/fetchToken', token);
+                this.$store.dispatch('auth/fetchToken', token);//.then(data => console.log(data).catch(error => console.log(error)));
             }
         }
     }

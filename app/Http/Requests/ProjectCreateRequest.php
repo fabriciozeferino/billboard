@@ -41,6 +41,7 @@ class ProjectCreateRequest extends FormRequest
             'title' => $this->get('title'),
             'description' => $this->get('description'),
             'owner_id' => (int)auth()->id(),
+            'notes' => $this->get('notes')
         ]);
 
         /*if (is_array($items = $this->get('items', []))) {

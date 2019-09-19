@@ -48,6 +48,6 @@ class Project extends AbstractModel
      */
     public function path()
     {
-        return "/projects/{$this->id}";
+        return "/api/v1/projects/{$this->id}";
     }
 }

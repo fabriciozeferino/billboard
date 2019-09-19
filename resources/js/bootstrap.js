@@ -10,7 +10,6 @@ window.axios.defaults.headers.common = {
 
 
 const JWTtoken = localStorage.getItem('token');
-
 if (JWTtoken) {
     window.axios.defaults.headers.common['Authorization'] = JWTtoken;
 }

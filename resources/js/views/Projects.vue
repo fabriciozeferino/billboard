@@ -18,13 +18,15 @@
         created() {
             this.fetchData();
         },
+
         methods: {
             fetchData() {
+
                 axios.get('/api/v1/projects')
                     .then(response => {
                         this.projects = response.data
                     }).catch(error => {
-                     console.error(error)
+                     console.error(error.response)
                 })
             }
         },

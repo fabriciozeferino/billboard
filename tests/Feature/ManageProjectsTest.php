@@ -17,57 +17,77 @@ class ManageProjectsTest extends TestCase
     {
         $project = ProjectFactory::create();
 
-        $this->get('/projects')->assertRedirect('login');
-        $this->get($project->path())->assertRedirect('login');
-        $this->delete($project->path())->assertRedirect('login');
-        $this->get('/projects/create')->assertRedirect('login');
-        $this->post('/projects', $project->toArray())->assertRedirect('login');
-        $this->get($project->path() . '/edit')->assertRedirect('login');
+        $header = ['Content-Type' => 'application/json'];
+        $response_401 = [
+            'message'
+        ];
+
+        $this->json('GET', 'api/v1/projects', $header)
+            ->assertStatus(401)
+            ->assertJsonStructure($response_401);
+
+        $this->json('GET', $project->path(), $header)
+            ->assertStatus(401)
+            ->assertJsonStructure($response_401);
+
+        $this->json('POST', 'api/v1/projects', $header, $project->toArray())
+            ->assertStatus(401)
+            ->assertJsonStructure($response_401);
+
+        $this->json('GET', $project->path() . '/edit', $header)
+            ->assertStatus(401)
+            ->assertJsonStructure($response_401);
+
+
+        $this->json('DELETE', $project->path(), $header)
+            ->assertStatus(401)
+            ->assertJsonStructure($response_401);
+
+        $this->assertGuest();
     }
 
 
     /** @test */
     public function a_user_can_create_a_project()
     {
+        $this->withoutExceptionHandling();
         $this->signIn();
 
-        $this->get('/projects/create')->assertStatus(200);
+        $this->assertAuthenticated();
+
+        /*$this->json('GET', '/api/v1/projects/create')
+            ->assertStatus(200);*/
 
         $attributes = factory(Project::class)->raw(["owner_id" => auth()->id()]);
 
-        $response = $this->post('/projects', $attributes);
+        $response = $this->json('POST', 'api/v1/projects', $attributes);
 
-        $response->assertStatus(302);
+        $response->assertStatus(201);
 
         $this->assertDatabaseHas('projects', $attributes);
-
-        $project = Project::where($attributes)->first();
-
-        $this->get($project->path())
-            ->assertSee($attributes['title'])
-            ->assertSee($attributes['description']);
     }
 
 
     /** @test */
     public function an_authenticated_user_can_update_a_project()
     {
-        //$this->withoutExceptionHandling();
-        $project = ProjectFactory::create();
+        $this->withoutExceptionHandling();
+        $response = $this->signIn();
+        $this->assertAuthenticated();
+
+        $project = ProjectFactory::ownedBy($response['user'])->create();
 
         $randon_fields = factory(Project::class)->raw(["owner_id" => $project->owner_id]);
 
-        $this->actingAs($project->owner)
-            ->patch($project->path(), $randon_fields);
+
+        /*$this->actingAs($project->owner)
+            ->patch($project->path(), $randon_fields);*/
+
+        $response = $this->json('PUT', $project->path(), $randon_fields);
+
+        $response->assertStatus(200);
 
         $this->assertDatabaseHas('projects', $randon_fields);
-
-        foreach ($randon_fields as $value) {
-            $this->get($project->path())->assertSee($value);
-        }
-
-        $this->get($project->path() . '/edit')->assertStatus(200);
-
     }
 
     /** @test */
@@ -82,6 +102,7 @@ class ManageProjectsTest extends TestCase
 
         $this->assertDatabaseMissing('projects', $project->only('id'));
     }
+
     /** @test */
     public function an_authenticated_user_can_not_delete_a_project_of_others()
     {
@@ -134,7 +155,19 @@ class ManageProjectsTest extends TestCase
 
         $attributes = factory(Project::class)->raw(['title' => '']);
 
-        $this->post('/projects', $attributes)->assertSessionHasErrors('title');
+        $response = $this->json('post', 'api/v1/projects', $attributes);
+
+        $response->assertStatus(422);
+
+        $message = $response->decodeResponseJson()['message'];
+
+        $response->assertJson([
+            "message" => $message,
+            "errors" => [
+                "title" => [
+                ]
+            ]
+        ]);
     }
 
 
@@ -146,6 +179,18 @@ class ManageProjectsTest extends TestCase
 
         $attributes = factory(Project::class)->raw(['description' => '']);
 
-        $this->post('/projects', $attributes)->assertSessionHasErrors('description');
+        $response = $this->json('post', 'api/v1/projects', $attributes);
+
+        $response->assertStatus(422);
+
+        $message = $response->decodeResponseJson()['message'];
+
+        $response->assertJson([
+            "message" => $message,
+            "errors" => [
+                "description" => [
+                ]
+            ]
+        ]);
     }
 }

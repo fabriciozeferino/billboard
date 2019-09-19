@@ -1904,7 +1904,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var token = localStorage.getItem('token');
 
     if (token) {
-      this.$store.dispatch('auth/fetchToken', token);
+      this.$store.dispatch('auth/fetchToken', token); //.then(data => console.log(data).catch(error => console.log(error)));
     }
   }
 });
@@ -2737,7 +2737,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/api/v1/projects').then(function (response) {
         _this.projects = response.data;
       })["catch"](function (error) {
-        console.error(error);
+        console.error(error.response);
       });
     }
   },
@@ -11352,7 +11352,10 @@ var render = function() {
   return _c("div", { staticClass: "mt-6 w-full px-4 lg:w-1/2 xl:w-1/3" }, [
     _c(
       "div",
-      { staticClass: "border rounded-lg p-6 overflow-hidden shadow-lg w-full" },
+      {
+        staticClass:
+          "border rounded-lg p-6 overflow-hidden shadow-lg w-full bg-gray-100"
+      },
       [
         _c(
           "div",
@@ -11896,7 +11899,7 @@ var render = function() {
                     "div",
                     {
                       staticClass:
-                        "bg-blue-800 flex-no-shrink w-56 px-6 py-4 hidden md:block"
+                        "bg-blue-800 flex-no-shrink w-56 px-4 py-4 hidden md:block"
                     },
                     [_c("main-menu")],
                     1
@@ -11907,7 +11910,7 @@ var render = function() {
                 "div",
                 {
                   staticClass:
-                    "w-full overflow-hidden px-4 py-8 md:p-12 bg-gray-200"
+                    "w-full overflow-hidden px-4 py-4 md:p-5 bg-gray-200"
                 },
                 [_c("router-view")],
                 1
@@ -31268,7 +31271,7 @@ var mutations = {
     state.loggedIn = false; //location.reload()
   },
   UPDATE_TOKEN: function UPDATE_TOKEN(state, data) {
-    var token = data.token.token;
+    var token = data.token;
     var user = data.user;
     state.token = token;
     state.user = user;
@@ -31279,9 +31282,7 @@ var mutations = {
 var actions = {
   register: function register(_ref, credentials) {
     var commit = _ref.commit;
-    console.log(credentials);
     return axios.post('/api/v1/auth/register', credentials).then(function (response) {
-      console.log(response.data);
       commit('LOGIN', response.data);
     });
   },
@@ -31305,7 +31306,7 @@ var actions = {
     }).then(function (response) {
       commit('UPDATE_TOKEN', response.data);
     })["catch"](function (error) {
-      console.error(error);
+      console.error(error.response);
       commit('LOGOUT');
     });
   }

@@ -11,7 +11,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\View\View;
-
+use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
@@ -38,9 +38,9 @@ class ProjectController extends Controller
      */
     public function store(ProjectCreateRequest $request, Project $project)
     {
-        $project->create($request->all());
+        $project = $project->create($request->all());
 
-        return redirect($project->path());
+        return response()->json($project, 201);
     }
 
     /**
@@ -61,7 +61,10 @@ class ProjectController extends Controller
     {
         $project->update($request->all());
 
-        return redirect()->back(302)->with('success', 'Register updated successful');
+        return response()->json([
+            'status' => 'successfully',
+            'message' => 'Updated successfully'
+        ], 200);
     }
 
     /**

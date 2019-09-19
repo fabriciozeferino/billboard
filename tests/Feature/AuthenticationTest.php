@@ -15,7 +15,7 @@ class AuthenticationTest extends TestCase
     /**  @test */
     public function register_page_displayed()
     {
-        $response = $this->get('/register');
+        $response = $this->json('GET','/api/v1/auth/register', []);
         $response->assertStatus(200);
     }
 
@@ -41,8 +41,6 @@ class AuthenticationTest extends TestCase
         ]);
 
         $response_data = $response->decodeResponseJson();
-
-//dd($response_data);
 
         $user_instance = User::find($response_data['user']['id']);
         $this->assertAuthenticatedAs($user_instance);
@@ -108,9 +106,7 @@ class AuthenticationTest extends TestCase
     {
         $data = $this->signIn();
 
-        $token = $data['token'];
-
-        $response = $this->json('POST', '/api/v1/auth/check-token', ['token' => $token]);
+        $response = $this->json('POST', '/api/v1/auth/check-token', ['token' => $data['token']]);
 
         $response->assertStatus(200);
 

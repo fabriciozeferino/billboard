@@ -37,7 +37,7 @@ export const mutations = {
     },
 
     UPDATE_TOKEN(state, data) {
-        const token = data.token.token;
+        const token = data.token;
         const user = data.user;
 
         state.token = token;
@@ -53,13 +53,9 @@ export const mutations = {
 export const actions = {
 
     register({commit}, credentials) {
-
-        console.log(credentials)
         return axios
             .post('/api/v1/auth/register', credentials)
             .then(response => {
-
-                console.log(response.data);
                 commit('LOGIN', response.data)
             })
     },
@@ -67,7 +63,6 @@ export const actions = {
     login({commit, dispatch}, credentials) {
         return axios.post('/api/v1/auth/login', credentials)
             .then(response => {
-
                 commit('LOGIN', response.data);
             })
     },
@@ -76,13 +71,11 @@ export const actions = {
         return axios
             .post('/api/v1/auth/logout')
             .then(() => {
-
                 commit('LOGOUT')
             })
     },
 
     fetchToken({commit}, token) {
-
         return axios.post('api/v1/auth/check-token', {token})
             .then(response => {
 
@@ -90,7 +83,7 @@ export const actions = {
             })
             .catch(error => {
 
-                console.error(error);
+                console.error(error.response);
                 commit('LOGOUT')
             });
 

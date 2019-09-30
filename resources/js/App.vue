@@ -34,7 +34,7 @@
             })
         },
 
-        created() {
+        beforeMount() {
 
             /*axios.interceptors.response.use(function (response) {
                 // Do something with response data
@@ -65,11 +65,11 @@
                 });
             });*/
 
-            const token = localStorage.getItem('token');
+            /*const token = localStorage.getItem('token');
 
             if (token) {
                 this.$store.dispatch('auth/fetchToken', token);//.then(data => console.log(data).catch(error => console.log(error)));
-            }
+            }*/
         }
     }
 </script>

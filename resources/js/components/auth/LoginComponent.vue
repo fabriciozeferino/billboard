@@ -96,7 +96,6 @@
 
         methods: {
             login() {
-
                 this.$v.$touch();
 
                 if (!this.$v.$invalid) {
@@ -105,7 +104,7 @@
                             email: this.email,
                             password: this.password
                         })
-                        .then(() => this.$router.push({name: 'home'})
+                        .then(() => this.$router.push('/')
                         )
                         .catch(function (error) {
                             let notification = {

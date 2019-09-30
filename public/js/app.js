@@ -1873,7 +1873,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     });
   },
-  created: function created() {
+  beforeMount: function beforeMount() {
     /*axios.interceptors.response.use(function (response) {
         // Do something with response data
         return response;
@@ -1901,11 +1901,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             //throw err;
         });
     });*/
-    var token = localStorage.getItem('token');
 
-    if (token) {
-      this.$store.dispatch('auth/fetchToken', token); //.then(data => console.log(data).catch(error => console.log(error)));
-    }
+    /*const token = localStorage.getItem('token');
+     if (token) {
+        this.$store.dispatch('auth/fetchToken', token);//.then(data => console.log(data).catch(error => console.log(error)));
+    }*/
   }
 });
 
@@ -2077,9 +2077,7 @@ __webpack_require__.r(__webpack_exports__);
           email: this.email,
           password: this.password
         }).then(function () {
-          return _this.$router.push({
-            name: 'home'
-          });
+          return _this.$router.push('/');
         })["catch"](function (error) {
           var notification = {
             type: 'error',
@@ -2727,13 +2725,15 @@ __webpack_require__.r(__webpack_exports__);
       projects: []
     };
   },
-  created: function created() {
+  mounted: function mounted() {
     this.fetchData();
   },
   methods: {
     fetchData: function fetchData() {
       var _this = this;
 
+      console.log('get projects');
+      console.log(axios.defaults.headers.common['Authorization']);
       axios.get('/api/v1/projects').then(function (response) {
         _this.projects = response.data;
       })["catch"](function (error) {
@@ -30811,7 +30811,29 @@ var router = [{
     requiresAuth: true
   },
   component: _views_ProjectCreate_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
-}];
+}
+/*{
+    path: '/project/:id',
+    name: 'project-show',
+    component: Project,
+    props: true,
+    beforeEnter(routeTo, routeFrom, next) {
+        store
+            .dispatch('project/fetchEvent', routeTo.params.id)
+            .then(project => {
+                routeTo.params.project = project
+                next()
+            })
+            .catch(error => {
+                if (error.response && error.response.status === 404) {
+                    next({name: '404', params: {resource: 'project'}})
+                } else {
+                    next({name: 'network-issue'})
+                }
+            })
+    }
+},*/
+];
 /* harmony default export */ __webpack_exports__["default"] = (router);
 
 /***/ }),
@@ -31248,8 +31270,8 @@ __webpack_require__.r(__webpack_exports__);
 var namespaced = true;
 var state = {
   user: {},
-  token: null,
-  loggedIn: false
+  token: localStorage.getItem('token'),
+  loggedIn: !!localStorage.getItem('token')
 };
 var mutations = {
   LOGIN: function LOGIN(state, response) {
@@ -31273,9 +31295,13 @@ var mutations = {
   UPDATE_TOKEN: function UPDATE_TOKEN(state, data) {
     var token = data.token;
     var user = data.user;
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
     state.token = token;
     state.user = user;
     state.loggedIn = true;
+    console.log('updated token on axions');
+    console.log(token);
     axios.defaults.headers.common['Authorization'] = "Bearer ".concat(token);
   }
 };

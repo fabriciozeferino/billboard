@@ -6,7 +6,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'PublicController@index');
 
-Route::get('/{any}', 'PublicController@index')->where('any', '.*');
+//Route::get('/{any}', 'PublicController@index')->where('any', '.*');
+
+Route::get('/{vue_capture?}', function () {
+    return view('app');
+})->where('vue_capture', '^(?!storage).*$');
 
 //
 //Auth::routes();

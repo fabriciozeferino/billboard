@@ -2,8 +2,8 @@ export const namespaced = true;
 
 export const state = {
     user: {},
-    token: null,
-    loggedIn: false,
+    token: localStorage.getItem('token'),
+    loggedIn: !!localStorage.getItem('token'),
 };
 
 export const mutations = {
@@ -37,12 +37,19 @@ export const mutations = {
     },
 
     UPDATE_TOKEN(state, data) {
+
         const token = data.token;
         const user = data.user;
+
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
 
         state.token = token;
         state.user = user;
         state.loggedIn = true;
+
+        console.log('updated token on axions')
+        console.log(token);
 
         axios.defaults.headers.common['Authorization'] = `Bearer ${
             token
@@ -76,9 +83,10 @@ export const actions = {
     },
 
     fetchToken({commit}, token) {
+
+
         return axios.post('api/v1/auth/check-token', {token})
             .then(response => {
-
                 commit('UPDATE_TOKEN', response.data);
             })
             .catch(error => {

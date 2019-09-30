@@ -14,9 +14,9 @@ class ActivityTest extends TestCase
     /** @test */
     public function it_has_a_user()
     {
-        $user = $this->signIn();
+        $request = $this->signIn();
 
-        $project = ProjectFactory::ownedBy($user)->create();
+        $project = ProjectFactory::ownedBy($request['user'])->create();
 
         $this->assertInstanceOf(User::class, $project->activities->first()->user);
     }

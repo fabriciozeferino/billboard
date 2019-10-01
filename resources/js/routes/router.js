@@ -16,19 +16,36 @@ const router = new Router({
     routes
 });
 
+import store from './../stores/store.js'
+
+
 router.beforeEach((routeTo, routeFrom, next) => {
     NProgress.start();
 
-    const loggedIn = localStorage.getItem('token');
+    //store.dispatch('auth/fetchToken').then(response => console.log(response));
+    const token = localStorage.getItem('token');
+    const token_vuex = store.state.auth.token;
+
+
+
+    if (token !== token_vuex) {
+        store.dispatch('auth/logout');
+        //next({name: 'login'});
+
+        //return
+    }
+
+    const loggedIn = store.state.auth.loggedIn;
 
     if (routeTo.matched.some(route => route.meta.requiresAuth) && !loggedIn) {
-        next({ name: 'login' });
+
+        next({name: 'login'});
         return
     }
 
     // if logged in redirect to Home
-    if(routeTo.path === '/login' && loggedIn) {
-        next({ name: 'home' });
+    if (routeTo.path === '/login' && loggedIn) {
+        next({name: 'home'});
         return
     }
 

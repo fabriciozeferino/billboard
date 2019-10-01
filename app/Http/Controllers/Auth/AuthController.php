@@ -29,28 +29,40 @@ class AuthController extends AbstractAuth
      */
     public function checkToken(Request $request)
     {
-        $token = $request->only('token');
+        $token = JWTAuth::getToken();
 
         try {
-
-            if (!JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['token_invalid'], 401);
-            }
+            $user = JWTAuth::authenticate($token);
 
         } catch (TokenExpiredException $e) {
 
-            return response()->json('token_expired', 401);
 
-        } catch (TokenInvalidException $e) {
+            /*if (!JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['token_invalid'], 401);
+            }*/
 
-            return response()->json($e->getMessage(), 401);
+            try {
+                $token = JWTAuth::refresh($token);
 
-        } catch (JWTException $e) {
+                JWTAuth::setToken($token);
 
-            return response()->json('token_absent', 401);
+                $user = JWTAuth::authenticate($token);
+
+            } catch (TokenExpiredException $e) {
+
+                return response()->json('token_expired', 401);
+
+            } catch (TokenInvalidException $e) {
+
+                return response()->json($e->getMessage(), 401);
+
+            } catch (JWTException $e) {
+
+                return response()->json('token_absent', 401);
+            }
+
+            //TODO : refresh token when refresh page $this->guard()->refresh()
+            return $this->respondWithToken(JWTAuth::getToken(), 200);
         }
-
-        //TODO : refresh token when refresh page $this->guard()->refresh()
-        return $this->respondWithToken($token['token'], 200);
     }
 }

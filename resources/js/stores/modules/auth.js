@@ -2,7 +2,7 @@ export const namespaced = true;
 
 export const state = {
     user: {},
-    token: localStorage.getItem('token'),
+    token: localStorage.getItem('token') || '',
     loggedIn: !!localStorage.getItem('token'),
 };
 
@@ -48,9 +48,6 @@ export const mutations = {
         state.user = user;
         state.loggedIn = true;
 
-        console.log('updated token on axions')
-        console.log(token);
-
         axios.defaults.headers.common['Authorization'] = `Bearer ${
             token
         }`;
@@ -68,33 +65,42 @@ export const actions = {
     },
 
     login({commit, dispatch}, credentials) {
-        return axios.post('/api/v1/auth/login', credentials)
-            .then(response => {
-                commit('LOGIN', response.data);
-            })
+        return new Promise((resolve, reject) => {
+            axios.post('/api/v1/auth/login', credentials)
+                .then(response => {
+                    commit('LOGIN', response.data);
+                    resolve(response)
+                }, error => {
+                    reject(error)
+                })
+        })
     },
 
     logout({commit}) {
-        return axios
-            .post('/api/v1/auth/logout')
-            .then(() => {
-                commit('LOGOUT')
-            })
+        return new Promise((resolve, reject) => {
+            axios.post('/api/v1/auth/logout')
+                .then(response => {
+                    commit('LOGOUT');
+                    resolve(response.data)
+                })
+                .catch(error => {
+                    commit('LOGOUT');
+                    reject(error.response.data)
+                });
+        })
     },
 
+
     fetchToken({commit}, token) {
-
-
         return axios.post('api/v1/auth/check-token', {token})
             .then(response => {
+                console.log('fetchToken ok', response.data)
                 commit('UPDATE_TOKEN', response.data);
             })
             .catch(error => {
-
-                console.error(error.response);
+                console.log('fetchToken error', error)
                 commit('LOGOUT')
             });
-
     }
 };
 
@@ -106,5 +112,9 @@ export const getters = {
 
     user(state) {
         return state.user
+    },
+
+    token(state) {
+        return state.token
     },
 };

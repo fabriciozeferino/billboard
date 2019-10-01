@@ -10,7 +10,7 @@ export const authComputed = {
 export const authMethods = {
     ...mapActions('auth', [
         'logout',
-        'fetchToken']),
+        /*'fetchToken'*/]),
 };
 
 export const authStates = {

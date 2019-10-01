@@ -44,7 +44,7 @@ const router = [
     },
     {
         path: '*',
-        redirect: {name: '404'}
+        redirect: {name: 'login'}
     }
 ];
 

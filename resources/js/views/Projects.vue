@@ -21,9 +21,6 @@
 
         methods: {
             fetchData() {
-
-                console.log('get projects')
-                console.log(axios.defaults.headers.common['Authorization'])
                 axios.get('/api/v1/projects')
                     .then(response => {
                         this.projects = response.data

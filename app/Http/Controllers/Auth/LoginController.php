@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Requests\Auth\LoginRequest;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class LoginController extends AbstractAuth
 {
@@ -17,10 +18,17 @@ class LoginController extends AbstractAuth
     {
         $credentials = $request->only(['email', 'password']);
 
-        if (!$token = $this->guard()->attempt($credentials)) {
+        try {
+            if (!$token = $this->guard()->attempt($credentials)) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Username or Password incorrect'
+                ], 401);
+            }
+        } catch (JWTException $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Username or Password incorrect'
+                'message' => $e->getMessage()
             ], 401);
         }
 
@@ -34,11 +42,21 @@ class LoginController extends AbstractAuth
      */
     public function logout()
     {
-        $this->guard()->logout();
+        try {
+            $this->guard()->invalidate();
+            $this->guard()->logout();
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Logged out Successfully.'
-        ], 200);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Logged out Successfully.'
+            ], 200);
+
+        } catch (JWTException $exception) {
+
+            return response()->json([
+                'status' => 'error',
+                'message' => $exception->getMessage()
+            ], 401);
+        }
     }
 }

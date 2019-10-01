@@ -6,11 +6,7 @@
 
 <script>
     import Layout from './shared/Layout.vue'
-
-    import {authComputed} from './views/helper.js'
-    import {authMethods} from './views/helper.js'
-    import {authStates} from './views/helper.js'
-
+    import {authComputed, authMethods, authStates} from './views/helper.js'
 
     export default {
         components: {
@@ -28,48 +24,40 @@
 
         mounted() {
             this.$store.subscribe((mutation, state) => {
-                if (!state.auth.loggedIn) {
+                if (!state.auth.loggedIn && this.$router.currentRoute.name !== 'login') {
                     this.$router.push({name: 'login'})
                 }
             })
         },
 
         beforeMount() {
+            axios.interceptors.request.use((request) => {
+                    return new Promise(function (resolve, reject) {
+                        const token = localStorage.getItem('token');
+                        if (token) {
+                            request.headers['Authorization'] = 'Bearer ' + token;
+                        }
+                        resolve(request)
+                    })
+                }
+            );
 
             /*axios.interceptors.response.use(function (response) {
-                // Do something with response data
-                return response;
-            }, function (error) {
-                if (error.response.status === 401) {
 
-                    this.$swal.fire({
-                        type: 'error',
-                        title: 'Oops...',
-                        text: 'Something went wrong!',
-                        footer: '<a href>Why do I have this issue?</a>'
-                    });
-                    console.log(error.response)
-                }
-                //return Promise.reject(error);
-            });*/
-
-            /*axios.interceptors.response.use(undefined, function (err) {
                 return new Promise(function (resolve, reject) {
-                    console.log(err.status)
-                    if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-                        console.log('here')
-                        /!*this.$store.dispatch('auth/logout')
-                        $this.$router.name('login')*!/
-                    }
-                    //throw err;
-                });
+
+                    resolve(response)
+                })
             });*/
 
-            /*const token = localStorage.getItem('token');
-
-            if (token) {
-                this.$store.dispatch('auth/fetchToken', token);//.then(data => console.log(data).catch(error => console.log(error)));
-            }*/
+            axios.interceptors.response.use(undefined, function (err) {
+                return new Promise(function (resolve, reject) {
+                    if (err.status === 401 || err.config || !err.config.__isRetryRequest) {
+                        this.$store.dispatch('auth/logout')
+                        //this.$router.name('login')
+                    }
+                });
+            });
         }
     }
 </script>

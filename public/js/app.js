@@ -1854,8 +1854,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 
-
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     Layout: _shared_Layout_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
@@ -1866,7 +1864,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var _this = this;
 
     this.$store.subscribe(function (mutation, state) {
-      if (!state.auth.loggedIn) {
+      if (!state.auth.loggedIn && _this.$router.currentRoute.name !== 'login') {
         _this.$router.push({
           name: 'login'
         });
@@ -1874,38 +1872,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     });
   },
   beforeMount: function beforeMount() {
-    /*axios.interceptors.response.use(function (response) {
-        // Do something with response data
-        return response;
-    }, function (error) {
-        if (error.response.status === 401) {
-             this.$swal.fire({
-                type: 'error',
-                title: 'Oops...',
-                text: 'Something went wrong!',
-                footer: '<a href>Why do I have this issue?</a>'
-            });
-            console.log(error.response)
+    axios.interceptors.request.use(function (request) {
+      return new Promise(function (resolve, reject) {
+        var token = localStorage.getItem('token');
+
+        if (token) {
+          request.headers['Authorization'] = 'Bearer ' + token;
         }
-        //return Promise.reject(error);
+
+        resolve(request);
+      });
+    });
+    /*axios.interceptors.response.use(function (response) {
+         return new Promise(function (resolve, reject) {
+             resolve(response)
+        })
     });*/
 
-    /*axios.interceptors.response.use(undefined, function (err) {
-        return new Promise(function (resolve, reject) {
-            console.log(err.status)
-            if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-                console.log('here')
-                /!*this.$store.dispatch('auth/logout')
-                $this.$router.name('login')*!/
-            }
-            //throw err;
-        });
-    });*/
-
-    /*const token = localStorage.getItem('token');
-     if (token) {
-        this.$store.dispatch('auth/fetchToken', token);//.then(data => console.log(data).catch(error => console.log(error)));
-    }*/
+    axios.interceptors.response.use(undefined, function (err) {
+      return new Promise(function (resolve, reject) {
+        if (err.status === 401 || err.config || !err.config.__isRetryRequest) {
+          this.$store.dispatch('auth/logout'); //this.$router.name('login')
+        }
+      });
+    });
   }
 });
 
@@ -2579,9 +2569,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     logout: function logout() {
       this.$store.dispatch('auth/logout');
-      this.$router.push({
-        name: 'login'
-      });
     }
   }
 });
@@ -2732,8 +2719,6 @@ __webpack_require__.r(__webpack_exports__);
     fetchData: function fetchData() {
       var _this = this;
 
-      console.log('get projects');
-      console.log(axios.defaults.headers.common['Authorization']);
       axios.get('/api/v1/projects').then(function (response) {
         _this.projects = response.data;
       })["catch"](function (error) {
@@ -30777,7 +30762,7 @@ var router = [{
 }, {
   path: '*',
   redirect: {
-    name: '404'
+    name: 'login'
   }
 }];
 /* harmony default export */ __webpack_exports__["default"] = (router);
@@ -30855,6 +30840,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _auth_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./auth.js */ "./resources/js/routes/auth.js");
 /* harmony import */ var _main_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./main.js */ "./resources/js/routes/main.js");
 /* harmony import */ var _project_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./project.js */ "./resources/js/routes/project.js");
+/* harmony import */ var _stores_store_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../stores/store.js */ "./resources/js/stores/store.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -30876,9 +30862,19 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',
   routes: routes
 });
+
 router.beforeEach(function (routeTo, routeFrom, next) {
-  nprogress__WEBPACK_IMPORTED_MODULE_2___default.a.start();
-  var loggedIn = localStorage.getItem('token');
+  nprogress__WEBPACK_IMPORTED_MODULE_2___default.a.start(); //store.dispatch('auth/fetchToken').then(response => console.log(response));
+
+  var token = localStorage.getItem('token');
+  var token_vuex = _stores_store_js__WEBPACK_IMPORTED_MODULE_6__["default"].state.auth.token;
+
+  if (token !== token_vuex) {
+    _stores_store_js__WEBPACK_IMPORTED_MODULE_6__["default"].dispatch('auth/logout'); //next({name: 'login'});
+    //return
+  }
+
+  var loggedIn = _stores_store_js__WEBPACK_IMPORTED_MODULE_6__["default"].state.auth.loggedIn;
 
   if (routeTo.matched.some(function (route) {
     return route.meta.requiresAuth;
@@ -31270,7 +31266,7 @@ __webpack_require__.r(__webpack_exports__);
 var namespaced = true;
 var state = {
   user: {},
-  token: localStorage.getItem('token'),
+  token: localStorage.getItem('token') || '',
   loggedIn: !!localStorage.getItem('token')
 };
 var mutations = {
@@ -31300,8 +31296,6 @@ var mutations = {
     state.token = token;
     state.user = user;
     state.loggedIn = true;
-    console.log('updated token on axions');
-    console.log(token);
     axios.defaults.headers.common['Authorization'] = "Bearer ".concat(token);
   }
 };
@@ -31315,14 +31309,25 @@ var actions = {
   login: function login(_ref2, credentials) {
     var commit = _ref2.commit,
         dispatch = _ref2.dispatch;
-    return axios.post('/api/v1/auth/login', credentials).then(function (response) {
-      commit('LOGIN', response.data);
+    return new Promise(function (resolve, reject) {
+      axios.post('/api/v1/auth/login', credentials).then(function (response) {
+        commit('LOGIN', response.data);
+        resolve(response);
+      }, function (error) {
+        reject(error);
+      });
     });
   },
   logout: function logout(_ref3) {
     var commit = _ref3.commit;
-    return axios.post('/api/v1/auth/logout').then(function () {
-      commit('LOGOUT');
+    return new Promise(function (resolve, reject) {
+      axios.post('/api/v1/auth/logout').then(function (response) {
+        commit('LOGOUT');
+        resolve(response.data);
+      })["catch"](function (error) {
+        commit('LOGOUT');
+        reject(error.response.data);
+      });
     });
   },
   fetchToken: function fetchToken(_ref4, token) {
@@ -31330,9 +31335,10 @@ var actions = {
     return axios.post('api/v1/auth/check-token', {
       token: token
     }).then(function (response) {
+      console.log('fetchToken ok', response.data);
       commit('UPDATE_TOKEN', response.data);
     })["catch"](function (error) {
-      console.error(error.response);
+      console.log('fetchToken error', error);
       commit('LOGOUT');
     });
   }
@@ -31343,6 +31349,9 @@ var getters = {
   },
   user: function user(state) {
     return state.user;
+  },
+  token: function token(state) {
+    return state.token;
   }
 };
 
@@ -31812,7 +31821,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 var authComputed = _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('auth', ['isLoggedIn', 'user']));
-var authMethods = _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('auth', ['logout', 'fetchToken']));
+var authMethods = _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('auth', ['logout'
+/*'fetchToken'*/
+]));
 var authStates = _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('auth', ['user', 'token', 'loggedIn']));
 
 /***/ }),

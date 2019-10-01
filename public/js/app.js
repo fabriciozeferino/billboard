@@ -30864,16 +30864,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 });
 
 router.beforeEach(function (routeTo, routeFrom, next) {
-  nprogress__WEBPACK_IMPORTED_MODULE_2___default.a.start(); //store.dispatch('auth/fetchToken').then(response => console.log(response));
-
-  var token = localStorage.getItem('token');
-  var token_vuex = _stores_store_js__WEBPACK_IMPORTED_MODULE_6__["default"].state.auth.token;
-
-  if (token !== token_vuex) {
-    _stores_store_js__WEBPACK_IMPORTED_MODULE_6__["default"].dispatch('auth/logout'); //next({name: 'login'});
-    //return
-  }
-
+  nprogress__WEBPACK_IMPORTED_MODULE_2___default.a.start();
   var loggedIn = _stores_store_js__WEBPACK_IMPORTED_MODULE_6__["default"].state.auth.loggedIn;
 
   if (routeTo.matched.some(function (route) {

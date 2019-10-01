@@ -18,27 +18,12 @@ const router = new Router({
 
 import store from './../stores/store.js'
 
-
 router.beforeEach((routeTo, routeFrom, next) => {
     NProgress.start();
-
-    //store.dispatch('auth/fetchToken').then(response => console.log(response));
-    const token = localStorage.getItem('token');
-    const token_vuex = store.state.auth.token;
-
-
-
-    if (token !== token_vuex) {
-        store.dispatch('auth/logout');
-        //next({name: 'login'});
-
-        //return
-    }
 
     const loggedIn = store.state.auth.loggedIn;
 
     if (routeTo.matched.some(route => route.meta.requiresAuth) && !loggedIn) {
-
         next({name: 'login'});
         return
     }

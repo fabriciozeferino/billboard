@@ -15,7 +15,7 @@ class AuthenticationTest extends TestCase
     /**  @test */
     public function register_page_displayed()
     {
-        $response = $this->json('GET','/api/v1/auth/register', []);
+        $response = $this->json('GET', '/api/v1/auth/register', []);
         $response->assertStatus(200);
     }
 
@@ -56,6 +56,7 @@ class AuthenticationTest extends TestCase
     /**  @test */
     public function a_user_can_login()
     {
+        $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
 
         $credentials = [
@@ -99,22 +100,5 @@ class AuthenticationTest extends TestCase
         $response = $this->post('/api/v1/auth/logout');
         $response->assertStatus(200);
         $this->assertGuest();
-    }
-
-    /**  @test */
-    public function assert_route_check_token_works()
-    {
-        $data = $this->signIn();
-
-        $response = $this->json('POST', '/api/v1/auth/check-token', ['token' => $data['token']]);
-
-        $response->assertStatus(200);
-
-        $response->assertJsonStructure([
-            'token',
-            'user'
-        ]);
-
-        $this->assertAuthenticatedAs($data['user'], 'api');
     }
 }

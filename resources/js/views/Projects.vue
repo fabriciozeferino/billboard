@@ -21,11 +21,11 @@
 
         methods: {
             fetchData() {
-                axios.get('/api/v1/projects')
+               return axios.get('/api/v1/projects')
                     .then(response => {
                         this.projects = response.data
                     }).catch(error => {
-                     console.error(error.response)
+                    console.error(error)
                 })
             }
         },

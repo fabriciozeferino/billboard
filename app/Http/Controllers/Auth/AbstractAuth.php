@@ -26,7 +26,9 @@ class AbstractAuth extends Controller
     {
         return response()->json([
             'token' => $token,
-            'user' => Auth::user()
+            'user' => Auth::user(),
+            'expires' => auth('api')->factory()->getTTL() * 60,
+
         ], $status);
     }
 }

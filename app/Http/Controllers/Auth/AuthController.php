@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 
+use Auth;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
@@ -10,7 +11,7 @@ use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 
-class AuthController extends AbstractAuth
+class AuthController
 {
 
     /**
@@ -32,37 +33,19 @@ class AuthController extends AbstractAuth
         $token = JWTAuth::getToken();
 
         try {
-            $user = JWTAuth::authenticate($token);
+            $user = JWTAuth::toUser($token);
+
+            return $this->respondWithToken($user, 200);
 
         } catch (TokenExpiredException $e) {
 
+            return $this->unauthenticated('token_expired', 401, $e->getMessage());
+        } catch (TokenInvalidException $e) {
 
-            /*if (!JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['token_invalid'], 401);
-            }*/
+            return $this->unauthenticated('token_invalid', 401, $e->getMessage());
+        } catch (JWTException $e) {
 
-            try {
-                $token = JWTAuth::refresh($token);
-
-                JWTAuth::setToken($token);
-
-                $user = JWTAuth::authenticate($token);
-
-            } catch (TokenExpiredException $e) {
-
-                return response()->json('token_expired', 401);
-
-            } catch (TokenInvalidException $e) {
-
-                return response()->json($e->getMessage(), 401);
-
-            } catch (JWTException $e) {
-
-                return response()->json('token_absent', 401);
-            }
-
-            //TODO : refresh token when refresh page $this->guard()->refresh()
-            return $this->respondWithToken(JWTAuth::getToken(), 200);
+            return $this->unauthenticated('token_absent', 401, $e->getMessage());
         }
     }
 }

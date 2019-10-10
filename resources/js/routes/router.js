@@ -6,6 +6,7 @@ import NProgress from 'nprogress'
 import auth from './auth.js'
 import main from './main.js'
 import project from './project.js'
+import store from './../stores/store.js'
 
 const routes = [...auth, ...main, ...project];
 
@@ -16,29 +17,33 @@ const router = new Router({
     routes
 });
 
-import store from './../stores/store.js'
+import nextFactory from '../middleware/middleware.js'
 
-router.beforeEach((routeTo, routeFrom, next) => {
+router.beforeEach((to, from, next) => {
     NProgress.start();
 
-    const loggedIn = store.state.auth.loggedIn;
+    if (to.meta.middleware) {
+        const middleware = Array.isArray(to.meta.middleware)
+            ? to.meta.middleware
+            : [to.meta.middleware];
 
-    if (routeTo.matched.some(route => route.meta.requiresAuth) && !loggedIn) {
-        next({name: 'login'});
-        return
+        const context = {
+            from,
+            next,
+            router,
+            to,
+        };
+        const nextMiddleware = nextFactory(context, middleware, 1);
+
+        return middleware[0]({ ...context, next: nextMiddleware });
     }
-
-    // if logged in redirect to Home
-    if (routeTo.path === '/login' && loggedIn) {
-        next({name: 'home'});
-        return
-    }
-
-    next();
+    return next();
 });
 
 router.afterEach(() => {
     NProgress.done()
 });
+
+
 
 export default router

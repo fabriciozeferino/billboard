@@ -1,19 +1,31 @@
 import Projects from '../views/Projects.vue'
 import ProjectCreate from '../views/ProjectCreate.vue'
 
+import authMiddleware from '../middleware/authMiddleware.js';
+import log from '../middleware/log.js';
 
 const router =  [
          {
             path: '/projects',
             name: 'projects',
             component: Projects,
-            meta: { requiresAuth: true },
+             meta: {
+                 middleware: [
+                     authMiddleware,
+                     log
+                 ],
+             },
         },
         {
             path: '/project/create',
             name: 'project-create',
-            meta: { requiresAuth: true },
-            component: ProjectCreate
+            component: ProjectCreate,
+            meta: {
+                middleware: [
+                    authMiddleware,
+                    log
+                ],
+            },
         },
         /*{
             path: '/project/:id',

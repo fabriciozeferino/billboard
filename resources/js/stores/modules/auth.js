@@ -12,6 +12,8 @@ export const mutations = {
         const token = response.token;
         const user = response.user;
 
+
+
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
 
@@ -28,7 +30,7 @@ export const mutations = {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
 
-        delete axios.defaults.headers.common['Authorization'];
+        delete axios.defaults.headers.common.Authorization;
 
         state.token = null;
         state.user = {};
@@ -65,29 +67,28 @@ export const actions = {
     },
 
     login({commit, dispatch}, credentials) {
-        return new Promise((resolve, reject) => {
-            axios.post('/api/v1/auth/login', credentials)
-                .then(response => {
-                    commit('LOGIN', response.data);
-                    resolve(response)
-                }, error => {
-                    reject(error)
-                })
-        })
+        return axios.post('/api/v1/auth/login', credentials)
+            .then(response => {
+                commit('LOGIN', response.data);
+            }).catch(error => {
+                console.log(error)
+            })
     },
 
-    logout({commit}) {
-        return new Promise((resolve, reject) => {
-            axios.post('/api/v1/auth/logout')
-                .then(response => {
-                    commit('LOGOUT');
-                    resolve(response.data)
-                })
-                .catch(error => {
-                    commit('LOGOUT');
-                    reject(error.response.data)
-                });
-        })
+    logout({commit, dispatch}) {
+        return axios.post('/api/v1/auth/logout')
+            .then(response => {
+                commit('LOGOUT');
+                //resolve()
+                //return response;
+            })
+            .catch(error => {
+                commit('LOGOUT');
+
+                //return error;
+                //reject(error.response.data)
+
+            });
     },
 
 

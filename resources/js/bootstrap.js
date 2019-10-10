@@ -1,24 +1,25 @@
 window.axios = require('axios');
 
-//window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+//axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-window.axios.defaults.headers.common = {
+axios.defaults.headers.common = {
     'X-Requested-With': 'XMLHttpRequest',
-    'Content-Type':'application/json',
-    'Accept':'application/json'
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+
 };
 
 
 const JWTtoken = localStorage.getItem('token');
 
 if (JWTtoken) {
-    window.axios.defaults.headers.common['Authorization'] = JWTtoken;
+    axios.defaults.headers.common['Authorization'] = JWTtoken;
 }
 
 const token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }

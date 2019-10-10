@@ -14,8 +14,9 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
+        //Todo: check this middleware
         if (! $request->expectsJson()) {
-            return response()->json('ffs', 422);
+            return response()->json('Access denied by middleware Authenticate', 422);
         }
     }
 

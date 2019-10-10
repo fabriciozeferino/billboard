@@ -5,6 +5,8 @@ import NotFound from '../views/NotFound.vue'
 import NetworkIssue from '../views/NetworkIssue.vue'
 import Reports from '../views/Reports.vue'
 
+import authMiddleware from '../middleware/authMiddleware.js';
+import log from '../middleware/log.js';
 
 const router = [
     {
@@ -15,19 +17,36 @@ const router = [
         path: '/dashboard',
         name: 'dashboard',
         component: DashboardComponent,
-        meta: {requiresAuth: true}
+        meta: {
+            middleware: [
+                authMiddleware,
+                log
+            ],
+        },
     },
     {
         path: '/home',
         name: 'home',
         component: Home,
-        meta: {requiresAuth: true},
+        meta: {
+            /*requiresAuth: true,*/
+            middleware: [
+                authMiddleware,
+                log
+            ],
+        },
         props: true
     },
     {
         path: '/reports',
         name: 'reports',
-        meta: {requiresAuth: true},
+        meta: {
+            //requiresAuth: true,
+            middleware: [
+                authMiddleware,
+                log
+            ],
+        },
         component: Reports
     },
     // Handles

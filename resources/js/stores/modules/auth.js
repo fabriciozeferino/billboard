@@ -12,12 +12,10 @@ export const mutations = {
         const token = response.token;
         const user = response.user;
 
-
-
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
 
-        axios.defaults.headers.common['Authorization'] = `Bearer ${
+        window.axios.defaults.headers.common['Authorization'] = `Bearer ${
             token
         }`;
 
@@ -27,11 +25,6 @@ export const mutations = {
     },
 
     LOGOUT(state) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-
-        delete axios.defaults.headers.common.Authorization;
-
         state.token = null;
         state.user = {};
         state.loggedIn = false;
@@ -60,14 +53,16 @@ export const actions = {
 
     register({commit}, credentials) {
         return axios
-            .post('/api/v1/auth/register', credentials)
+            .post('auth/register', credentials)
             .then(response => {
                 commit('LOGIN', response.data)
             })
     },
 
     login({commit, dispatch}, credentials) {
-        return axios.post('/api/v1/auth/login', credentials)
+
+
+        return axios.post('auth/login', credentials)
             .then(response => {
                 commit('LOGIN', response.data);
             }).catch(error => {
@@ -76,8 +71,14 @@ export const actions = {
     },
 
     logout({commit, dispatch}) {
-        return axios.post('/api/v1/auth/logout')
+        return axios.post('auth/logout')
             .then(response => {
+
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+
+                delete axios.defaults.headers.common.Authorization;
+
                 commit('LOGOUT');
                 //resolve()
                 //return response;
@@ -85,9 +86,10 @@ export const actions = {
             .catch(error => {
                 commit('LOGOUT');
 
-                //return error;
-                //reject(error.response.data)
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
 
+                delete axios.defaults.headers.common.Authorization;
             });
     },
 

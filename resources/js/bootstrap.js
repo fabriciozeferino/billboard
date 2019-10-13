@@ -1,19 +1,22 @@
 window.axios = require('axios');
 
-//axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+/**
+ * Set the Default Headers for the API
+ */
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+window.axios.defaults.headers.common['Accept'] = 'application/json';
+window.axios.defaults.headers.common.crossDomain = true;
+window.axios.defaults.baseURL = '/api/v1/';
 
-axios.defaults.headers.common = {
-    'X-Requested-With': 'XMLHttpRequest',
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-
-};
-
-
+/**
+ * Set the Authentication Token if the user has one on the storage
+ * if the user has no token, redirect to login page
+ */
 const JWTtoken = localStorage.getItem('token');
 
 if (JWTtoken) {
-    axios.defaults.headers.common['Authorization'] = JWTtoken;
+    window.axios.defaults.headers.common['Authorization'] = JWTtoken;
 }
 
 const token = document.head.querySelector('meta[name="csrf-token"]');
@@ -23,6 +26,27 @@ if (token) {
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
+
+
+/**
+ * Interceptor for responses
+ * if unauthenticated (401), clean the credentials on storage and redirect to login page
+ */
+axios.interceptors.response.use(
+    function (response) {
+        return response;
+    },
+
+    function (error) {
+        if (error.response.status === 401) {
+
+            window.location = "/login";
+            localStorage.clear();
+            delete axios.defaults.headers.common.Authorization;
+        }
+
+        return Promise.reject(error);
+    });
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

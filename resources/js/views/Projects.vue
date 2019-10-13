@@ -21,7 +21,7 @@
 
         methods: {
             fetchData() {
-               return axios.get('/api/v1/projects')
+               return window.axios.get('projects')
                     .then(response => {
                         this.projects = response.data
                     }).catch(error => {

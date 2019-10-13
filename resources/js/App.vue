@@ -31,7 +31,6 @@
             })
         },
 
-
         beforeMount() {
             axios.interceptors.request.use((request) => {
                     return new Promise(function (resolve, reject) {
@@ -43,47 +42,6 @@
                     })
                 }
             );
-
-
-            /* console.log(this.$store)*/
-            axios.interceptors.response.use(undefined, function (err) {
-
-                    if (err.status === 401 || err.config || !err.config.__isRetryRequest) {
-                        return new Promise((resolve, reject) => {
-
-                            localStorage.removeItem('token');
-                            localStorage.removeItem('user');
-
-                            delete axios.defaults.headers.common.Authorization;
-
-
-
-                            resolve(router.name('login'))
-                        });
-                    }
-
-            });
-
-            /*axios.interceptors.response.use((response) => {
-                return response
-                console.log(response)
-            }, function (error) {
-                let originalRequest = error.config
-                console.log(originalRequest)
-                if (error.response.status === 401) {
-                    return new Promise((resolve, reject) => {
-                        localStorage.removeItem('token');
-                        localStorage.removeItem('user');
-
-                        delete axios.defaults.headers.common.Authorization;
-
-                        resolve(error.response)
-                    })
-
-                }
-                // Do something with response error
-                return Promise.resolve(error)
-            })*/
         }
     }
 </script>

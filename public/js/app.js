@@ -1883,35 +1883,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         resolve(request);
       });
     });
-    /* console.log(this.$store)*/
-
-    axios.interceptors.response.use(undefined, function (err) {
-      if (err.status === 401 || err.config || !err.config.__isRetryRequest) {
-        return new Promise(function (resolve, reject) {
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
-          delete axios.defaults.headers.common.Authorization;
-          resolve(router.name('login'));
-        });
-      }
-    });
-    /*axios.interceptors.response.use((response) => {
-        return response
-        console.log(response)
-    }, function (error) {
-        let originalRequest = error.config
-        console.log(originalRequest)
-        if (error.response.status === 401) {
-            return new Promise((resolve, reject) => {
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
-                 delete axios.defaults.headers.common.Authorization;
-                 resolve(error.response)
-            })
-         }
-        // Do something with response error
-        return Promise.resolve(error)
-    })*/
   }
 });
 
@@ -2735,7 +2706,7 @@ __webpack_require__.r(__webpack_exports__);
     fetchData: function fetchData() {
       var _this = this;
 
-      return axios.get('/api/v1/projects').then(function (response) {
+      return window.axios.get('projects').then(function (response) {
         _this.projects = response.data;
       })["catch"](function (error) {
         console.error(error);
@@ -30381,17 +30352,25 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js"); //axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/**
+ * Set the Default Headers for the API
+ */
 
-axios.defaults.headers.common = {
-  'X-Requested-With': 'XMLHttpRequest',
-  'Content-Type': 'application/json',
-  'Accept': 'application/json'
-};
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+window.axios.defaults.headers.common['Accept'] = 'application/json';
+window.axios.defaults.headers.common.crossDomain = true;
+window.axios.defaults.baseURL = '/api/v1/';
+/**
+ * Set the Authentication Token if the user has one on the storage
+ * if the user has no token, redirect to login page
+ */
+
 var JWTtoken = localStorage.getItem('token');
 
 if (JWTtoken) {
-  axios.defaults.headers.common['Authorization'] = JWTtoken;
+  window.axios.defaults.headers.common['Authorization'] = JWTtoken;
 }
 
 var token = document.head.querySelector('meta[name="csrf-token"]');
@@ -30401,6 +30380,23 @@ if (token) {
 } else {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
+/**
+ * Interceptor for responses
+ * if unauthenticated (401), clean the credentials on storage and redirect to login page
+ */
+
+
+axios.interceptors.response.use(function (response) {
+  return response;
+}, function (error) {
+  if (error.response.status === 401) {
+    window.location = "/login";
+    localStorage.clear();
+    delete axios.defaults.headers.common.Authorization;
+  }
+
+  return Promise.reject(error);
+});
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -30703,7 +30699,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return authMiddleware; });
-/* harmony import */ var _stores_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../stores/store */ "./resources/js/stores/store.js");
+/* harmony import */ var _stores_store_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../stores/store.js */ "./resources/js/stores/store.js");
 
 function authMiddleware(_ref) {
   var next = _ref.next,
@@ -30711,61 +30707,16 @@ function authMiddleware(_ref) {
       to = _ref.to;
 
   if (!localStorage.getItem('token')) {
-    _stores_store__WEBPACK_IMPORTED_MODULE_0__["default"].dispatch('auth/logout');
+    _stores_store_js__WEBPACK_IMPORTED_MODULE_0__["default"].dispatch('auth/logout');
   }
-  /*axios.interceptors.response.use(undefined, function (error) {
-      //console.log(error.response.status)
-       if (error.response.status === 401) {
-          //store.dispatch('auth/logout')
-           //router.push({name: 'login'})
-      }
-   });*/
-  // axios.interceptors.response.use((response) => {
-  //     // Return a successful response back to the calling service
-  //     return response;
-  // }, (error) => {
-  //     // Return any error which is not due to authentication back to the calling service
-  //     if (error.response.status === 401) {
-  //
-  //         console.log('gfsd')
-  //         return new Promise((resolve, reject) => {
-  //             reject(error);
-  //         });
-  //     }
-  //
-  //     // Logout user if token refresh didn't work or user is disabled
-  //     /*if (error.config.url == '/api/token/refresh' || error.response.message == 'Account is disabled.') {
-  //
-  //         store.dispatch('auth/logout');
-  //         router.push({name: '/'});
-  //
-  //         return new Promise((resolve, reject) => {
-  //             reject(error);
-  //         });
-  //     }*/
-  //
-  //     // Try request again with new token
-  //     /*return TokenStorage.getNewToken()
-  //         .then((token) => {
-  //
-  //             // New request with new token
-  //             const config = error.config;
-  //             config.headers['Authorization'] = `Bearer ${token}`;
-  //
-  //             return new Promise((resolve, reject) => {
-  //                 axios.request(config).then(response => {
-  //                     resolve(response);
-  //                 }).catch((error) => {
-  //                     reject(error);
-  //                 })
-  //             });
-  //
-  //         })
-  //         .catch((error) => {
-  //             Promise.reject(error);
-  //         });*/
-  // });
 
+  if (!_stores_store_js__WEBPACK_IMPORTED_MODULE_0__["default"].state.auth.loggedIn) {
+    _stores_store_js__WEBPACK_IMPORTED_MODULE_0__["default"].dispatch('auth/logout');
+  }
+
+  if (!axios.defaults.headers.common.Authorization) {
+    _stores_store_js__WEBPACK_IMPORTED_MODULE_0__["default"].dispatch('auth/logout');
+  }
 
   return next();
 }
@@ -31477,15 +31428,12 @@ var mutations = {
     var user = response.user;
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
-    axios.defaults.headers.common['Authorization'] = "Bearer ".concat(token);
+    window.axios.defaults.headers.common['Authorization'] = "Bearer ".concat(token);
     state.token = token;
     state.user = user;
     state.loggedIn = true;
   },
   LOGOUT: function LOGOUT(state) {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    delete axios.defaults.headers.common.Authorization;
     state.token = null;
     state.user = {};
     state.loggedIn = false; //location.reload()
@@ -31504,14 +31452,14 @@ var mutations = {
 var actions = {
   register: function register(_ref, credentials) {
     var commit = _ref.commit;
-    return axios.post('/api/v1/auth/register', credentials).then(function (response) {
+    return axios.post('auth/register', credentials).then(function (response) {
       commit('LOGIN', response.data);
     });
   },
   login: function login(_ref2, credentials) {
     var commit = _ref2.commit,
         dispatch = _ref2.dispatch;
-    return axios.post('/api/v1/auth/login', credentials).then(function (response) {
+    return axios.post('auth/login', credentials).then(function (response) {
       commit('LOGIN', response.data);
     })["catch"](function (error) {
       console.log(error);
@@ -31520,12 +31468,17 @@ var actions = {
   logout: function logout(_ref3) {
     var commit = _ref3.commit,
         dispatch = _ref3.dispatch;
-    return axios.post('/api/v1/auth/logout').then(function (response) {
+    return axios.post('auth/logout').then(function (response) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      delete axios.defaults.headers.common.Authorization;
       commit('LOGOUT'); //resolve()
       //return response;
     })["catch"](function (error) {
-      commit('LOGOUT'); //return error;
-      //reject(error.response.data)
+      commit('LOGOUT');
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      delete axios.defaults.headers.common.Authorization;
     });
   },
   fetchToken: function fetchToken(_ref4, token) {

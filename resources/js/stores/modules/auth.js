@@ -60,8 +60,6 @@ export const actions = {
     },
 
     login({commit, dispatch}, credentials) {
-
-
         return axios.post('auth/login', credentials)
             .then(response => {
                 commit('LOGIN', response.data);

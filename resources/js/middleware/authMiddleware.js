@@ -1,6 +1,5 @@
 import store from "../stores/store.js";
 
-
 export default function authMiddleware({next, router, to}) {
 
     if (!localStorage.getItem('token')) {

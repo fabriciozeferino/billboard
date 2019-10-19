@@ -104,7 +104,9 @@
                             email: this.email,
                             password: this.password
                         })
-                        .then(() => this.$router.push('/')
+                        .then((response) => {
+                            console.log(response)
+                            this.$router.push('/')}
                         )
                         .catch(function (error) {
                             let notification = {

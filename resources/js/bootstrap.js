@@ -38,11 +38,11 @@ axios.interceptors.response.use(
     },
 
     function (error) {
-        if (error.response.status === 401) {
+
+        if (error.response.status === 401 && window.pathname !== "/login") {
 
             localStorage.clear();
             window.location = "/login";
-
 
             delete axios.defaults.headers.common.Authorization;
         }

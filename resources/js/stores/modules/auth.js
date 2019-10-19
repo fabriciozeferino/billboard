@@ -63,9 +63,7 @@ export const actions = {
         return axios.post('auth/login', credentials)
             .then(response => {
                 commit('LOGIN', response.data);
-            }).catch(error => {
-                console.log(error)
-            })
+            });
     },
 
     logout({commit, dispatch}) {

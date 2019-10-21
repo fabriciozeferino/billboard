@@ -11,18 +11,19 @@
 
                         <div class="px-6 py-6">
                             <div>
-                                <label for="inputEmail" class="block text-gray-700 text-sm font-bold">E-mail
+                                <label for="inputEmail" class="form-label">E-mail
                                     Address</label>
-                                <input autofocus class="form-input mt-1 block w-full"
-                                       :class="$v.email.$error ? ' border-red-500' : null" id="inputEmail"
+                                <input autofocus class="form-input"
+                                       :class="$v.email.$error ? ' form-error' : null" id="inputEmail"
+                                       autocomplete="off"
                                        placeholder="Email address"
                                        type="text" v-model.lazy="$v.email.$model">
                             </div>
                             <div v-if="$v.email.$dirty">
-                                <p class="text-red-500 text-xs italic" v-if="!$v.email.email">
+                                <p class="form-error-message" v-if="!$v.email.email">
                                     Please enter a valid E-mail address.
                                 </p>
-                                <p class="text-red-500 text-xs italic" v-if="!$v.email.required">
+                                <p class="form-error-message" v-if="!$v.email.required">
                                     Email is required.
                                 </p>
                             </div>
@@ -30,18 +31,19 @@
 
                         <div class="px-6 pb-6">
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold"
+                                <label class="form-label"
                                        for="inputPassword">Password</label>
-                                <input class="form-input mt-1 block w-full"
-                                       :class="$v.password.$error ? ' border-red-500' : null" id="inputPassword"
+                                <input class="form-input"
+                                       :class="$v.password.$error ? ' form-error' : '' " id="inputPassword"
+                                       autocomplete="off"
                                        placeholder="Password" autofocus
                                        type="password" v-model.lazy="$v.password.$model">
                             </div>
                             <div v-if="$v.password.$dirty">
-                                <p class="text-red-500 text-xs italic" v-if="!$v.password.required">
+                                <p class="form-error-message" v-if="!$v.password.required">
                                     Please enter your Password.
                                 </p>
-                                <p class="text-red-500 text-xs italic" v-if="!$v.password.minLength">
+                                <p class="form-error-message" v-if="!$v.password.minLength">
                                     Password must have at least {{ $v.password.$params.minLength.min }} characters.
                                 </p>
                             </div>
@@ -49,12 +51,12 @@
 
 
                         <div class="border-t p-6 bg-white">
-                            <div class="flex justify-between items-center ">
-                                <button class="btn-blue"
-                                        :class="this.$v.$invalid ? ' opacity-75 cursor-not-allowed bg-blue-800 hover:bg-blue-800 focus:bg-blue-800' : null"
+                            <div class="flex justify-between items-center">
+                                <button class="button button-blue"
+                                        :class="this.$v.$invalid ? ' button-blue-invalid' : null"
                                         type="submit">Sign in
                                 </button>
-                                <a class="px-6 py-3 text-blue-800 text-sm font-bold">Forgot Your Password?</a>
+                                <a class="form-label px-6 py-3 ">Forgot Your Password?</a>
                             </div>
                         </div>
 
@@ -62,7 +64,7 @@
                 </div>
             </div>
 
-            <div class="text-grey-700 text-sm text-center">
+            <div class="text-gray-700 text-sm text-center">
                 Don't have an account?
                 <router-link class="py-3 text-blue-600 hover:text-blue-800 font-bold" :to="{ name: 'register' }">
                     Create
@@ -105,8 +107,9 @@
                             password: this.password
                         })
                         .then((response) => {
-                            console.log(response)
-                            this.$router.push('/')}
+                                console.log(response)
+                                this.$router.push('/')
+                            }
                         )
                         .catch(function (error) {
                             let notification = {

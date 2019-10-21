@@ -13,14 +13,14 @@
 
                         <div class="px-6 py-6">
                             <div>
-                                <label for="inputName" class="block text-gray-700 text-sm font-bold">Name</label>
-                                <input autofocus class="form-input mt-1 block w-full"
-                                       :class="$v.name.$error ? ' border-red-500' : null" id="inputName"
+                                <label for="inputName" class="form-label">Name</label>
+                                <input autofocus class="form-input"
+                                       :class="$v.name.$error ? ' form-error' : '' " id="inputName"
                                        placeholder="Type your full name"
                                        type="text" v-model.lazy="$v.name.$model">
                             </div>
                             <div v-if="$v.name.$dirty">
-                                <p class="text-red-500 text-xs italic" v-if="!$v.name.required">
+                                <p class="form-error-message" v-if="!$v.name.required">
                                     Name is required.
                                 </p>
                             </div>
@@ -28,18 +28,18 @@
 
                         <div class="px-6 pb-6">
                             <div>
-                                <label for="inputEmail" class="block text-gray-700 text-sm font-bold">E-mail
+                                <label for="inputEmail" class="form-label">E-mail
                                     Address</label>
-                                <input autofocus class="form-input mt-1 block w-full"
-                                       :class="$v.email.$error ? ' border-red-500' : null" id="inputEmail"
+                                <input autofocus class="form-input"
+                                       :class="$v.email.$error ? ' form-error' : '' " id="inputEmail"
                                        placeholder="Email address"
                                        type="text" v-model.lazy="$v.email.$model">
                             </div>
                             <div v-if="$v.email.$dirty">
-                                <p class="text-red-500 text-xs italic" v-if="!$v.email.email">
+                                <p class="form-error-message" v-if="!$v.email.email">
                                     Please enter a valid E-mail address.
                                 </p>
-                                <p class="text-red-500 text-xs italic" v-if="!$v.email.required">
+                                <p class="form-error-message" v-if="!$v.email.required">
                                     E-mail is required.
                                 </p>
                             </div>
@@ -47,18 +47,18 @@
 
                         <div class="px-6 pb-6">
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold"
+                                <label class="form-label"
                                        for="inputPassword">Password</label>
-                                <input class="form-input mt-1 block w-full"
-                                       :class="$v.password.$error ? ' border-red-500' : null" id="inputPassword"
+                                <input class="form-input"
+                                       :class="$v.password.$error ? ' form-error' : '' " id="inputPassword"
                                        placeholder="Password" autofocus
                                        type="password" v-model.lazy="$v.password.$model">
                             </div>
                             <div v-if="$v.password.$dirty">
-                                <p class="text-red-500 text-xs italic" v-if="!$v.password.required">
+                                <p class="form-error-message" v-if="!$v.password.required">
                                     Password is required.
                                 </p>
-                                <p class="text-red-500 text-xs italic" v-if="!$v.password.minLength">
+                                <p class="form-error-message" v-if="!$v.password.minLength">
                                     Password must have at least {{ $v.password.$params.minLength.min }} characters.
                                 </p>
                             </div>
@@ -66,19 +66,19 @@
 
                         <div class="px-6 pb-6">
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold"
+                                <label class="form-label"
                                        for="inputPasswordConfirmation">Confirm Password</label>
-                                <input class="form-input mt-1 block w-full"
-                                       :class="$v.password_confirmation.$error ? ' border-red-500' : null"
+                                <input class="form-input"
+                                       :class="$v.password_confirmation.$error ? ' form-error' : '' "
                                        id="inputPasswordConfirmation"
                                        placeholder="Password" autofocus
                                        type="password" v-model.lazy="$v.password_confirmation.$model">
                             </div>
                             <div v-if="$v.password_confirmation.$dirty">
-                                <p class="text-red-500 text-xs italic" v-if="!$v.password_confirmation.required">
+                                <p class="form-error-message" v-if="!$v.password_confirmation.required">
                                     Confirm Password is required
                                 </p>
-                                <p class="text-red-500 text-xs italic" v-if="!$v.password_confirmation.sameAsPassword">
+                                <p class="form-error-message " v-if="!$v.password_confirmation.sameAsPassword">
                                     Passwords must be identical.
                                 </p>
                             </div>
@@ -86,8 +86,8 @@
 
                         <div class="border-t p-6 bg-white">
                             <div class="flex justify-between items-center">
-                                <button class="btn-blue"
-                                        :class="this.$v.$invalid ? ' opacity-75 cursor-not-allowed bg-blue-800 hover:bg-blue-800 focus:bg-blue-800' : null"
+                                <button class="button button-blue"
+                                        :class="this.$v.$invalid ? ' button-blue-invalid ' : '' "
                                         type="submit">Register
                                 </button>
                                 <!--<a class="px-6 py-3 text-blue-800 text-sm font-bold">Welcome!</a>-->
@@ -98,7 +98,7 @@
                 </div>
             </div>
 
-            <div class="text-grey-700 text-sm text-center">
+            <div class="text-gray-700 text-sm text-center">
                 Don't have an account?
                 <router-link class="py-3 text-blue-600 hover:text-blue-800 font-bold " :to="{ name: 'login' }">
                     Sign in

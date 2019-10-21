@@ -1,9 +1,19 @@
-.btn-blue {
+.button {
     @apply px-6 py-3 rounded bg-blue-800 text-white text-sm font-bold whitespace-no-wrap;
 
     &:hover, &:focus {
         @apply bg-orange-800;
-        }
+    }
+}
+
+.button-blue-invalid {
+    @apply opacity-75 cursor-not-allowed bg-blue-800;
+}
+.button-blue-invalid:hover {
+    @apply opacity-75 cursor-not-allowed bg-blue-800;
+}
+.button-blue-invalid:focus {
+    @apply opacity-75 cursor-not-allowed bg-blue-800;
 }
 
 .btn-spinner,
@@ -26,6 +36,10 @@
 }
 
 @keyframes spinning {
-    0% { transform: rotate(0deg) }
-    100% { transform: rotate(360deg) }
+    0% {
+        transform: rotate(0deg)
+    }
+    100% {
+        transform: rotate(360deg)
+    }
 }

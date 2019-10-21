@@ -1,5 +1,5 @@
 .form-label {
-    @apply .mb-2 .block .text-gray-800 .select-none;
+    @apply .mb-2 .block .text-gray-800 .select-none .text-sm .font-bold;
 }
 
 .form-input,
@@ -7,15 +7,23 @@
 .form-select {
     @apply .p-2 .leading-normal .block .w-full .border .text-gray-800 .bg-white .font-sans .rounded .text-left .appearance-none .relative;
 
-    &:focus,
-    &.focus {
-        @apply .border-blue-100;
-        box-shadow: 0 0 0 1px;
-    }
-
     &::placeholder {
         @apply .text-gray-600 .opacity-100;
     }
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+    @apply .border-blue-100;
+    box-shadow: 0 0 0 1px;
+}
+
+.form-input:hover,
+.form-textarea:hover,
+.form-select:hover {
+    @apply .border-blue-100;
+    box-shadow: 0 0 0 1px;
 }
 
 .form-select {
@@ -32,15 +40,13 @@
 }
 
 .form-error {
-    @apply .text-red-500 .mt-2 .text-sm;
+    @apply .border-red-500;
 }
 
-.form-input.error,
-.form-textarea.error,
-.form-select.error {
-    @apply .border-red-100;
+.form-error:focus {
+    @apply .border-red-500;
+}
 
-    &:focus {
-        box-shadow: 0 0 0 1px config('colors.red');
-    }
+.form-error-message {
+    @apply .text-red-500 .text-xs .italic;
 }

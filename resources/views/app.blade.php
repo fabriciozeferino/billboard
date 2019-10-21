@@ -6,21 +6,18 @@
 
     {{-- Favicon --}}
     {{--<link rel="shortcut icon" href="{{ asset('favicon.ico') }}" >--}}
-    {{--<link rel="shortcut icon" href="data:;base64,iVBORw0KGgo=">--}}
+    {{-- removes fiveicon from request --}}
+    <link rel="shortcut icon" href="data:;base64,iVBORw0KGgo=">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
-    {{--<link rel="dns-prefetch" href="//fonts.gstatic.com">--}}
-{{--<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">--}}
-
-<!-- Styles -->
+    <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="leading-none text-grey-darkest antialiased">
+<body class="leading-relaxed text-gray-900 antialiased ">
 <div id="app">
     <app></app>
 </div>

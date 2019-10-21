@@ -2025,6 +2025,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2520,6 +2522,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 /*import FlashMessages from './FlashMessages'*/
 
@@ -2547,7 +2551,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     title: {
       immediate: true,
       handler: function handler(title) {
-        document.title = title ? "".concat(title, " | Ping CRM") : 'Ping CRM';
+        document.title = title ? "".concat(title, " | Fox Board") : 'Fox Board';
       }
     }
   },
@@ -2573,7 +2577,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Icon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Icon */ "./resources/js/shared/Icon.vue");
-//
 //
 //
 //
@@ -2676,16 +2679,78 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Projects.vue?vue&type=script&lang=js&":
-/*!**************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Projects.vue?vue&type=script&lang=js& ***!
-  \**************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/ProjectCreate.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/ProjectCreate.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_project_ProjectCard_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/project/ProjectCard.vue */ "./resources/js/components/project/ProjectCard.vue");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2698,25 +2763,114 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      projects: []
+      title: '',
+      description: '',
+      notes: ''
     };
   },
-  mounted: function mounted() {
-    this.fetchData();
-  },
-  methods: {
-    fetchData: function fetchData() {
-      var _this = this;
-
-      return window.axios.get('projects').then(function (response) {
-        _this.projects = response.data;
-      })["catch"](function (error) {
-        console.error(error);
-      });
+  validations: {
+    title: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+    },
+    description: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      maxLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["maxLength"])(255),
+      minLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["minLength"])(6)
     }
   },
+  methods: {
+    createNewProject: function createNewProject() {
+      var _this = this;
+
+      this.$v.$touch();
+
+      if (!this.$v.$invalid) {
+        /*this.$store
+            .dispatch('/projects ', {
+                title: this.title,
+                description: this.description,
+            })*/
+        axios.post('/projects ', {
+          title: this.title,
+          description: this.description
+        }).then(function () {
+          return _this.$router.push({
+            name: 'projects'
+          });
+        })["catch"](function (error) {
+          var notification = {
+            type: 'error',
+            title: '',
+            text: ''
+          };
+
+          if (error.response) {
+            notification.title = error.response.status;
+            notification.text = error.response.data.status;
+
+            if (error.response.status === 422) {
+              var errors = error.response.data.errors;
+              var list = "<ul>";
+
+              for (var prop in errors) {
+                list += "<li>".concat(errors[prop], "</li>");
+              }
+
+              list += "</lu>";
+              notification.html = list;
+            }
+          } else if (error.request) {
+            notification.title = 'The request was made but no response was received';
+            notification.text = error.request;
+          } else {
+            notification.title = 'Something happened in setting up the request that triggered an Error';
+            notification.text = error.message;
+          }
+
+          swal.fire(notification);
+        });
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Projects.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Projects.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _stores_modules_projectsHelper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../stores/modules/projectsHelper */ "./resources/js/stores/modules/projectsHelper.js");
+/* harmony import */ var _components_project_ProjectCard_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/project/ProjectCard.vue */ "./resources/js/components/project/ProjectCard.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    this.$store.dispatch('projects/getProjects');
+  },
+  computed: _objectSpread({}, _stores_modules_projectsHelper__WEBPACK_IMPORTED_MODULE_0__["projectComputed"]),
+  methods: _objectSpread({}, _stores_modules_projectsHelper__WEBPACK_IMPORTED_MODULE_0__["projectMethods"]),
   components: {
-    ProjectCard: _components_project_ProjectCard_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    ProjectCard: _components_project_ProjectCard_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -10749,7 +10903,7 @@ var render = function() {
                     _c(
                       "label",
                       {
-                        staticClass: "block text-gray-700 text-sm font-bold",
+                        staticClass: "form-label",
                         attrs: { for: "inputEmail" }
                       },
                       [
@@ -10769,11 +10923,12 @@ var render = function() {
                           modifiers: { lazy: true }
                         }
                       ],
-                      staticClass: "form-input mt-1 block w-full",
-                      class: _vm.$v.email.$error ? " border-red-500" : null,
+                      staticClass: "form-input",
+                      class: _vm.$v.email.$error ? " form-error" : null,
                       attrs: {
                         autofocus: "",
                         id: "inputEmail",
+                        autocomplete: "off",
                         placeholder: "Email address",
                         type: "text"
                       },
@@ -10793,27 +10948,19 @@ var render = function() {
                   _vm.$v.email.$dirty
                     ? _c("div", [
                         !_vm.$v.email.email
-                          ? _c(
-                              "p",
-                              { staticClass: "text-red-500 text-xs italic" },
-                              [
-                                _vm._v(
-                                  "\n                                Please enter a valid E-mail address.\n                            "
-                                )
-                              ]
-                            )
+                          ? _c("p", { staticClass: "form-error-message" }, [
+                              _vm._v(
+                                "\n                                Please enter a valid E-mail address.\n                            "
+                              )
+                            ])
                           : _vm._e(),
                         _vm._v(" "),
                         !_vm.$v.email.required
-                          ? _c(
-                              "p",
-                              { staticClass: "text-red-500 text-xs italic" },
-                              [
-                                _vm._v(
-                                  "\n                                Email is required.\n                            "
-                                )
-                              ]
-                            )
+                          ? _c("p", { staticClass: "form-error-message" }, [
+                              _vm._v(
+                                "\n                                Email is required.\n                            "
+                              )
+                            ])
                           : _vm._e()
                       ])
                     : _vm._e()
@@ -10824,7 +10971,7 @@ var render = function() {
                     _c(
                       "label",
                       {
-                        staticClass: "block text-gray-700 text-sm font-bold",
+                        staticClass: "form-label",
                         attrs: { for: "inputPassword" }
                       },
                       [_vm._v("Password")]
@@ -10840,10 +10987,11 @@ var render = function() {
                           modifiers: { lazy: true }
                         }
                       ],
-                      staticClass: "form-input mt-1 block w-full",
-                      class: _vm.$v.password.$error ? " border-red-500" : null,
+                      staticClass: "form-input",
+                      class: _vm.$v.password.$error ? " form-error" : "",
                       attrs: {
                         id: "inputPassword",
+                        autocomplete: "off",
                         placeholder: "Password",
                         autofocus: "",
                         type: "password"
@@ -10864,31 +11012,23 @@ var render = function() {
                   _vm.$v.password.$dirty
                     ? _c("div", [
                         !_vm.$v.password.required
-                          ? _c(
-                              "p",
-                              { staticClass: "text-red-500 text-xs italic" },
-                              [
-                                _vm._v(
-                                  "\n                                Please enter your Password.\n                            "
-                                )
-                              ]
-                            )
+                          ? _c("p", { staticClass: "form-error-message" }, [
+                              _vm._v(
+                                "\n                                Please enter your Password.\n                            "
+                              )
+                            ])
                           : _vm._e(),
                         _vm._v(" "),
                         !_vm.$v.password.minLength
-                          ? _c(
-                              "p",
-                              { staticClass: "text-red-500 text-xs italic" },
-                              [
-                                _vm._v(
-                                  "\n                                Password must have at least " +
-                                    _vm._s(
-                                      _vm.$v.password.$params.minLength.min
-                                    ) +
-                                    " characters.\n                            "
-                                )
-                              ]
-                            )
+                          ? _c("p", { staticClass: "form-error-message" }, [
+                              _vm._v(
+                                "\n                                Password must have at least " +
+                                  _vm._s(
+                                    _vm.$v.password.$params.minLength.min
+                                  ) +
+                                  " characters.\n                            "
+                              )
+                            ])
                           : _vm._e()
                       ])
                     : _vm._e()
@@ -10897,28 +11037,23 @@ var render = function() {
                 _c("div", { staticClass: "border-t p-6 bg-white" }, [
                   _c(
                     "div",
-                    { staticClass: "flex justify-between items-center " },
+                    { staticClass: "flex justify-between items-center" },
                     [
                       _c(
                         "button",
                         {
-                          staticClass: "btn-blue",
+                          staticClass: "button button-blue",
                           class: this.$v.$invalid
-                            ? " opacity-75 cursor-not-allowed bg-blue-800 hover:bg-blue-800 focus:bg-blue-800"
+                            ? " button-blue-invalid"
                             : null,
                           attrs: { type: "submit" }
                         },
                         [_vm._v("Sign in\n                            ")]
                       ),
                       _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass:
-                            "px-6 py-3 text-blue-800 text-sm font-bold"
-                        },
-                        [_vm._v("Forgot Your Password?")]
-                      )
+                      _c("a", { staticClass: "form-label px-6 py-3 " }, [
+                        _vm._v("Forgot Your Password?")
+                      ])
                     ]
                   )
                 ])
@@ -10930,7 +11065,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "text-grey-700 text-sm text-center" },
+        { staticClass: "text-gray-700 text-sm text-center" },
         [
           _vm._v("\n            Don't have an account?\n            "),
           _c(
@@ -11005,7 +11140,7 @@ var render = function() {
                     _c(
                       "label",
                       {
-                        staticClass: "block text-gray-700 text-sm font-bold",
+                        staticClass: "form-label",
                         attrs: { for: "inputName" }
                       },
                       [_vm._v("Name")]
@@ -11021,8 +11156,8 @@ var render = function() {
                           modifiers: { lazy: true }
                         }
                       ],
-                      staticClass: "form-input mt-1 block w-full",
-                      class: _vm.$v.name.$error ? " border-red-500" : null,
+                      staticClass: "form-input",
+                      class: _vm.$v.name.$error ? " form-error" : "",
                       attrs: {
                         autofocus: "",
                         id: "inputName",
@@ -11045,15 +11180,11 @@ var render = function() {
                   _vm.$v.name.$dirty
                     ? _c("div", [
                         !_vm.$v.name.required
-                          ? _c(
-                              "p",
-                              { staticClass: "text-red-500 text-xs italic" },
-                              [
-                                _vm._v(
-                                  "\n                                Name is required.\n                            "
-                                )
-                              ]
-                            )
+                          ? _c("p", { staticClass: "form-error-message" }, [
+                              _vm._v(
+                                "\n                                Name is required.\n                            "
+                              )
+                            ])
                           : _vm._e()
                       ])
                     : _vm._e()
@@ -11064,7 +11195,7 @@ var render = function() {
                     _c(
                       "label",
                       {
-                        staticClass: "block text-gray-700 text-sm font-bold",
+                        staticClass: "form-label",
                         attrs: { for: "inputEmail" }
                       },
                       [
@@ -11084,8 +11215,8 @@ var render = function() {
                           modifiers: { lazy: true }
                         }
                       ],
-                      staticClass: "form-input mt-1 block w-full",
-                      class: _vm.$v.email.$error ? " border-red-500" : null,
+                      staticClass: "form-input",
+                      class: _vm.$v.email.$error ? " form-error" : "",
                       attrs: {
                         autofocus: "",
                         id: "inputEmail",
@@ -11108,27 +11239,19 @@ var render = function() {
                   _vm.$v.email.$dirty
                     ? _c("div", [
                         !_vm.$v.email.email
-                          ? _c(
-                              "p",
-                              { staticClass: "text-red-500 text-xs italic" },
-                              [
-                                _vm._v(
-                                  "\n                                Please enter a valid E-mail address.\n                            "
-                                )
-                              ]
-                            )
+                          ? _c("p", { staticClass: "form-error-message" }, [
+                              _vm._v(
+                                "\n                                Please enter a valid E-mail address.\n                            "
+                              )
+                            ])
                           : _vm._e(),
                         _vm._v(" "),
                         !_vm.$v.email.required
-                          ? _c(
-                              "p",
-                              { staticClass: "text-red-500 text-xs italic" },
-                              [
-                                _vm._v(
-                                  "\n                                E-mail is required.\n                            "
-                                )
-                              ]
-                            )
+                          ? _c("p", { staticClass: "form-error-message" }, [
+                              _vm._v(
+                                "\n                                E-mail is required.\n                            "
+                              )
+                            ])
                           : _vm._e()
                       ])
                     : _vm._e()
@@ -11139,7 +11262,7 @@ var render = function() {
                     _c(
                       "label",
                       {
-                        staticClass: "block text-gray-700 text-sm font-bold",
+                        staticClass: "form-label",
                         attrs: { for: "inputPassword" }
                       },
                       [_vm._v("Password")]
@@ -11155,8 +11278,8 @@ var render = function() {
                           modifiers: { lazy: true }
                         }
                       ],
-                      staticClass: "form-input mt-1 block w-full",
-                      class: _vm.$v.password.$error ? " border-red-500" : null,
+                      staticClass: "form-input",
+                      class: _vm.$v.password.$error ? " form-error" : "",
                       attrs: {
                         id: "inputPassword",
                         placeholder: "Password",
@@ -11179,31 +11302,23 @@ var render = function() {
                   _vm.$v.password.$dirty
                     ? _c("div", [
                         !_vm.$v.password.required
-                          ? _c(
-                              "p",
-                              { staticClass: "text-red-500 text-xs italic" },
-                              [
-                                _vm._v(
-                                  "\n                                Password is required.\n                            "
-                                )
-                              ]
-                            )
+                          ? _c("p", { staticClass: "form-error-message" }, [
+                              _vm._v(
+                                "\n                                Password is required.\n                            "
+                              )
+                            ])
                           : _vm._e(),
                         _vm._v(" "),
                         !_vm.$v.password.minLength
-                          ? _c(
-                              "p",
-                              { staticClass: "text-red-500 text-xs italic" },
-                              [
-                                _vm._v(
-                                  "\n                                Password must have at least " +
-                                    _vm._s(
-                                      _vm.$v.password.$params.minLength.min
-                                    ) +
-                                    " characters.\n                            "
-                                )
-                              ]
-                            )
+                          ? _c("p", { staticClass: "form-error-message" }, [
+                              _vm._v(
+                                "\n                                Password must have at least " +
+                                  _vm._s(
+                                    _vm.$v.password.$params.minLength.min
+                                  ) +
+                                  " characters.\n                            "
+                              )
+                            ])
                           : _vm._e()
                       ])
                     : _vm._e()
@@ -11214,7 +11329,7 @@ var render = function() {
                     _c(
                       "label",
                       {
-                        staticClass: "block text-gray-700 text-sm font-bold",
+                        staticClass: "form-label",
                         attrs: { for: "inputPasswordConfirmation" }
                       },
                       [_vm._v("Confirm Password")]
@@ -11230,10 +11345,10 @@ var render = function() {
                           modifiers: { lazy: true }
                         }
                       ],
-                      staticClass: "form-input mt-1 block w-full",
+                      staticClass: "form-input",
                       class: _vm.$v.password_confirmation.$error
-                        ? " border-red-500"
-                        : null,
+                        ? " form-error"
+                        : "",
                       attrs: {
                         id: "inputPasswordConfirmation",
                         placeholder: "Password",
@@ -11256,27 +11371,19 @@ var render = function() {
                   _vm.$v.password_confirmation.$dirty
                     ? _c("div", [
                         !_vm.$v.password_confirmation.required
-                          ? _c(
-                              "p",
-                              { staticClass: "text-red-500 text-xs italic" },
-                              [
-                                _vm._v(
-                                  "\n                                Confirm Password is required\n                            "
-                                )
-                              ]
-                            )
+                          ? _c("p", { staticClass: "form-error-message" }, [
+                              _vm._v(
+                                "\n                                Confirm Password is required\n                            "
+                              )
+                            ])
                           : _vm._e(),
                         _vm._v(" "),
                         !_vm.$v.password_confirmation.sameAsPassword
-                          ? _c(
-                              "p",
-                              { staticClass: "text-red-500 text-xs italic" },
-                              [
-                                _vm._v(
-                                  "\n                                Passwords must be identical.\n                            "
-                                )
-                              ]
-                            )
+                          ? _c("p", { staticClass: "form-error-message " }, [
+                              _vm._v(
+                                "\n                                Passwords must be identical.\n                            "
+                              )
+                            ])
                           : _vm._e()
                       ])
                     : _vm._e()
@@ -11290,10 +11397,10 @@ var render = function() {
                       _c(
                         "button",
                         {
-                          staticClass: "btn-blue",
+                          staticClass: "button button-blue",
                           class: this.$v.$invalid
-                            ? " opacity-75 cursor-not-allowed bg-blue-800 hover:bg-blue-800 focus:bg-blue-800"
-                            : null,
+                            ? " button-blue-invalid "
+                            : "",
                           attrs: { type: "submit" }
                         },
                         [_vm._v("Register\n                            ")]
@@ -11309,7 +11416,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "text-grey-700 text-sm text-center" },
+        { staticClass: "text-gray-700 text-sm text-center" },
         [
           _vm._v("\n            Don't have an account?\n            "),
           _c(
@@ -11348,7 +11455,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "mt-6 w-full px-4 lg:w-1/2 xl:w-1/3" }, [
+  return _c("div", { staticClass: "mt-6 w-full px-4 1/2" }, [
     _c(
       "div",
       {
@@ -11743,7 +11850,7 @@ var render = function() {
                         [
                           _c("logo", {
                             staticClass: "inline-block",
-                            attrs: { height: "60" }
+                            attrs: { width: "69", height: "76" }
                           })
                         ],
                         1
@@ -11828,7 +11935,7 @@ var render = function() {
                               _vm._v(" "),
                               _c("icon", {
                                 staticClass:
-                                  "w-5 h-5 group-hover:fill-blue-700 fill-gray-800 focus:fill-blue-600",
+                                  "w-5 h-5 group-hover:fill-gray-700 fill-gray-800 focus:fill-gray-600",
                                 attrs: { name: "cheveron-down" }
                               })
                             ],
@@ -11848,7 +11955,7 @@ var render = function() {
                                 "router-link",
                                 {
                                   staticClass:
-                                    "block px-6 py-2 hover:bg-blue-500 hover:text-white",
+                                    "block px-4 py-2 hover:bg-orange-800 hover:text-white",
                                   attrs: { to: { name: "dashboard" } }
                                 },
                                 [
@@ -11862,16 +11969,16 @@ var render = function() {
                                 "a",
                                 {
                                   staticClass:
-                                    "block px-6 py-2 cursor-not-allowed"
+                                    "block px-4 py-2 cursor-not-allowed"
                                 },
                                 [_vm._v("Manage Users")]
                               ),
                               _vm._v(" "),
                               _c(
-                                "button",
+                                "a",
                                 {
                                   staticClass:
-                                    "block px-6 py-2 hover:bg-blue-500 hover:text-white",
+                                    "block px-4 py-2 hover:bg-orange-800 hover:text-white",
                                   on: { click: _vm.logout }
                                 },
                                 [
@@ -11897,7 +12004,7 @@ var render = function() {
                     "div",
                     {
                       staticClass:
-                        "bg-gray-300 flex-no-shrink w-64 py-4 pl-2  hidden md:block"
+                        "bg-gray-300 flex-no-shrink w-64 pl-2 hidden md:block"
                     },
                     [_c("main-menu")],
                     1
@@ -12247,21 +12354,23 @@ var render = function() {
           _c(
             "router-link",
             {
-              staticClass:
-                "flex h-8 my-2 items-center group pl-3 text-grey-400 hover:text-grey-700 hover:bg-gray-200",
+              staticClass: "flex h-8 my-2 items-center pl-3 hover:bg-gray-200",
               attrs: { to: { name: link.name } }
             },
             [
               _c(
                 "div",
-                { staticClass: "flex-auto" },
+                {
+                  staticClass:
+                    "flex-auto text-gray-800 hover:text-gray-700 font-extrabold"
+                },
                 [
                   _c("icon", {
                     staticClass: "w-3 h-3 mr-1 fill-current inline-flex",
                     attrs: { name: link.icon }
                   }),
                   _vm._v(" "),
-                  _c("small", { staticClass: "uppercase font-bold" }, [
+                  _c("small", { staticClass: "uppercase font-bold text-xs" }, [
                     _vm._v(_vm._s(link.description))
                   ])
                 ],
@@ -12407,25 +12516,204 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("h1", [_vm._v("ProjectCreate")]),
-      _vm._v(" "),
-      _c("h3", [
-        _vm._v(
-          "\n        It looks like you're experiencing some network issues, please click the\n        back button and try again.\n    "
-        )
-      ]),
-      _vm._v(" "),
-      _c("router-link", { attrs: { to: { name: "home" } } }, [
-        _vm._v("Or go back to the home page")
-      ])
-    ],
-    1
-  )
+  return _c("div", { staticClass: "flex" }, [
+    _c("div", { staticClass: "w-full" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "block mx-auto w-full max-w-sm bg-white my-6 rounded-lg overflow-hidden"
+        },
+        [
+          _c("div", [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "border-b p-4 font-bold text-black text-xl tracking-widest uppercase bg-white"
+              },
+              [_vm._v("\n                    New Project\n                ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "form",
+              {
+                staticClass: "bg-gray-100",
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.createNewProject($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "px-6 py-6" }, [
+                  _c("div", [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "form-label",
+                        attrs: { for: "inputTitle" }
+                      },
+                      [_vm._v("Title")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model.lazy",
+                          value: _vm.$v.title.$model,
+                          expression: "$v.title.$model",
+                          modifiers: { lazy: true }
+                        }
+                      ],
+                      staticClass: "form-input",
+                      class: _vm.$v.title.$error ? " form-error" : "",
+                      attrs: {
+                        autofocus: "",
+                        id: "inputTitle",
+                        placeholder: "Project's title",
+                        type: "text"
+                      },
+                      domProps: { value: _vm.$v.title.$model },
+                      on: {
+                        change: function($event) {
+                          return _vm.$set(
+                            _vm.$v.title,
+                            "$model",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm.$v.title.$dirty
+                    ? _c("div", [
+                        !_vm.$v.title.required
+                          ? _c("p", { staticClass: "form-error-message" }, [
+                              _vm._v(
+                                "\n                                Project Title is required.\n                            "
+                              )
+                            ])
+                          : _vm._e()
+                      ])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "px-6 pb-6" }, [
+                  _c("div", [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "form-label",
+                        attrs: { for: "inputDescription" }
+                      },
+                      [_vm._v("Description")]
+                    ),
+                    _vm._v(" "),
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model.lazy",
+                          value: _vm.$v.description.$model,
+                          expression: "$v.description.$model",
+                          modifiers: { lazy: true }
+                        }
+                      ],
+                      staticClass: "form-textarea",
+                      class: _vm.$v.description.$error ? " form-error" : "",
+                      attrs: {
+                        autofocus: "",
+                        id: "inputDescription",
+                        placeholder: "Description",
+                        type: "text"
+                      },
+                      domProps: { value: _vm.$v.description.$model },
+                      on: {
+                        change: function($event) {
+                          return _vm.$set(
+                            _vm.$v.description,
+                            "$model",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm.$v.description.$dirty
+                    ? _c("div", [
+                        !_vm.$v.description.minLength
+                          ? _c("p", { staticClass: "form-error-message" }, [
+                              _vm._v(
+                                "\n                                The description must not have more than " +
+                                  _vm._s(
+                                    _vm.$v.description.$params.minLength.min
+                                  ) +
+                                  "\n                                characters.\n                            "
+                              )
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        !_vm.$v.description.maxLength
+                          ? _c("p", { staticClass: "form-error-message" }, [
+                              _vm._v(
+                                "\n                                The description must have at least " +
+                                  _vm._s(
+                                    _vm.$v.description.$params.maxLength.min
+                                  ) +
+                                  "\n                                characters.\n                            "
+                              )
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        !_vm.$v.description.required
+                          ? _c("p", { staticClass: "form-error-message" }, [
+                              _vm._v(
+                                "\n                                The description is required.\n                            "
+                              )
+                            ])
+                          : _vm._e()
+                      ])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _vm._m(0)
+              ]
+            )
+          ])
+        ]
+      )
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "border-t p-6 bg-white" }, [
+      _c("div", { staticClass: "flex justify-between items-center" }, [
+        _c(
+          "button",
+          { staticClass: "button button-blue", attrs: { type: "submit" } },
+          [
+            _vm._v(
+              "\n                                New\n                            "
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c("a", { staticClass: "px-6 py-3 text-blue-800 text-sm font-bold" }, [
+          _vm._v("Create a new Project")
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -31679,8 +31967,13 @@ var actions = {
   login: function login(_ref2, credentials) {
     var commit = _ref2.commit,
         dispatch = _ref2.dispatch;
-    return axios.post('auth/login', credentials).then(function (response) {
-      commit('LOGIN', response.data);
+    return new Promise(function (resolve, reject) {
+      axios.post('auth/login', credentials).then(function (response) {
+        commit('LOGIN', response.data);
+        resolve(response);
+      })["catch"](function (error) {
+        reject(error);
+      });
     });
   },
   logout: function logout(_ref3) {
@@ -31775,6 +32068,82 @@ var actions = {
 
 /***/ }),
 
+/***/ "./resources/js/stores/modules/projects.js":
+/*!*************************************************!*\
+  !*** ./resources/js/stores/modules/projects.js ***!
+  \*************************************************/
+/*! exports provided: namespaced, state, mutations, actions, getters */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "namespaced", function() { return namespaced; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "state", function() { return state; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mutations", function() { return mutations; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "actions", function() { return actions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getters", function() { return getters; });
+var namespaced = true;
+var state = {
+  projects: []
+};
+var mutations = {
+  GET_PROJECTS: function GET_PROJECTS(state, payload) {
+    state.projects = payload;
+  },
+  CREATE: function CREATE(state, payload) {
+    state.projects.push(payload);
+  },
+  DELETE: function DELETE(state) {}
+};
+var actions = {
+  setProjects: function setProjects(_ref) {
+    var commit = _ref.commit;
+    return axios.get('projects').then(function (response) {
+      console.log(response);
+      commit('GET_PROJECTS', response.data);
+    });
+  },
+  create: function create(_ref2, data) {
+    var commit = _ref2.commit;
+    return axios.post('projects', data).then(function (response) {
+      commit('CREATE', response.data);
+    });
+  }
+};
+var getters = {
+  projects: function projects(state) {
+    return state.projects;
+  }
+};
+
+/***/ }),
+
+/***/ "./resources/js/stores/modules/projectsHelper.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/stores/modules/projectsHelper.js ***!
+  \*******************************************************/
+/*! exports provided: projectComputed, projectMethods, projectStates */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "projectComputed", function() { return projectComputed; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "projectMethods", function() { return projectMethods; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "projectStates", function() { return projectStates; });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var projectComputed = _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('projects', ['projects']));
+var projectMethods = _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('projects', ['getProjects', 'create']));
+var projectStates = _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('projects', ['projects']));
+
+/***/ }),
+
 /***/ "./resources/js/stores/store.js":
 /*!**************************************!*\
   !*** ./resources/js/stores/store.js ***!
@@ -31789,6 +32158,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _modules_auth_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/auth.js */ "./resources/js/stores/modules/auth.js");
 /* harmony import */ var _modules_notifications_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/notifications.js */ "./resources/js/stores/modules/notifications.js");
+/* harmony import */ var _modules_projects_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/projects.js */ "./resources/js/stores/modules/projects.js");
+
 
 
 
@@ -31797,7 +32168,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   modules: {
     auth: _modules_auth_js__WEBPACK_IMPORTED_MODULE_2__,
-    notifications: _modules_notifications_js__WEBPACK_IMPORTED_MODULE_3__
+    notifications: _modules_notifications_js__WEBPACK_IMPORTED_MODULE_3__,
+    projects: _modules_projects_js__WEBPACK_IMPORTED_MODULE_4__
   }
 }));
 
@@ -32004,15 +32376,17 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ProjectCreate_vue_vue_type_template_id_1bfe4734___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProjectCreate.vue?vue&type=template&id=1bfe4734& */ "./resources/js/views/ProjectCreate.vue?vue&type=template&id=1bfe4734&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _ProjectCreate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProjectCreate.vue?vue&type=script&lang=js& */ "./resources/js/views/ProjectCreate.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
-var script = {}
+
+
 
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
-  script,
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ProjectCreate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _ProjectCreate_vue_vue_type_template_id_1bfe4734___WEBPACK_IMPORTED_MODULE_0__["render"],
   _ProjectCreate_vue_vue_type_template_id_1bfe4734___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
@@ -32026,6 +32400,20 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 if (false) { var api; }
 component.options.__file = "resources/js/views/ProjectCreate.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/ProjectCreate.vue?vue&type=script&lang=js&":
+/*!***********************************************************************!*\
+  !*** ./resources/js/views/ProjectCreate.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectCreate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ProjectCreate.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/ProjectCreate.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProjectCreate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 

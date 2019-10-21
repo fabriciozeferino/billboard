@@ -60,10 +60,17 @@ export const actions = {
     },
 
     login({commit, dispatch}, credentials) {
-        return axios.post('auth/login', credentials)
-            .then(response => {
-                commit('LOGIN', response.data);
+        return new Promise((resolve, reject) => {
+            axios.post('auth/login', credentials)
+                .then(response => {
+                    commit('LOGIN', response.data);
+
+                    resolve(response);
+                }).catch(error => {
+
+                reject(error);
             });
+        })
     },
 
     logout({commit, dispatch}) {

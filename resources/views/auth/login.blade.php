@@ -35,7 +35,7 @@
 
             <div class="border-t p-6 bg-white">
                 <div class="flex justify-between items-center">
-                    <button type="submit" class="btn-blue">
+                    <button type="submit" class="button-blue">
                         {{ __('Login') }}
                     </button>
 

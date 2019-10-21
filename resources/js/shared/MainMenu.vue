@@ -2,17 +2,16 @@
     <div>
         <div v-for="link in menu">
             <router-link
-                class="flex h-8 my-2 items-center group pl-3 text-grey-400 hover:text-grey-700 hover:bg-gray-200"
+                class="flex h-8 my-2 items-center pl-3 hover:bg-gray-200"
                 :to="{ name: link.name }">
-                <div class="flex-auto">
+                <div class="flex-auto text-gray-800 hover:text-gray-700 font-extrabold">
                     <icon :name="link.icon"
                           class="w-3 h-3 mr-1 fill-current inline-flex"/>
-                    <small class="uppercase font-bold">{{ link.description }}</small>
+                    <small class="uppercase font-bold text-xs">{{ link.description }}</small>
                 </div>
                 <!-- Arrow in the end of menu -->
                 <div class="invisible md:visible" :class="(currentPage === link.name) ? 'active' : 'inactive'">
                 </div>
-
             </router-link>
         </div>
 

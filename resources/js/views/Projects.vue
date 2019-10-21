@@ -7,27 +7,25 @@
 </template>
 
 <script>
+    import {projectComputed, projectMethods} from '../stores/modules/projectsHelper'
     import ProjectCard from '../components/project/ProjectCard.vue'
 
     export default {
-        data() {
-            return {
-                projects: []
-            }
-        },
+
         mounted() {
-            this.fetchData();
+            this.$store.dispatch('projects/getProjects');
+        },
+        computed: {
+            ...projectComputed,
         },
 
         methods: {
-            fetchData() {
-               return window.axios.get('projects')
-                    .then(response => {
-                        this.projects = response.data
-                    }).catch(error => {
-                    console.error(error)
-                })
-            }
+            ...projectMethods
+            /*load() {
+                axios.get('projects').then((response) => {
+                    this.$store.commit('projects/setProjects', response.data);
+                });
+            },*/
         },
 
         components: {

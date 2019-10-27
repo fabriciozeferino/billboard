@@ -13,7 +13,8 @@
     export default {
 
         mounted() {
-            this.$store.dispatch('projects/getProjects');
+            console.log(this.$store)
+            this.$store.dispatch('projects/show');
         },
         computed: {
             ...projectComputed,

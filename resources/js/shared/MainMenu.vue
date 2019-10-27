@@ -7,7 +7,10 @@
                 <div class="flex-auto text-gray-800 hover:text-gray-700 font-extrabold">
                     <icon :name="link.icon"
                           class="w-3 h-3 mr-1 fill-current inline-flex"/>
-                    <small class="uppercase font-bold text-xs">{{ link.description }}</small>
+                    <small class="uppercase text-xs">{{ link.description }}</small>
+
+                    <span v-if="link.name === 'projects'" class="ml-3 bg-red-800 text-white text-xs font-bold py-1 px-2 rounded-full">{{numberOfProjects}}</span>
+
                 </div>
                 <!-- Arrow in the end of menu -->
                 <div class="invisible md:visible" :class="(currentPage === link.name) ? 'active' : 'inactive'">
@@ -20,6 +23,7 @@
 
 <script>
     import Icon from './Icon'
+    import {projectComputed, projectMethods} from '../stores/modules/projectsHelper'
 
     export default {
         components: {
@@ -52,8 +56,12 @@
         computed: {
             currentPage() {
                 return this.$route.name;
-            }
-        }
+            },
+            ...projectComputed
+        },
+        methods: {
+            ...projectMethods
+        },
     }
 </script>
 

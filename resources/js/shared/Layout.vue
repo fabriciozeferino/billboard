@@ -90,7 +90,6 @@
         data() {
             return {
                 showUserMenu: false,
-                accounts: null,
             }
         },
 

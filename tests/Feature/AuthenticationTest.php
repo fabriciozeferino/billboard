@@ -70,7 +70,12 @@ class AuthenticationTest extends TestCase
 
         $response->assertJsonStructure([
             'token',
-            'user'
+            'user' => [
+                'name'
+            ],
+            'projects' => [
+                'number_of_projects'
+            ]
         ]);
 
         $this->assertAuthenticatedAs($user);

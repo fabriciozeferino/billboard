@@ -20,7 +20,9 @@ class CreateActivitiesTable extends Migration
             $table->nullableMorphs('subject');
             $table->string('description');
             $table->json('changes')->nullable();
+
             $table->timestamps();
+            $table->softDeletes();
 
             //$table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
 

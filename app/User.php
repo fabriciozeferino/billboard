@@ -46,6 +46,21 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Project::class, 'owner_id')->orderBy('updated_at', 'desc');
     }
 
+    public function scopeWithProjects($query)
+    {
+        return $query->with(['projects'])->get();
+    }
+
+    public function addSubSelect($column, $query)
+    {
+        if (is_null($this->columns)) {
+            $this->select($this->from . '.*');
+        }
+
+        return $this->selectSub($query->limit(1), $column);
+    }
+
+
     public function tasks()
     {
         return $this->hasMany(Task::class, 'owner_id');

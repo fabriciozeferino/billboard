@@ -24,9 +24,13 @@ class AbstractAuth extends Controller
      */
     protected function respondWithToken($token, $status)
     {
+        $authenticatedUser = Auth::user();
         return response()->json([
             'token' => $token,
-            'user' => Auth::user(),
+            'user' => $authenticatedUser,
+            'projects' => [
+                'number_of_projects' => $authenticatedUser->projects()->count()
+            ],
             'expires' => auth('api')->factory()->getTTL() * 60,
 
         ], $status);

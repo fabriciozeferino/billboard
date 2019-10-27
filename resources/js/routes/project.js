@@ -1,5 +1,8 @@
-import Projects from '../views/Projects.vue'
-import ProjectCreate from '../views/ProjectCreate.vue'
+//import Projects from '../views/Projects.vue'
+let Projects = () => import('../views/Projects.vue');
+
+//import ProjectCreate from '../views/ProjectCreate.vue'
+let ProjectCreate = () => import('../views/ProjectCreate.vue');
 
 import authMiddleware from '../middleware/authMiddleware.js';
 import log from '../middleware/log.js';

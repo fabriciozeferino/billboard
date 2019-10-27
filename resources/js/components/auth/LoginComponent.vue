@@ -106,8 +106,13 @@
                             email: this.email,
                             password: this.password
                         })
-                        .then((response) => {
-                                console.log(response)
+                        .then((response) => response.data)
+                        .then(data => {
+                                this.$store
+                                    .dispatch('projects/numberOfProjects', {
+                                        data
+                                    });
+
                                 this.$router.push('/')
                             }
                         )

@@ -13,7 +13,7 @@ Route::prefix('v1')->group(function () {
 
 
         // Just Authenticated
-        Route::middleware(['auth:api','jwt.auth'])->group(function () {
+        Route::middleware(['auth:api', 'jwt.auth'])->group(function () {
 
             Route::get('user', 'Auth\AuthController@user');
 
@@ -25,6 +25,9 @@ Route::prefix('v1')->group(function () {
     Route::middleware(['auth:api', 'jwt.auth'])->group(function () {
 
         Route::resource('projects', 'ProjectController');
+
+        Route::delete('projects/{project}/delete', 'ProjectController@forceDelete')
+            ->name('projects.delete');
     });
 
 });

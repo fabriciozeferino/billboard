@@ -51,16 +51,20 @@ class ManageProjectsTest extends TestCase
     public function a_user_can_create_a_project()
     {
         $this->withoutExceptionHandling();
-        $this->signIn();
+
+        $response = $this->signIn();
 
         $this->assertAuthenticated();
 
         /*$this->json('GET', '/api/v1/projects/create')
             ->assertStatus(200);*/
 
-        $attributes = factory(Project::class)->raw(["owner_id" => auth()->id()]);
+        $attributes = factory(Project::class)->raw(["owner_id" => $response['user']->id]);
+        //$attributes = ProjectFactory::ownedBy($response['user'])->create();
 
-        $response = $this->json('POST', 'api/v1/projects', $attributes);
+        //dd($attributes);
+
+        $response = $this->actingAs($response['user'])->json('POST', 'api/v1/projects', $attributes);
 
         $response->assertStatus(201);
 
@@ -71,34 +75,50 @@ class ManageProjectsTest extends TestCase
     /** @test */
     public function an_authenticated_user_can_update_a_project()
     {
-        $this->withoutExceptionHandling();
-        $response = $this->signIn();
+        $user = $this->signIn();
+
         $this->assertAuthenticated();
 
-        $project = ProjectFactory::ownedBy($response['user'])->create();
+        $project = ProjectFactory::ownedBy($user['user'])->create();
 
         $randon_fields = factory(Project::class)->raw(["owner_id" => $project->owner_id]);
-
-
-        /*$this->actingAs($project->owner)
-            ->patch($project->path(), $randon_fields);*/
 
         $response = $this->json('PUT', $project->path(), $randon_fields);
 
         $response->assertStatus(200);
 
+        $response->assertJsonStructure([
+            '*' => [
+                'id',
+                'owner_id',
+                'title'
+            ]
+        ]);
+
         $this->assertDatabaseHas('projects', $randon_fields);
     }
 
+
     /** @test */
-    public function an_authenticated_user_can_delete_a_project()
+    public function an_authenticated_user_can_delete_and_force_delete_a_project()
     {
         $this->withoutExceptionHandling();
-        $project = ProjectFactory::create();
 
-        $this->actingAs($project->owner)
-            ->delete($project->path())
-            ->assertRedirect('/projects');
+        $response = $this->signIn();
+
+        $this->assertAuthenticated();
+
+        $project = ProjectFactory::ownedBy($response['user'])->create();
+
+        $this->assertDatabaseHas('projects', $project->only('id', 'owner_id', 'title'));
+
+        $response = $this->json('DELETE', $project->path());
+
+        $response->assertStatus(200);
+
+        $this->assertSoftDeleted($project);
+
+        $this->json('DELETE', "api/v1/projects/1/delete");
 
         $this->assertDatabaseMissing('projects', $project->only('id'));
     }
@@ -129,10 +149,22 @@ class ManageProjectsTest extends TestCase
     public
     function a_user_can_view_their_projects()
     {
-        $project = ProjectFactory::create();
+        $user = $this->signIn();
 
-        $this->actingAs($project->owner)->get($project->path())
-            ->assertSee($project->title);
+        ProjectFactory::ownedBy($user['user'])->create();
+
+        $response = $this->json('GET', 'api/v1/projects');
+
+        $response->assertStatus(200);
+
+
+        $response->assertJsonStructure([
+            '*' => [
+                'id',
+                'owner_id',
+                'title'
+            ]
+        ]);
     }
 
     /** @test */
@@ -155,7 +187,7 @@ class ManageProjectsTest extends TestCase
 
         $attributes = factory(Project::class)->raw(['title' => '']);
 
-        $response = $this->json('post', 'api/v1/projects', $attributes);
+        $response = $this->json('POST', 'api/v1/projects', $attributes);
 
         $response->assertStatus(422);
 
@@ -179,7 +211,7 @@ class ManageProjectsTest extends TestCase
 
         $attributes = factory(Project::class)->raw(['description' => '']);
 
-        $response = $this->json('post', 'api/v1/projects', $attributes);
+        $response = $this->json('POST', 'api/v1/projects', $attributes);
 
         $response->assertStatus(422);
 

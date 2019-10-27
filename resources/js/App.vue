@@ -31,7 +31,7 @@
             })
         },
 
-        beforeMount() {
+        /*beforeMount() {
             axios.interceptors.request.use((request) => {
                     return new Promise(function (resolve, reject) {
                         const token = localStorage.getItem('token');
@@ -42,6 +42,6 @@
                     })
                 }
             );
-        }
+        }*/
     }
 </script>

@@ -41,7 +41,7 @@ class ProjectPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->is(auth()->user());
     }
 
     /**
@@ -89,6 +89,7 @@ class ProjectPolicy
      */
     public function forceDelete(User $user, Project $project)
     {
-        //
+        return true;
+        return $user->is($project->owner);
     }
 }

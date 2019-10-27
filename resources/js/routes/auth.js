@@ -1,5 +1,7 @@
 import LoginComponent from '../components/auth/LoginComponent';
-import RegisterComponent from '../components/auth/RegisterComponent';
+//import RegisterComponent from '../components/auth/RegisterComponent';
+
+let RegisterComponent = () => import('../components/auth/RegisterComponent');
 
 import publicMiddleware from "../middleware/publicMiddleware.js";
 import log from '../middleware/log.js';

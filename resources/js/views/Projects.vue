@@ -1,7 +1,15 @@
 <template>
-    <div id="app">
-        <div v-for="project in projects">
+    <div>
+        <div v-for="project in projects.data">
             <ProjectCard :project="project"></ProjectCard>
+        </div>
+
+
+
+        <div class="d-block mt-3">
+            <pagination :data="projects" :show-disabled="true" size="small" align="center"
+                        @pagination-change-page="getResults">
+            </pagination>
         </div>
     </div>
 </template>
@@ -13,20 +21,30 @@
     export default {
 
         mounted() {
-            console.log(this.$store)
             this.$store.dispatch('projects/show');
         },
         computed: {
             ...projectComputed,
         },
 
+        /*methods: {
+            ...projectMethods,
+            load() {
+                this.$store.dispatch('projects/show');
+                /!*axios.get('projects').then((response) => {
+                    this.$store.commit('projects/setProjects', response);
+                });*!/
+            },
+        },*/
         methods: {
-            ...projectMethods
-            /*load() {
-                axios.get('projects').then((response) => {
-                    this.$store.commit('projects/setProjects', response.data);
-                });
-            },*/
+            ...projectMethods,
+            // Our method to GET results from a Laravel endpoint
+            getResults(page = 1) {
+                axios.get('projects?page=' + page)
+                    .then(response => {
+                        this.$store.dispatch('projects/setProjects', response.data.data);
+                    });
+            }
         },
 
         components: {

@@ -28,10 +28,30 @@
                 if (!state.auth.loggedIn && this.$router.currentRoute.name !== 'login') {
                     this.$router.push({name: 'login'})
                 }
-            })
+            });
+
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+
+            console.log(this.user)
+            console.log('gfsgfsdgfdsgfdsgfds')
+            //this.$store.dispatch('auth/setUser', {token, user});
+            if (this.$router.currentRoute.name !== 'login'){
+
+                this.$store.dispatch('auth/setUser', {token, user});
+            }
+            // console.log(this.$store.actions('auth/user'))
+            // if (!this.$store('auth/user')) {
+            //
+            //     console.log('helllllooooo')
+            //     this.$store
+            //         .dispatch('auth/setUser', {
+            //             token, user
+            //         });
+            // }
         },
 
-        /*beforeMount() {
+        beforeMount() {
             axios.interceptors.request.use((request) => {
                     return new Promise(function (resolve, reject) {
                         const token = localStorage.getItem('token');
@@ -42,6 +62,6 @@
                     })
                 }
             );
-        }*/
+        }
     }
 </script>

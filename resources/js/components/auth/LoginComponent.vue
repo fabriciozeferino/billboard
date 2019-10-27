@@ -109,9 +109,7 @@
                         .then((response) => response.data)
                         .then(data => {
                                 this.$store
-                                    .dispatch('projects/numberOfProjects', {
-                                        data
-                                    });
+                                    .dispatch('projects/numberOfProjects', {data});
 
                                 this.$router.push('/')
                             }

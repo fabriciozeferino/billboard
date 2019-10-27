@@ -1,7 +1,7 @@
 export const namespaced = true;
 
 export const state = {
-    projects: [],
+    projects: {},
     numberOfProjects: 0
 };
 
@@ -9,6 +9,10 @@ export const mutations = {
 
 
     GET_PROJECTS(state, payload) {
+        state.projects = payload.data;
+    },
+
+    SET_PROJECTS(state, payload) {
         state.projects = payload;
     },
 
@@ -31,6 +35,7 @@ export const actions = {
         return axios
             .get('projects')
             .then(response => {
+                console.log(response.data.data)
                 commit('GET_PROJECTS', response.data)
             })
     },
@@ -42,6 +47,15 @@ export const actions = {
             .then(response => {
                 commit('CREATE', response.data)
             })
+    },
+
+    setProjects ({commit}, data) {
+      return new Promise(resolve => {
+
+          commit('SET_PROJECTS', data);
+
+          resolve(data);
+      })
     },
 
     numberOfProjects({commit}, data){

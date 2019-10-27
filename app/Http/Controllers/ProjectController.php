@@ -9,13 +9,13 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Redirector;
 use Illuminate\View\View;
 
 class ProjectController extends Controller
 {
+
     /**
-     * @return Factory|View
+     * @return JsonResponse
      */
     public function index()
     {
@@ -42,10 +42,11 @@ class ProjectController extends Controller
         return response()->json($project, 201);
     }
 
+
     /**
      * @param Project $project
      * @param ProjectUpdateRequest $request
-     * @return RedirectResponse
+     * @return JsonResponse
      * @throws AuthorizationException
      */
     public function update(Project $project, ProjectUpdateRequest $request)
@@ -61,7 +62,7 @@ class ProjectController extends Controller
 
     /**
      * @param Project $project
-     * @return Factory|View
+     * @return JsonResponse
      * @throws AuthorizationException
      */
     public function show(Project $project)
@@ -77,7 +78,7 @@ class ProjectController extends Controller
      * Soft delete Model.
      *
      * @param Project $project
-     * @return void
+     * @return JsonResponse
      * @throws AuthorizationException
      */
     public function destroy(Project $project)
@@ -92,11 +93,12 @@ class ProjectController extends Controller
         ], 200);
     }
 
+
     /**
      * Hard delete the Model.
      *
      * @param $id
-     * @return void
+     * @return JsonResponse
      * @throws AuthorizationException
      */
     public function forceDelete($id)

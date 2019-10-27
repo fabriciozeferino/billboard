@@ -11,6 +11,7 @@ export const projectMethods = {
     ...mapActions('projects', [
         'show',
         'create',
+        'setProjects'
     ]),
 };
 

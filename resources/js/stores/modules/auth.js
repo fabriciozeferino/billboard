@@ -46,6 +46,11 @@ export const mutations = {
         axios.defaults.headers.common['Authorization'] = `Bearer ${
             token
         }`;
+    },
+
+    SET_USER(state, data) {
+        state.token = data.token;
+        state.user = JSON.parse(data.user);
     }
 };
 
@@ -76,15 +81,12 @@ export const actions = {
     logout({commit, dispatch}) {
         return axios.post('auth/logout')
             .then(response => {
+                commit('LOGOUT');
 
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
 
                 delete axios.defaults.headers.common.Authorization;
-
-                commit('LOGOUT');
-                //resolve()
-                //return response;
             })
             .catch(error => {
                 commit('LOGOUT');
@@ -96,15 +98,21 @@ export const actions = {
             });
     },
 
+    setUser({commit}, data) {
+        return new Promise((resolve, reject) => {
+            commit('SET_USER', data);
+
+            resolve(data);
+        })
+    },
+
 
     fetchToken({commit}, token) {
         return axios.post('api/v1/auth/check-token', {token})
             .then(response => {
-                console.log('fetchToken ok', response.data)
                 commit('UPDATE_TOKEN', response.data);
             })
             .catch(error => {
-                console.log('fetchToken error', error)
                 commit('LOGOUT')
             });
     }

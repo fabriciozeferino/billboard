@@ -64,15 +64,42 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
-    console.log(this.$store);
     this.$store.dispatch('projects/show');
   },
   computed: _objectSpread({}, _stores_modules_projectsHelper__WEBPACK_IMPORTED_MODULE_0__["projectComputed"]),
-  methods: _objectSpread({}, _stores_modules_projectsHelper__WEBPACK_IMPORTED_MODULE_0__["projectMethods"]),
+
+  /*methods: {
+      ...projectMethods,
+      load() {
+          this.$store.dispatch('projects/show');
+          /!*axios.get('projects').then((response) => {
+              this.$store.commit('projects/setProjects', response);
+          });*!/
+      },
+  },*/
+  methods: _objectSpread({}, _stores_modules_projectsHelper__WEBPACK_IMPORTED_MODULE_0__["projectMethods"], {
+    // Our method to GET results from a Laravel endpoint
+    getResults: function getResults() {
+      var _this = this;
+
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      axios.get('projects?page=' + page).then(function (response) {
+        _this.$store.dispatch('projects/setProjects', response.data.data);
+      });
+    }
+  }),
   components: {
     ProjectCard: _components_project_ProjectCard_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
@@ -175,11 +202,33 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { attrs: { id: "app" } },
-    _vm._l(_vm.projects, function(project) {
-      return _c("div", [_c("ProjectCard", { attrs: { project: project } })], 1)
-    }),
-    0
+    [
+      _vm._l(_vm.projects.data, function(project) {
+        return _c(
+          "div",
+          [_c("ProjectCard", { attrs: { project: project } })],
+          1
+        )
+      }),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "d-block mt-3" },
+        [
+          _c("pagination", {
+            attrs: {
+              data: _vm.projects,
+              "show-disabled": true,
+              size: "small",
+              align: "center"
+            },
+            on: { "pagination-change-page": _vm.getResults }
+          })
+        ],
+        1
+      )
+    ],
+    2
   )
 }
 var staticRenderFns = []

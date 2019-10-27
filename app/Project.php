@@ -16,9 +16,6 @@ class Project extends AbstractModel
 
     protected $guarded = [];
 
-
-
-
     /**
      * @param $task
      * @return Model

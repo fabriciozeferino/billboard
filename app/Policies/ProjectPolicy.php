@@ -30,6 +30,8 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project)
     {
+return false;
+        dd($project);
         return $user->is($project->owner);
     }
 

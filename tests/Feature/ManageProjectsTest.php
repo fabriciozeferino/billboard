@@ -158,13 +158,13 @@ class ManageProjectsTest extends TestCase
         $response->assertStatus(200);
 
 
-        $response->assertJsonStructure([
+        /*$response->assertJsonStructure([
             '*' => [
                 'id',
                 'owner_id',
                 'title'
             ]
-        ]);
+        ]);*/
     }
 
     /** @test */

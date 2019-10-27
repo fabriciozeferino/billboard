@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProjectCreateRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Project;
-use App\User;
-use DB;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\View\View;
@@ -20,58 +19,18 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return auth()->user()->projects;
-        /*
-        //$this->authorize('view');
+        $projects = Project::where('owner_id', auth()->id())->paginate(10);
 
-        $posts = Project::where('owner_id', auth()->id())->with('owner')->paginate();
-
-        return $posts;
-        dd($posts);
-
-
-        $projects = Project::select('*')
-            ->whereColumn('owner_id', 'projects.owner_id')
-            ->latest()
-            ->getQuery();
-
-
-
-        $users = User::select('*')
-            ->selectSub($projects, 'last_login_at')
-            ->get();
-
-        return $users;
-
-        return auth()->user()->with('projects')->paginate();
-        return auth()->user()->projects;
-        return auth()->user()->projects()->paginate();
-        return DB::table('projects')
-            ->where('projects.owner_id', auth()->user()->id)->get();*/
-        /*return auth()->user()->projects;
-        return auth()->user();
-
-        //select * from `projects` where `projects`.`owner_id` = 4 and `projects`.`owner_id` is not null order by `updated_at` desc
-        dd(auth()->user()->id);*/
-
-
+        return response()->json([
+            'data' => $projects
+        ], 200);
     }
 
-    /**
-     * @return Factory|View
-     * @throws AuthorizationException
-     */
-    public function create()
-    {
-        $this->authorize('create');
-
-        return view('projects.create');
-    }
 
     /**
      * @param ProjectCreateRequest $request
      * @param Project $project
-     * @return RedirectResponse|Redirector
+     * @return JsonResponse
      * @throws AuthorizationException
      */
     public function store(ProjectCreateRequest $request, Project $project)
@@ -81,15 +40,6 @@ class ProjectController extends Controller
         $project = $project->create($request->all());
 
         return response()->json($project, 201);
-    }
-
-    /**
-     * @param Project $project
-     * @return Factory|View
-     */
-    public function edit(Project $project)
-    {
-        return view('projects.edit', compact('project'));
     }
 
     /**

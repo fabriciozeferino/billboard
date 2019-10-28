@@ -45,6 +45,10 @@
                         description: 'Create',
                         icon: 'users'
                     }, {
+                        name: 'trash',
+                        description: 'Trash',
+                        icon: 'trash'
+                    }, {
                         name: 'reports',
                         description: 'Reports',
                         icon: 'printer'

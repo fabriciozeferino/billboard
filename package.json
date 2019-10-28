@@ -21,6 +21,7 @@
         "sass": "^1.23.0",
         "sass-loader": "^8.0.0",
         "tailwindcss": "^1.1.2",
+        "tailwindcss-plugins": "^0.3.0",
         "vue": "^2.6.10",
         "vue-template-compiler": "^2.6.10",
         "vuex": "^3.1.1"

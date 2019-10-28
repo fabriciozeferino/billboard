@@ -1,16 +1,18 @@
 <template>
     <div>
-        <div v-for="project in projects.data">
-            <ProjectCard :project="project"></ProjectCard>
+        <div class="container mx-auto">
+            <div class="flex flex-wrap -mx-1 lg:-mx-4">
+                <div class="my-4 px-4 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3" v-for="project in projects.data"
+                     :key="project.id">
+                    <ProjectCard :project="project"></ProjectCard>
+                </div>
+            </div>
         </div>
 
+        <pagination :data="projects"
+                    @pagination-change-page="getResults">
+        </pagination>
 
-
-        <div class="d-block mt-3">
-            <pagination :data="projects" :show-disabled="true" size="small" align="center"
-                        @pagination-change-page="getResults">
-            </pagination>
-        </div>
     </div>
 </template>
 
@@ -27,18 +29,9 @@
             ...projectComputed,
         },
 
-        /*methods: {
-            ...projectMethods,
-            load() {
-                this.$store.dispatch('projects/show');
-                /!*axios.get('projects').then((response) => {
-                    this.$store.commit('projects/setProjects', response);
-                });*!/
-            },
-        },*/
         methods: {
             ...projectMethods,
-            // Our method to GET results from a Laravel endpoint
+
             getResults(page = 1) {
                 axios.get('projects?page=' + page)
                     .then(response => {
@@ -46,10 +39,14 @@
                     });
             }
         },
-
         components: {
             ProjectCard
         }
     }
 </script>
+<style>
+    .page-link {
+        padding: 0 .50rem !important;
+    }
+</style>
 

@@ -1,8 +1,24 @@
 .button {
-    @apply px-6 py-3 rounded bg-blue-800 text-white text-sm font-bold whitespace-no-wrap;
+    @apply mr-2 px-6 py-3 rounded text-sm font-bold whitespace-no-wrap;
 
-    &:hover, &:focus {
+    &:hover {
         @apply bg-orange-800;
+    }
+}
+
+.button-activity {
+    @apply bg-blue-600 text-white;
+
+    &:hover {
+        @apply bg-blue-800;
+    }
+}
+
+.button-danger {
+    @apply bg-red-600 text-white;
+
+    &:hover {
+        @apply bg-red-800;
     }
 }
 

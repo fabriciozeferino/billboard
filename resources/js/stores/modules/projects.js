@@ -20,8 +20,9 @@ export const mutations = {
         state.projects.push(payload);
     },
 
-    DELETE(state) {
+    DELETE(state, project) {
 
+        state.projects.data = state.projects.data.filter(item => item !== project);
     },
 
     NUMBER_OF_PROJECTS(STATE) {
@@ -49,16 +50,52 @@ export const actions = {
             })
     },
 
-    setProjects ({commit}, data) {
-      return new Promise(resolve => {
+    setProjects({commit}, data) {
+        return new Promise(resolve => {
 
-          commit('SET_PROJECTS', data);
+            commit('SET_PROJECTS', data);
 
-          resolve(data);
-      })
+            resolve(data);
+        })
     },
 
-    numberOfProjects({commit}, data){
+    deleteProjects({commit}, project) {
+        return new Promise((resolve, reject) => {
+            swal.fire({
+                title: 'Are you sure?',
+                text: "You will move this Project to the trash",
+                type: 'warning',
+                showCancelButton: true,
+                buttonsStyling: false,
+                /*confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',*/
+                confirmButtonText: 'Yes, move it!',
+                customClass: {
+                    confirmButton: 'button button-activity',
+                    cancelButton: 'button button-danger',
+                }
+            }).then((result) => {
+                if (result.value) {
+                    axios.delete(`projects/${project.id}`, project)
+                        .then(result => {
+                                commit('DELETE', project);
+
+                                swal.fire(
+                                    'Moved!',
+                                    'Your file has been moved to the trash.',
+                                    'success'
+                                );
+
+                                resolve(project);
+                            }
+                        )
+                        .catch(error => reject(error))
+                }
+            })
+        })
+    },
+
+    numberOfProjects({commit}, data) {
         return new Promise(resolve => {
 
             resolve(data)

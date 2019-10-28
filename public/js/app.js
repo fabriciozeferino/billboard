@@ -2523,6 +2523,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         description: 'Create',
         icon: 'users'
       }, {
+        name: 'trash',
+        description: 'Trash',
+        icon: 'trash'
+      }, {
         name: 'reports',
         description: 'Reports',
         icon: 'printer'
@@ -31612,7 +31616,11 @@ var mutations = {
   CREATE: function CREATE(state, payload) {
     state.projects.push(payload);
   },
-  DELETE: function DELETE(state) {},
+  DELETE: function DELETE(state, project) {
+    state.projects.data = state.projects.data.filter(function (item) {
+      return item !== project;
+    });
+  },
   NUMBER_OF_PROJECTS: function NUMBER_OF_PROJECTS(STATE) {}
 };
 var actions = {
@@ -31636,8 +31644,38 @@ var actions = {
       resolve(data);
     });
   },
-  numberOfProjects: function numberOfProjects(_ref4, data) {
+  deleteProjects: function deleteProjects(_ref4, project) {
     var commit = _ref4.commit;
+    return new Promise(function (resolve, reject) {
+      swal.fire({
+        title: 'Are you sure?',
+        text: "You will move this Project to the trash",
+        type: 'warning',
+        showCancelButton: true,
+        buttonsStyling: false,
+
+        /*confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',*/
+        confirmButtonText: 'Yes, move it!',
+        customClass: {
+          confirmButton: 'button button-activity',
+          cancelButton: 'button button-danger'
+        }
+      }).then(function (result) {
+        if (result.value) {
+          axios["delete"]("projects/".concat(project.id), project).then(function (result) {
+            commit('DELETE', project);
+            swal.fire('Moved!', 'Your file has been moved to the trash.', 'success');
+            resolve(project);
+          })["catch"](function (error) {
+            return reject(error);
+          });
+        }
+      });
+    });
+  },
+  numberOfProjects: function numberOfProjects(_ref5, data) {
+    var commit = _ref5.commit;
     return new Promise(function (resolve) {
       resolve(data);
     });
@@ -31675,7 +31713,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 var projectComputed = _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('projects', ['projects', 'numberOfProjects']));
-var projectMethods = _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('projects', ['show', 'create', 'setProjects']));
+var projectMethods = _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('projects', ['show', 'create', 'setProjects', 'deleteProjects']));
 var projectStates = _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('projects', ['projects']));
 
 /***/ }),

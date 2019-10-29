@@ -3,6 +3,7 @@ let Projects = () => import('../views/Projects.vue');
 
 //import ProjectCreate from '../views/ProjectCreate.vue'
 let ProjectCreate = () => import('../views/ProjectCreate.vue');
+let ProjectTrash = () => import('../views/ProjectTrash.vue');
 
 import authMiddleware from '../middleware/authMiddleware.js';
 import log from '../middleware/log.js';
@@ -51,6 +52,18 @@ const router =  [
                     })
             }
         },*/
+
+    {
+        path: '/project/trash',
+        name: 'project-trash',
+        component: ProjectTrash,
+        meta: {
+            middleware: [
+                authMiddleware,
+                log
+            ],
+        },
+    },
 
     ];
 

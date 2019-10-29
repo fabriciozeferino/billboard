@@ -45,7 +45,7 @@
                         description: 'Create',
                         icon: 'users'
                     }, {
-                        name: 'trash',
+                        name: 'project-trash',
                         description: 'Trash',
                         icon: 'trash'
                     }, {

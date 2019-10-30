@@ -9,7 +9,15 @@ mix.js('resources/js/app.js', 'public/js')
         processCssUrls: false,
         postCss: [tailwindcss('./tailwind.config.js')],
     })
-    .version()
-    .purgeCss()
     .browserSync('birdboard.test');
+
+// Globs adds node_module plug into to purgeCss lookup files
+if (mix.inProduction()) {
+    mix.purgeCss({
+        globs: [
+            path.join(__dirname, 'node_modules/laravel-vue-pagination/**/*.js'),
+        ],
+    })
+        .version();
+}
 

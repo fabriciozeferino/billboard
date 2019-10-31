@@ -17,7 +17,7 @@
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="leading-relaxed text-gray-900 antialiased ">
+<body class="leading-relaxed text-gray-900 antialiased">
 <div id="app">
     <app></app>
 </div>

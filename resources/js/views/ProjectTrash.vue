@@ -2,7 +2,7 @@
     <div>
         <div class="container mx-auto">
             <div class="flex flex-wrap -mx-1 lg:-mx-4">
-                <div class="my-4 px-4 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3" v-for="project in projects.data"
+                <div class="my-4 px-4 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3" v-for="project in projectsTrashed.data"
                      :key="project.id">
                     <ProjectCard :project="project"></ProjectCard>
                 </div>
@@ -23,7 +23,7 @@
     export default {
 
         mounted() {
-            this.$store.dispatch('projects/show-trashed');
+            this.showTrashed();
         },
         computed: {
             ...projectComputed,
@@ -33,7 +33,7 @@
             ...projectMethods,
 
             getResults(page = 1) {
-                axios.get('projects?page=' + page)
+                axios.get('projects/trashed?page=' + page)
                     .then(response => {
                         this.$store.dispatch('projects/setProjects', response.data.data);
                     });

@@ -102,8 +102,6 @@ class ManageProjectsTest extends TestCase
     /** @test */
     public function an_authenticated_user_can_delete_and_force_delete_a_project()
     {
-        $this->withoutExceptionHandling();
-
         $response = $this->signIn();
 
         $this->assertAuthenticated();
@@ -116,7 +114,7 @@ class ManageProjectsTest extends TestCase
 
         $response->assertStatus(200);
 
-        $this->assertSoftDeleted($project);
+        $this->assertSoftDeleted('projects', ['id' => $project->id]);
 
         $this->json('DELETE', "api/v1/projects/1/delete");
 
@@ -146,8 +144,7 @@ class ManageProjectsTest extends TestCase
 
 
     /** @test */
-    public
-    function a_user_can_view_their_projects()
+    public function a_user_can_view_their_projects()
     {
         $user = $this->signIn();
 
@@ -156,6 +153,37 @@ class ManageProjectsTest extends TestCase
         $response = $this->json('GET', 'api/v1/projects');
 
         $response->assertStatus(200);
+
+
+        /*$response->assertJsonStructure([
+            '*' => [
+                'id',
+                'owner_id',
+                'title'
+            ]
+        ]);*/
+    }
+
+    /** @test */
+    public function a_user_can_view_their_trashed_projects()
+    {
+        $this->withoutExceptionHandling();
+
+        $response = $this->signIn();
+
+        $this->assertAuthenticated();
+
+        $project = ProjectFactory::ownedBy($response['user'])->create();
+
+
+        $this->json('DELETE', $project->path());
+
+        $this->assertSoftDeleted('projects', ['id' => $project->id]);
+
+        $project_trashed = $this->actingAs($response['user'])->json('GET', 'api/v1/projects/trash');
+
+
+        $project_trashed->assertStatus(200);
 
 
         /*$response->assertJsonStructure([

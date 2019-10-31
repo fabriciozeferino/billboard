@@ -2,6 +2,7 @@ export const namespaced = true;
 
 export const state = {
     projects: {},
+    projectsTrashed: {},
     numberOfProjects: 0
 };
 
@@ -10,6 +11,10 @@ export const mutations = {
 
     GET_PROJECTS(state, payload) {
         state.projects = payload.data;
+    },
+
+    GET_TRASHED_PROJECTS(state, payload) {
+        state.projectsTrashed = payload.data;
     },
 
     SET_PROJECTS(state, payload) {
@@ -39,6 +44,15 @@ export const actions = {
                 console.log(response.data.data)
                 commit('GET_PROJECTS', response.data)
             })
+    },
+
+    showTrashed({commit}) {
+        return axios
+            .get('projects/trash')
+            .then(response => {
+                console.log(response.data.data)
+                commit('GET_PROJECTS', response.data)
+            }).catch(error => console.log(error))
     },
 
 
@@ -106,6 +120,10 @@ export const actions = {
 export const getters = {
 
     projects(state) {
+        return state.projects
+    },
+
+    projectsTrashed(state) {
         return state.projects
     },
     numberOfProjects(state) {

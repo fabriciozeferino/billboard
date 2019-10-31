@@ -2162,6 +2162,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2640,7 +2648,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".router-link-exact-active[data-v-37b2f034] {\n  color: #4a5568 !important;\n  background-color: #cbd5e0;\n  -webkit-transition: 0.1s;\n  transition: 0.1s;\n}\n\n/* Active Arrow */\n.active[data-v-37b2f034] {\n  width: 0;\n  height: 0;\n  border-top: 15px solid transparent;\n  border-bottom: 15px solid transparent;\n  border-right: 7px solid #f7fafc;\n}\n.inactive[data-v-37b2f034] {\n  width: 0;\n  height: 0;\n  border-top: 15px solid transparent;\n  border-bottom: 15px solid transparent;\n  border-right: 7px solid transparent;\n}\n", ""]);
+exports.push([module.i, ".router-link-exact-active[data-v-37b2f034] {\n  color: #4a5568 !important;\n  background-color: #cbd5e0;\n  -webkit-transition: 0.1s;\n  transition: 0.1s;\n}\n\n/* Active Arrow */\n.active[data-v-37b2f034] {\n  width: 0;\n  height: 0;\n  border-top: 15px solid transparent;\n  border-bottom: 15px solid transparent;\n  border-right: 6px solid #f7fafc;\n}\n.inactive[data-v-37b2f034] {\n  width: 0;\n  height: 0;\n  border-top: 15px solid transparent;\n  border-bottom: 15px solid transparent;\n  border-right: 7px solid transparent;\n}\n", ""]);
 
 // exports
 
@@ -11176,6 +11184,8 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "flex justify-center items-center" }, [
     _c("div", { staticClass: "w-full max-w-md" }, [
+      _vm._m(0),
+      _vm._v(" "),
       _c(
         "div",
         {
@@ -11389,7 +11399,29 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "text-gray-700 hover:text-gray-900 text-xs text-center" },
+      [
+        _c("a", { attrs: { href: "cv" } }, [
+          _vm._v("\n                Fabricio Zeferino\n                "),
+          _c(
+            "span",
+            {
+              staticClass: "text-xs text-blue-600 hover:text-blue-800 font-bold"
+            },
+            [_vm._v("\n                    CV\n                ")]
+          )
+        ])
+      ]
+    )
+  }
+]
 render._withStripped = true
 
 
@@ -12232,7 +12264,7 @@ var render = function() {
           _c(
             "router-link",
             {
-              staticClass: "flex my-4 py-1 pl-3 hover:bg-gray-300",
+              staticClass: "flex my-4 pl-3 hover:bg-gray-300",
               attrs: { to: { name: link.name } }
             },
             [
@@ -12241,7 +12273,7 @@ var render = function() {
                 { staticClass: "flex-auto whitespace-no-wrap" },
                 [
                   _c("icon", {
-                    staticClass: "w-4 h-4 fill-current inline-flex",
+                    staticClass: "w-4 h-4 mr-1 fill-current inline-flex",
                     attrs: { name: link.icon }
                   }),
                   _vm._v(" "),
@@ -31612,11 +31644,15 @@ __webpack_require__.r(__webpack_exports__);
 var namespaced = true;
 var state = {
   projects: {},
+  projectsTrashed: {},
   numberOfProjects: 0
 };
 var mutations = {
   GET_PROJECTS: function GET_PROJECTS(state, payload) {
     state.projects = payload.data;
+  },
+  GET_TRASHED_PROJECTS: function GET_TRASHED_PROJECTS(state, payload) {
+    state.projectsTrashed = payload.data;
   },
   SET_PROJECTS: function SET_PROJECTS(state, payload) {
     state.projects = payload;
@@ -31639,21 +31675,30 @@ var actions = {
       commit('GET_PROJECTS', response.data);
     });
   },
-  create: function create(_ref2, data) {
+  showTrashed: function showTrashed(_ref2) {
     var commit = _ref2.commit;
+    return axios.get('projects/trash').then(function (response) {
+      console.log(response.data.data);
+      commit('GET_PROJECTS', response.data);
+    })["catch"](function (error) {
+      return console.log(error);
+    });
+  },
+  create: function create(_ref3, data) {
+    var commit = _ref3.commit;
     return axios.post('projects', data).then(function (response) {
       commit('CREATE', response.data);
     });
   },
-  setProjects: function setProjects(_ref3, data) {
-    var commit = _ref3.commit;
+  setProjects: function setProjects(_ref4, data) {
+    var commit = _ref4.commit;
     return new Promise(function (resolve) {
       commit('SET_PROJECTS', data);
       resolve(data);
     });
   },
-  deleteProjects: function deleteProjects(_ref4, project) {
-    var commit = _ref4.commit;
+  deleteProjects: function deleteProjects(_ref5, project) {
+    var commit = _ref5.commit;
     return new Promise(function (resolve, reject) {
       swal.fire({
         title: 'Are you sure?',
@@ -31682,8 +31727,8 @@ var actions = {
       });
     });
   },
-  numberOfProjects: function numberOfProjects(_ref5, data) {
-    var commit = _ref5.commit;
+  numberOfProjects: function numberOfProjects(_ref6, data) {
+    var commit = _ref6.commit;
     return new Promise(function (resolve) {
       resolve(data);
     });
@@ -31691,6 +31736,9 @@ var actions = {
 };
 var getters = {
   projects: function projects(state) {
+    return state.projects;
+  },
+  projectsTrashed: function projectsTrashed(state) {
     return state.projects;
   },
   numberOfProjects: function numberOfProjects(state) {
@@ -31720,9 +31768,9 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-var projectComputed = _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('projects', ['projects', 'numberOfProjects']));
-var projectMethods = _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('projects', ['show', 'create', 'setProjects', 'deleteProjects']));
-var projectStates = _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('projects', ['projects']));
+var projectComputed = _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('projects', ['projects', 'projectsTrashed', 'numberOfProjects']));
+var projectMethods = _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('projects', ['show', 'create', 'setProjects', 'deleteProjects', 'showTrashed']));
+var projectStates = _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('projects', ['projects', 'projectsTrashed']));
 
 /***/ }),
 

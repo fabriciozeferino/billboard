@@ -2,11 +2,11 @@
     <div>
         <div v-for="link in menu">
             <router-link
-                class="flex my-4 py-1 pl-3 hover:bg-gray-300"
+                class="flex my-4 pl-3 hover:bg-gray-300"
                 :to="{ name: link.name }">
                 <div class="flex-auto whitespace-no-wrap">
                     <icon :name="link.icon"
-                          class="w-4 h-4 fill-current inline-flex"/>
+                          class="w-4 h-4 mr-1 fill-current inline-flex"/>
                     <small class="uppercase text-black text-l">{{ link.description }}</small>
 
                     <span v-if="link.name === 'projects'"
@@ -82,7 +82,7 @@
         height: 0;
         border-top: 15px solid transparent;
         border-bottom: 15px solid transparent;
-        border-right: 7px solid #f7fafc;
+        border-right: 6px solid #f7fafc;
     }
 
     .inactive {

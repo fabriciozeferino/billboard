@@ -169,7 +169,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
-    this.$store.dispatch('projects/show-trashed');
+    this.showTrashed();
   },
   computed: _objectSpread({}, _stores_modules_projectsHelper__WEBPACK_IMPORTED_MODULE_0__["projectComputed"]),
   methods: _objectSpread({}, _stores_modules_projectsHelper__WEBPACK_IMPORTED_MODULE_0__["projectMethods"], {
@@ -177,7 +177,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      axios.get('projects?page=' + page).then(function (response) {
+      axios.get('projects/trashed?page=' + page).then(function (response) {
         _this.$store.dispatch('projects/setProjects', response.data.data);
       });
     }
@@ -414,7 +414,7 @@ var render = function() {
         _c(
           "div",
           { staticClass: "flex flex-wrap -mx-1 lg:-mx-4" },
-          _vm._l(_vm.projects.data, function(project) {
+          _vm._l(_vm.projectsTrashed.data, function(project) {
             return _c(
               "div",
               {

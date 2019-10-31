@@ -1,6 +1,14 @@
 <template>
     <div class="flex justify-center items-center">
         <div class="w-full max-w-md">
+            <div class="text-gray-700 hover:text-gray-900 text-xs text-center">
+                <a href="cv">
+                    Fabricio Zeferino
+                    <span class="text-xs text-blue-600 hover:text-blue-800 font-bold">
+                        CV
+                    </span>
+                </a>
+            </div>
             <div class="block mx-auto w-full max-w-sm bg-white my-6 shadow-lg rounded-lg overflow-hidden">
                 <div>
                     <div

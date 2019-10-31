@@ -6,10 +6,7 @@ use App\Http\Requests\ProjectCreateRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Project;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
 
 class ProjectController extends Controller
 {
@@ -112,6 +109,19 @@ class ProjectController extends Controller
         return response()->json([
             'status' => 'successfully',
             'message' => 'Deleted successfully'
+        ], 200);
+    }
+
+
+    /**
+     * @return JsonResponse
+     */
+    public function trash()
+    {
+        $projects = Project::onlyTrashed()->where('owner_id', auth()->id())->paginate();
+
+        return response()->json([
+            'data' => $projects
         ], 200);
     }
 }

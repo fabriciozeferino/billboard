@@ -23,11 +23,16 @@ Route::prefix('v1')->group(function () {
 
     // Projects
     Route::middleware(['auth:api', 'jwt.auth'])->group(function () {
-
-        Route::resource('projects', 'ProjectController');
-
+        Route::get('projects/trash', 'ProjectController@trash')
+            ->name('projects.trasheed');
         Route::delete('projects/{project}/delete', 'ProjectController@forceDelete')
             ->name('projects.delete');
+        Route::resource('projects', 'ProjectController');
+
+
+
+
+
     });
 
 });

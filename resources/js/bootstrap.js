@@ -39,7 +39,7 @@ axios.interceptors.response.use(
 
     function (error) {
 
-        if (error.response.status === 401 && window.pathname !== "/login") {
+        if (error.response.status === 401 && (window.pathname !== "/login")) {
 
             localStorage.clear();
             window.location = "/login";

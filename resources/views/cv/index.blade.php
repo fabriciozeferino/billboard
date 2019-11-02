@@ -23,11 +23,14 @@
         <div class="md:col-2 print:col-2 col-gap-md md:h-a4-col print:h-a4-col col-fill">
             <header class="flex items-center mb-8">
                 <div
-                    class="initials-container mr-5 text-base leading-none text-white bg-gray-700 font-medium print:bg-black px-3 py-2">
-                    <div class="initial text-center">F</div>
-                    <div class="initial text-center">Z</div>
+                    class="initials-container mr-2 text-base leading-none text-white font-medium print:bg-black px-3 py-2">
+                    <img class="h-24 w-24 rounded-full" src="{{ url('images/avatar.jpg') }}" alt="">
                 </div>
-                <h1 class="text-2xl font-bold uppercase text-gray-900 tex">Fabricio Zeferino</h1>
+                <div class="leading-none">
+                    <h1 class="text-2xl font-bold uppercase text-gray-900">Fabricio Zeferino</h1>
+                    <small class="uppercase">Full-Stack Developer</small>
+                </div>
+
             </header>
             <section class="mb-8">
 
@@ -40,16 +43,20 @@
                             <h3 class="text-lg text-gray-700 font-semibold leading-snug">Full-Stack PHP Developer</h3>
                             <p class="text-gray-700 leading-normal">Since 2017</p>
                         </header>
-                        <p class="mt-2  text-gray-700 leading-normal">I am a passionate self-taught developer. I’ve
+                        <p class="mt-2 text-gray-700 leading-normal text-sm">I am a passionate self-taught developer.
+                            I’ve
                             delivered working application utilising Laravel, JavaScript, jQuery, Bootstrap, MySQL and
                             mongoDB. I’m currently teaching myself TDD, Vue.js, Vuex, SPA, RESTful API and Tailwind
                             CSS.</p>
+
+                        <li>never stop to study, in love to learn  new tecnologies</li>
                     </section>
 
                 </div>
 
                 <section class="mb-4 col-break-avoid">
-                    <p class="mt-1  text-gray-700 leading-normal">I started to study Web development in 2017, in 2018
+                    <p class="mt-1 text-gray-700 leading-normal text-sm">I started to study Web development in 2017, in
+                        2018
                         during all year I have taught my self full-time. At the end of 2018, I have reached my object
                         getting my first job on Web Development.</p>
                 </section>
@@ -70,14 +77,28 @@
                     <p class="text-gray-700 leading-normal mb-2">Oct 2018 | Full-Stack PHP
                         Developer</p>
                 </header>
-                <p class="mt-1 pl-6  text-gray-700 leading-normal">
+                <p class="mt-1 pl-6  text-gray-700 leading-normal text-sm">
                     <svg class="w-4 h-4 inline -ml-6 flex-shrink-0 text-gray-600 print:text-gray-900"
                          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path class="fill-current"
                               d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-2.3-8.7l1.3 1.29 3.3-3.3a1 1 0 0 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-2-2a1 1 0 0 1 1.4-1.42z"/>
                     </svg>
-                    Wrote doner pork chop t-bone ham meatloaf ve&shy;ni&shy;sons. Ribeye turducken pancetta sausage.
-                    Biltong atl. Yamoi.
+                    Responsible for analysis issues and under the guidance of senior developer, designing and code new
+                    features and improvements for an existing web application. <br>
+                    Qualified to the development from Front to Back end trough the Database. <br>
+                    Worked in a Multitenancy legacy code with 35 different customers wich with more than 100 active
+                    users. <br>
+                    Refactored all the core of the application reducing class with thousands of lines applying methods
+                    as DRY and OOP to clean the code, much easier to maint and productive to create new features. <br>
+                    Restructured the database, creating referential integrity between registers running multiples SYNC
+                    to fix old hardcoding. <br>
+                    I have worked directly in a creation of a Microservice for reports, wherein in a night routine all
+                    the data are migrated from MYSQL to a MongoDB making the reports much faster and the MYSQL free for
+                    others requests during the day. <br>
+                    Migrate the server from Windows Server to Linux in AWS. <br>
+
+                    Relevant tools used in this role: <br>
+                    Docker, Continues Integration, GitLab, SSH
                 </p>
                 <p class="mt-1 pl-6  text-gray-700 leading-normal">
                     <svg class="w-4 h-4 inline -ml-6 flex-shrink-0 text-gray-600 print:text-gray-900"
@@ -146,28 +167,6 @@
                     </section>
 
                 </div>
-
-                <section class="mb-4 col-break-avoid">
-                    <header>
-                        <h3 class="text-lg text-gray-700 font-semibold leading-snug">
-                            <a href="https://github.com/WebPraktikos" class="group">fade-on-scroll
-                                <svg
-                                    class="inline -mt-1 w-5 text-gray-600 group-hover:text-gray-700 change-color-fast print:text-gray-900"
-                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path class="fill-current"
-                                          d="M19 6.41L8.7 16.71a1 1 0 1 1-1.4-1.42L17.58 5H14a1 1 0 0 1 0-2h6a1 1 0 0 1 1 1v6a1 1 0 0 1-2 0V6.41zM17 14a1 1 0 0 1 2 0v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7c0-1.1.9-2 2-2h5a1 1 0 0 1 0 2H5v12h12v-5z"/>
-                                </svg>
-                            </a>
-                        </h3>
-                        <p class="text-gray-700 leading-normal">2017 | JavaScript</p>
-                    </header>
-                    <p class="mt-1  text-gray-700 leading-normal">Strip steak tail capicola alcatra ground round
-                        tenderloin ar. Venison tri-tip porchetta, brisket tenderloin pig beef ribies. Bacon ham
-                        shankle,
-                        landjaeg pastrami pork ribs.</p>
-                </section>
-
-
             </section>
 
             <section class="mt-8 py-2 px-4">
@@ -175,12 +174,18 @@
                 <h2 class="text-sm text-gray-600 font-bold print:font-normal tracking-widest">SKILLS</h2>
                 <div class="h-full border-b-8 mb-4"></div>
 
-                <div class="col-break-avoid mb-4" v-for="skill in skills">
-
-
+                {{-- Skills --}}
+                <div class="col-break-avoid mb-4 border-b-2 border-gray-200" v-for="skill in skills">
                     <section class="mb-4 col-break-avoid">
                         <header>
-                            <h3 class="text-lg text-gray-700 font-semibold leading-snug">@{{ skill.title }}</h3>
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 inline -ml-6 text-gray-600 print:text-gray-900"
+                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path class="fill-current"
+                                          d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-2.3-8.7l1.3 1.29 3.3-3.3a1 1 0 0 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-2-2a1 1 0 0 1 1.4-1.42z"/>
+                                </svg>
+                                <h3 class="inline text-lg text-gray-800 font-semibold">@{{ skill.title }}</h3>
+                            </div>
                             <p class="text-gray-700 leading-normal">@{{ skill.sub_title }}</p>
                         </header>
                         <p class="mt-1  text-gray-700 leading-normal">@{{ skill.description }}</p>
@@ -209,34 +214,6 @@
 
                     <section class="mb-4 col-break-avoid">
                         <ul>
-                            <li class="mt-1 pl-6 text-gray-700 leading-normal">
-                                <a href="//webpraktikos.com" class="group">
-                                    <svg class="w-4 h-4 inline -ml-6" xmlns="http://www.w3.org/2000/svg"
-                                         viewBox="0 0 24 24">
-                                        <path
-                                            class="text-gray-600 group-hover:text-gray-700 change-color-fast print:text-gray-900 fill-current"
-                                            d="M19.48 13.03A4 4 0 0 1 16 19h-4a4 4 0 1 1 0-8h1a1 1 0 0 0 0-2h-1a6 6 0 1 0 0 12h4a6 6 0 0 0 5.21-8.98L21.2 12a1 1 0 1 0-1.72 1.03zM4.52 10.97A4 4 0 0 1 8 5h4a4 4 0 1 1 0 8h-1a1 1 0 0 0 0 2h1a6 6 0 1 0 0-12H8a6 6 0 0 0-5.21 8.98l.01.02a1 1 0 1 0 1.72-1.03z"/>
-                                    </svg>
-                                    webpraktikos.com</a>
-                            </li>
-                            <li class="mt-1 pl-6  text-gray-700 leading-normal">
-                                <a href="//webpraktikos.com" class="group">
-                                    <svg class="w-4 h-4 inline -ml-6" xmlns="http://www.w3.org/2000/svg"
-                                         viewBox="0 0 24 24">
-                                        <path
-                                            class="text-gray-600 group-hover:text-gray-700 change-color-fast print:text-gray-900 fill-current"
-                                            d="M19.48 13.03A4 4 0 0 1 16 19h-4a4 4 0 1 1 0-8h1a1 1 0 0 0 0-2h-1a6 6 0 1 0 0 12h4a6 6 0 0 0 5.21-8.98L21.2 12a1 1 0 1 0-1.72 1.03zM4.52 10.97A4 4 0 0 1 8 5h4a4 4 0 1 1 0 8h-1a1 1 0 0 0 0 2h1a6 6 0 1 0 0-12H8a6 6 0 0 0-5.21 8.98l.01.02a1 1 0 1 0 1.72-1.03z"/>
-                                    </svg>
-                                    twitter.com/webpraktikos</a>
-                            </li>
-                            <li class="mt-1 pl-6  text-gray-700 leading-normal">
-                                <svg class="w-4 h-4 inline -ml-6" xmlns="http://www.w3.org/2000/svg"
-                                     viewBox="0 0 24 24">
-                                    <path class="text-gray-600 print:text-gray-900 fill-current"
-                                          d="M5.64 16.36a9 9 0 1 1 12.72 0l-5.65 5.66a1 1 0 0 1-1.42 0l-5.65-5.66zm11.31-1.41a7 7 0 1 0-9.9 0L12 19.9l4.95-4.95zM12 14a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
-                                </svg>
-                                22 Faversham Way, Wirral CH42 2EB
-                            </li>
                             <li class="mt-1 pl-6  text-gray-700 leading-normal">
                                 <svg class="w-4 h-4 inline -ml-6" xmlns="http://www.w3.org/2000/svg"
                                      viewBox="0 0 24 24">
@@ -252,6 +229,25 @@
                                           d="M13.04 14.69l1.07-2.14a1 1 0 0 1 1.2-.5l6 2A1 1 0 0 1 22 15v5a2 2 0 0 1-2 2h-2A16 16 0 0 1 2 6V4c0-1.1.9-2 2-2h5a1 1 0 0 1 .95.68l2 6a1 1 0 0 1-.5 1.21L9.3 10.96a10.05 10.05 0 0 0 3.73 3.73zM8.28 4H4v2a14 14 0 0 0 14 14h2v-4.58l-4.5-1.5-1.12 2.26a1 1 0 0 1-1.3.46 12.04 12.04 0 0 1-6.02-6.01 1 1 0 0 1 .46-1.3l2.26-1.14L8.28 4z"/>
                                 </svg>
                                 07452 827892
+                            </li>
+                            <li class="mt-1 pl-6  text-gray-700 leading-normal">
+                                <svg class="w-4 h-4 inline -ml-6" xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 24 24">
+                                    <path class="text-gray-600 print:text-gray-900 fill-current"
+                                          d="M5.64 16.36a9 9 0 1 1 12.72 0l-5.65 5.66a1 1 0 0 1-1.42 0l-5.65-5.66zm11.31-1.41a7 7 0 1 0-9.9 0L12 19.9l4.95-4.95zM12 14a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+                                </svg>
+                                22 Faversham Way, Wirral CH42 2EB
+                            </li>
+                            <li class="mt-1 pl-6 text-gray-700 leading-normal">
+                                <a href="https://github.com/fabriciozeferino" class="group">
+                                    <svg class="fill-current w-4 h-4 inline -ml-6" viewBox="0 0 20 20"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            class="text-gray-600 group-hover:text-gray-700 change-color-fast print:text-gray-900 fill-current"
+                                            d="m13.18 11.309c-0.718 0-1.3 0.807-1.3 1.799 0 0.994 0.582 1.801 1.3 1.801s1.3-0.807 1.3-1.801c-1e-3 -0.992-0.582-1.799-1.3-1.799zm4.526-4.683c0.149-0.365 0.155-2.439-0.635-4.426 0 0-1.811 0.199-4.551 2.08-0.575-0.16-1.548-0.238-2.519-0.238-0.973 0-1.945 0.078-2.52 0.238-2.741-1.881-4.552-2.08-4.552-2.08-0.789 1.987-0.781 4.061-0.634 4.426-0.928 1.008-1.495 2.219-1.495 3.871 0 7.186 5.963 7.301 7.467 7.301 0.342 0 1.018 2e-3 1.734 2e-3 0.715 0 1.392-2e-3 1.732-2e-3 1.506 0 7.467-0.115 7.467-7.301 0-1.652-0.566-2.863-1.494-3.871zm-7.678 10.289h-0.056c-3.771 0-6.709-0.449-6.709-4.115 0-0.879 0.31-1.693 1.047-2.369 1.227-1.127 3.305-0.531 5.662-0.531h0.029 0.027c2.357 0 4.436-0.596 5.664 0.531 0.735 0.676 1.045 1.49 1.045 2.369 0 3.666-2.937 4.115-6.709 4.115zm-3.207-5.606c-0.718 0-1.3 0.807-1.3 1.799 0 0.994 0.582 1.801 1.3 1.801 0.719 0 1.301-0.807 1.301-1.801 0-0.992-0.582-1.799-1.301-1.799z"/>
+                                    </svg>
+
+                                    github.com/fabriciozeferino</a>
                             </li>
                         </ul>
                     </section>

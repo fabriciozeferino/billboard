@@ -24,7 +24,7 @@
             <header class="flex items-center mb-8">
                 <div
                     class="initials-container mr-2 text-base leading-none text-white font-medium print:bg-black px-3 py-2">
-                    <img class="h-24 w-24 rounded-full" src="{{ url('images/avatar.jpg') }}" alt="">
+                    <img class="h-24 w-24 rounded-full shadow-md" src="{{ url('images/avatar.jpg') }}" alt="">
                 </div>
                 <div class="leading-none">
                     <h1 class="text-2xl font-bold uppercase text-gray-900">Fabricio Zeferino</h1>

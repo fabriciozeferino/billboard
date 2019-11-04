@@ -1,7 +1,7 @@
 <?php
 
-Route::get('/cv', function (){
-   return view('cv/index');
+Route::get('/resume', function (){
+   return view('resume/index');
 });
 
 Route::get('{path}', function () {

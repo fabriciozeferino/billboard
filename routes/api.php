@@ -25,14 +25,11 @@ Route::prefix('v1')->group(function () {
     Route::middleware(['auth:api', 'jwt.auth'])->group(function () {
         Route::get('projects/trash', 'ProjectController@trash')
             ->name('projects.trasheed');
+
         Route::delete('projects/{project}/delete', 'ProjectController@forceDelete')
             ->name('projects.delete');
+
         Route::resource('projects', 'ProjectController');
-
-
-
-
-
     });
 
 });

@@ -4,6 +4,7 @@ let Projects = () => import('../views/Projects.vue');
 //import ProjectCreate from '../views/ProjectCreate.vue'
 let ProjectCreate = () => import('../views/ProjectCreate.vue');
 let ProjectTrash = () => import('../views/ProjectTrash.vue');
+let Project = () => import('../views/Project.vue');
 
 import authMiddleware from '../middleware/authMiddleware.js';
 import log from '../middleware/log.js';
@@ -31,12 +32,18 @@ const router =  [
                 ],
             },
         },
-        /*{
+        {
             path: '/project/:id',
             name: 'project-show',
             component: Project,
+            meta: {
+                middleware: [
+                    authMiddleware,
+                    log
+                ],
+            },
             props: true,
-            beforeEnter(routeTo, routeFrom, next) {
+            /*beforeEnter(routeTo, routeFrom, next) {
                 store
                     .dispatch('project/fetchEvent', routeTo.params.id)
                     .then(project => {
@@ -50,8 +57,8 @@ const router =  [
                             next({name: 'network-issue'})
                         }
                     })
-            }
-        },*/
+            }*/
+        },
 
     {
         path: '/project/trash',

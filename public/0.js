@@ -62,61 +62,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -125,7 +70,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   components: {
     Icon: _shared_Icon__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  methods: _objectSpread({}, _stores_modules_projectsHelper__WEBPACK_IMPORTED_MODULE_1__["projectMethods"])
+  methods: _objectSpread({}, _stores_modules_projectsHelper__WEBPACK_IMPORTED_MODULE_1__["projectMethods"], {
+    editProject: function editProject(id) {
+      this.$router.push({
+        name: 'project-show',
+        params: {
+          id: id
+        }
+      });
+    }
+  })
 });
 
 /***/ }),
@@ -267,22 +221,20 @@ var render = function() {
               "flex items-center justify-between leading-tight p-2 md:p-4"
           },
           [
-            _c("h1", { staticClass: "text-lg" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "no-underline hover:underline text-black",
-                  attrs: { href: "#" }
-                },
-                [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(_vm.project.title) +
-                      "\n                "
-                  )
-                ]
-              )
-            ])
+            _c(
+              "h1",
+              {
+                staticClass: "text-lg no-underline hover:underline text-black",
+                attrs: { href: "#" }
+              },
+              [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(_vm.project.title) +
+                    "\n            "
+                )
+              ]
+            )
           ]
         ),
         _vm._v(" "),

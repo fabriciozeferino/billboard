@@ -4,7 +4,8 @@ export const projectComputed = {
     ...mapGetters('projects', [
         'projects',
         'projectsTrashed',
-        'numberOfProjects'
+        'numberOfProjects',
+        'project'
     ]),
 };
 

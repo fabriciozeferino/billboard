@@ -1,15 +1,22 @@
 <template>
-    <div class="flex justify-center items-center">
-        <div class="w-full max-w-md">
+    <div class="flex items-center w-full sm:px-10 md:max-w-md">
+        <div class="w-full">
+            <div class="text-gray-700 hover:text-gray-900 text-xs text-center">
+                <a href="resume">
+                    Fabricio Zeferino
+                    <span class="text-xs text-blue-600 hover:text-blue-800 font-bold">
+                        Resume
+                    </span>
+                </a>
+            </div>
             <div class="block mx-auto w-full max-w-sm bg-white my-6 shadow-lg rounded-lg overflow-hidden">
                 <div>
-
                     <div
                         class="border-b py-8 font-bold text-black text-center text-xl tracking-widest uppercase bg-white">
                         Register
                     </div>
 
-                    <form class="bg-gray-100" @submit.prevent="register">
+                    <form @submit.prevent="register">
 
                         <div class="px-6 py-6">
                             <div>
@@ -86,8 +93,7 @@
 
                         <div class="border-t p-6 bg-white">
                             <div class="flex justify-between items-center">
-                                <button class="button button-activity"
-                                        :class="this.$v.$invalid ? ' button-primary-invalid ' : '' "
+                                <button class="button button-primary"
                                         type="submit">Register
                                 </button>
                                 <!--<a class="px-6 py-3 text-blue-800 text-sm font-bold">Welcome!</a>-->

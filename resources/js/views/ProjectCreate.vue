@@ -1,11 +1,10 @@
 <template>
-    <div class="flex">
+    <div class="flex items-center w-full sm:px-10 md:max-w-md">
         <div class="w-full">
-            <div class="block mx-auto w-full max-w-sm bg-white my-6 rounded-lg overflow-hidden">
+            <div class="mx-auto w-full max-w-sm bg-white my-6 shadow-lg rounded-lg overflow-hidden">
                 <div>
-
                     <div
-                        class="border-b p-4 font-bold text-black text-xl tracking-widest uppercase bg-white">
+                        class="border-b py-8 font-bold text-black text-center text-xl tracking-widest uppercase bg-white">
                         New Project
                     </div>
 
@@ -29,7 +28,7 @@
                         <div class="px-6 pb-6">
                             <div>
                                 <label for="inputDescription" class="form-label">Description</label>
-                                <textarea autofocus class="form-textarea"
+                                <textarea autofocus class="form-textarea" rows="6"
                                           :class="$v.description.$error ? ' form-error' : '' " id="inputDescription"
                                           placeholder="Description"
                                           type="text" v-model.lazy="$v.description.$model"></textarea>
@@ -56,7 +55,7 @@
                                     New
                                 </button>
                                 <!-- :class="this.$v.$invalid ? ' button-primary-invalid ' : '' " -->
-                                <a class="px-6 py-3 text-blue-800 text-sm font-bold">Create a new Project</a>
+                                <!--<a class="px-6 py-3 text-blue-800 text-sm font-bold">Create a new Project</a>-->
                             </div>
                         </div>
 

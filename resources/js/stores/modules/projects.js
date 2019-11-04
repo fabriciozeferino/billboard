@@ -121,6 +121,15 @@ export const getters = {
         return state.projects
     },
 
+    project(state, id) {
+        console.log(state.projects.data)
+        console.log(id)
+
+        /*return keyword => state.projects.data.filter(id =>{
+            return id.id === keyword
+        });*/
+    },
+
     projectsTrashed(state) {
         return state.projects
     },

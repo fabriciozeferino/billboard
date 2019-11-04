@@ -2,14 +2,14 @@
     <div class="flex items-center w-full sm:px-10 md:max-w-md">
         <div class="w-full">
             <div class="text-gray-700 hover:text-gray-900 text-xs text-center">
-                <a href="cv">
+                <a href="resume">
                     Fabricio Zeferino
                     <span class="text-xs text-blue-600 hover:text-blue-800 font-bold">
-                        CV
+                        Resume
                     </span>
                 </a>
             </div>
-            <div class="block bg-white my-10 shadow-2xl rounded-lg overflow-hidden">
+            <div class="block mx-auto w-full max-w-sm bg-white my-6 shadow-lg rounded-lg overflow-hidden">
                 <div>
                     <div
                         class="border-b py-8 font-bold text-black text-center text-xl tracking-widest uppercase bg-white">
@@ -73,7 +73,7 @@
             </div>
 
             <div class="text-gray-700 text-sm text-center">
-                Don't have an account?
+                Already have an account?
                 <router-link class="py-3 text-blue-600 hover:text-blue-800 font-bold" :to="{ name: 'register' }">
                     Create
                 </router-link>

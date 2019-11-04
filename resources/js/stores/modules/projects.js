@@ -41,7 +41,6 @@ export const actions = {
         return axios
             .get('projects')
             .then(response => {
-                console.log(response.data.data)
                 commit('GET_PROJECTS', response.data)
             })
     },
@@ -50,7 +49,6 @@ export const actions = {
         return axios
             .get('projects/trash')
             .then(response => {
-                console.log(response.data.data)
                 commit('GET_PROJECTS', response.data)
             }).catch(error => console.log(error))
     },

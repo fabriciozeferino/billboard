@@ -33,8 +33,6 @@
             const token = localStorage.getItem('token');
             const user = localStorage.getItem('user');
 
-            console.log(this.user)
-            console.log('gfsgfsdgfdsgfdsgfds')
             //this.$store.dispatch('auth/setUser', {token, user});
             if (this.$router.currentRoute.name !== 'login'){
 

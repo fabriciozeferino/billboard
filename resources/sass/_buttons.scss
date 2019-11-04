@@ -1,20 +1,20 @@
 .button {
-    @apply mr-2 px-6 py-3 rounded text-sm font-bold whitespace-no-wrap;
+    @apply font-semibold cursor-pointer inline-block px-5 py-2 rounded shadow-xl whitespace-no-wrap;
+}
+
+.button-primary {
+    @apply bg-blue-600 text-blue-100;
 
     &:hover {
-        @apply bg-orange-800;
+        @apply bg-blue-500 text-white;
     }
 }
 
-.button-activity {
-    @apply bg-blue-600 text-white;
-
-    &:hover {
-        @apply bg-blue-800;
-    }
+.button-primary-inactivated {
+    @apply bg-blue-500 opacity-50 cursor-not-allowed;
 }
 
-.button-danger {
+/*.button-danger {
     @apply bg-red-600 text-white;
 
     &:hover {
@@ -22,40 +22,12 @@
     }
 }
 
-.button-blue-invalid {
+.button-primary-invalid {
     @apply opacity-75 cursor-not-allowed bg-blue-800;
 }
-.button-blue-invalid:hover {
+.button-primary-invalid:hover {
     @apply opacity-75 cursor-not-allowed bg-blue-800;
 }
-.button-blue-invalid:focus {
+.button-primary-invalid:focus {
     @apply opacity-75 cursor-not-allowed bg-blue-800;
-}
-
-.btn-spinner,
-.btn-spinner:after {
-    border-radius: 50%;
-    width: 1.5em;
-    height: 1.5em;
-}
-
-.btn-spinner {
-    font-size: 10px;
-    position: relative;
-    text-indent: -9999em;
-    border-top: .2em solid white;
-    border-right: .2em solid white;
-    border-bottom: .2em solid white;
-    border-left: .2em solid transparent;
-    transform: translateZ(0);
-    animation: spinning 1s infinite linear;
-}
-
-@keyframes spinning {
-    0% {
-        transform: rotate(0deg)
-    }
-    100% {
-        transform: rotate(360deg)
-    }
-}
+}*/

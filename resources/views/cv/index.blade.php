@@ -17,13 +17,12 @@
 <body>
 <div id="cv" class="font-sans leading-relaxed text-gray-900 antialiased hyphens-manual optimize-legibility">
 
-    <!-- Page -->
     <div class="page mx-auto max-w-a4 md:h-a4 p-6 sm:p-8 md:p-16 bg-white">
 
         <div class="md:col-2 print:col-2 col-gap-md md:h-a4-col print:h-a4-col col-fill">
-            <header class="flex items-center mb-8">
+            <header class="flex items-center mb-2">
                 <div
-                    class="initials-container mr-2 text-base leading-none text-white font-medium print:bg-black px-3 py-2">
+                    class="initials-container mr-2 text-base leading-none text-white font-medium print:bg-black p-2">
                     <img class="h-24 w-24 rounded-full shadow-md" src="{{ url('images/avatar.jpg') }}" alt="">
                 </div>
                 <div class="leading-none">
@@ -33,7 +32,6 @@
 
             </header>
             <section class="mb-8">
-
                 <div class="col-break-avoid">
                     <h2 class="text-sm text-gray-600 font-bold print:font-normal tracking-widest">ABOUT ME</h2>
                     <div class="h-full border-b-8 mb-4"></div>
@@ -41,26 +39,25 @@
                     <section class="mb-2 col-break-avoid">
                         <header>
                             <h3 class="text-lg text-gray-700 font-semibold leading-snug">Full-Stack PHP Developer</h3>
-                            <p class="text-gray-700 leading-normal">Since 2017</p>
                         </header>
-                        <p class="mt-2 text-gray-700 leading-normal text-sm">I am a passionate self-taught developer.
-                            I’ve
-                            delivered working application utilising Laravel, JavaScript, jQuery, Bootstrap, MySQL and
-                            mongoDB. I’m currently teaching myself TDD, Vue.js, Vuex, SPA, RESTful API and Tailwind
-                            CSS.</p>
-
-                        <li>never stop to study, in love to learn  new tecnologies</li>
+                        <p class="mt-2 text-gray-700 leading-normal text-sm">
+                            A passionate self-taught developer that is aways learning. I’ve delivered applications using
+                            Laravel, JavaScript, jQuery, Bootstrap, MySQL. I’m currently teaching myself the last
+                            technologies such as TDD, Vue.js, Vuex, SPA, RESTful API and Tailwind CSS. I never stop to
+                            study even working full-time I enjoy spending my free time studying and preparing my self
+                            for challenges that I may face in day-to-day development.
+                        </p>
+                        <p class="mt-2 text-gray-700 leading-normal text-sm">
+                            I have a strong Technology background, I've been in love with web development since I was 14
+                            years old. When 18 I have concluded a web development technical course using PHP 4 and
+                            APACHE, unfortunately, I lived in a small town in Brazil and I have to follow another path
+                            in my career. I come back to Web development in 2017, in 2018 under the guidance of my
+                            mentor I have taught my self full-time. In October of 2018, I have reached my object getting
+                            my first job and now I'm looking for my next challenge.
+                        </p>
                     </section>
 
                 </div>
-
-                <section class="mb-4 col-break-avoid">
-                    <p class="mt-1 text-gray-700 leading-normal text-sm">I started to study Web development in 2017, in
-                        2018
-                        during all year I have taught my self full-time. At the end of 2018, I have reached my object
-                        getting my first job on Web Development.</p>
-                </section>
-
             </section>
 
             <!-- To keep in the same column -->
@@ -77,38 +74,40 @@
                     <p class="text-gray-700 leading-normal mb-2">Oct 2018 | Full-Stack PHP
                         Developer</p>
                 </header>
-                <p class="mt-1 pl-6  text-gray-700 leading-normal text-sm">
-                    <svg class="w-4 h-4 inline -ml-6 flex-shrink-0 text-gray-600 print:text-gray-900"
+                <div class="text-gray-700 leading-normal text-sm">
+                    {{--<svg class="w-4 h-4 inline -ml-6 flex-shrink-0 text-gray-600 print:text-gray-900"
                          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path class="fill-current"
                               d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-2.3-8.7l1.3 1.29 3.3-3.3a1 1 0 0 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-2-2a1 1 0 0 1 1.4-1.42z"/>
-                    </svg>
-                    Responsible for analysis issues and under the guidance of senior developer, designing and code new
-                    features and improvements for an existing web application. <br>
-                    Qualified to the development from Front to Back end trough the Database. <br>
-                    Worked in a Multitenancy legacy code with 35 different customers wich with more than 100 active
-                    users. <br>
-                    Refactored all the core of the application reducing class with thousands of lines applying methods
-                    as DRY and OOP to clean the code, much easier to maint and productive to create new features. <br>
-                    Restructured the database, creating referential integrity between registers running multiples SYNC
-                    to fix old hardcoding. <br>
-                    I have worked directly in a creation of a Microservice for reports, wherein in a night routine all
-                    the data are migrated from MYSQL to a MongoDB making the reports much faster and the MYSQL free for
-                    others requests during the day. <br>
-                    Migrate the server from Windows Server to Linux in AWS. <br>
+                    </svg>--}}
+                    <p class="text-sm">
+                        Responsible for analysis issues and under the guidance of senior developer, designing and
+                        code
+                        new
+                        features and improvements for an existing web application. <br>
+                        Qualified to the development from Front to Back end trough the Database. <br>
+                        Worked in a Multitenancy legacy code with 35 different customers wich with more than 100 active
+                        users.
+                        Refactored all the core of the application reducing class with thousands of lines applying
+                        methods
+                        as DRY and OOP to clean the code, much easier to maint and productive to create new features.
+                        Restructured the database, creating referential integrity between registers running
+                        multiples
+                        SYNC
+                        to fix old hardcoding.
+                        I have worked directly in a creation of a Microservice for reports, wherein in a night
+                        routine
+                        all
+                        the data are migrated from MYSQL to a MongoDB making the reports much faster and the MYSQL free
+                        for
+                        others requests during the day.
+                        Migrate the server from Windows Server to Linux in AWS.
 
-                    Relevant tools used in this role: <br>
-                    Docker, Continues Integration, GitLab, SSH
-                </p>
-                <p class="mt-1 pl-6  text-gray-700 leading-normal">
-                    <svg class="w-4 h-4 inline -ml-6 flex-shrink-0 text-gray-600 print:text-gray-900"
-                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path class="fill-current"
-                              d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-2.3-8.7l1.3 1.29 3.3-3.3a1 1 0 0 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-2-2a1 1 0 0 1 1.4-1.42z"/>
-                    </svg>
-                    Tested beef rump beef ribs, shankle corned beef neck. Ribeye turducken pancetta sausage. Biltong
-                    atl. Yamoi.
-                </p>
+                        Relevant tools used in this role:
+                        Docker, Continues Integration, GitLab, SSH
+
+                    </p>
+                </div>
             </section>
 
             <section class="mt-8">
@@ -124,10 +123,9 @@
                         <header>
                             <h3 class="text-lg text-gray-800 font-semibold leading-snug">Bachelor in Business
                                 Administration</h3>
-                            <p class="text-gray-800 leading-snug mb-2">2006 – 2010 | Bachelor in
-                                Business
-                                Administration</p>
-                            <p class="leading-normal">This degree gave me technical skills and knowledge such as
+                            <p class="text-gray-700 leading-normal mb-2">2006 – 2010 | University of South of Santa
+                                Catarina</p>
+                            <p class="text-sm">This degree gave me technical skills and knowledge such as
                                 project management, resource management, communication, team-working and
                                 problem-solving.</p>
                         </header>
@@ -138,7 +136,7 @@
 
             </section>
 
-            <section class="mt-8 bg-gray-100 py-2 px-4">
+            {{--<section class="mt-8 bg-gray-100 py-2 px-4">
 
                 <!-- To keep in the same column -->
                 <div class="col-break-avoid">
@@ -158,39 +156,34 @@
                                     </svg>
                                 </a>
                             </h3>
-                            <p class="text-gray-700 leading-normal">Since 2019 | HTML CSS</p>
+                            <p class="text-gray-700 mb-2">Since 2019 | HTML CSS</p>
                         </header>
-                        <p class="mt-1  text-gray-700 leading-normal">Filet mignon burgdoggen tri-tip swine pork
+                        <p class="text-sm">Filet mignon burgdoggen tri-tip swine pork
                             belly
                             ham hock flank pork. Ribeye turducken pancetta sausage. Biltong atl. Bacon ham shankle,
                             landjaeg pastrami beef.</p>
                     </section>
 
                 </div>
-            </section>
+            </section>--}}
 
-            <section class="mt-8 py-2 px-4">
+            <section class="mt-4 py-2 px-4 bg-gray-100">
 
-                <h2 class="text-sm text-gray-600 font-bold print:font-normal tracking-widest">SKILLS</h2>
-                <div class="h-full border-b-8 mb-4"></div>
+                <h2 class="text-2xl text-gray-800 font-extrabold print:font-normal tracking-widest">Key
+                    skills</h2>
+                <div class="h-full border-b-2 mb-4"></div>
 
                 {{-- Skills --}}
-                <div class="col-break-avoid mb-4 border-b-2 border-gray-200" v-for="skill in skills">
+                <div class="col-break-avoid mb-4 border-gray-200" v-for="(skill, i) in skills" :class="i !== skills.length - 1 ? 'border-b-2' : ''">
                     <section class="mb-4 col-break-avoid">
                         <header>
                             <div class="flex items-center">
-                                <svg class="w-5 h-5 inline -ml-6 text-gray-600 print:text-gray-900"
-                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path class="fill-current"
-                                          d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-2.3-8.7l1.3 1.29 3.3-3.3a1 1 0 0 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-2-2a1 1 0 0 1 1.4-1.42z"/>
-                                </svg>
                                 <h3 class="inline text-lg text-gray-800 font-semibold">@{{ skill.title }}</h3>
                             </div>
-                            <p class="text-gray-700 leading-normal">@{{ skill.sub_title }}</p>
+                            {{--<p class="text-gray-700 leading-normal mb-2">@{{ skill.sub_title }}</p>--}}
                         </header>
-                        <p class="mt-1  text-gray-700 leading-normal">@{{ skill.description }}</p>
+                        <p class="mt-1  text-gray-700 text-sm">@{{ skill.description }}</p>
                         <ul class="mt-1 mb-6 flex flex-wrap leading-normal">
-
                             <li v-for="(tag, index) in skill.tags" key="index"
                                 class="px-3 mr-1 mt-1 text-base text-gray-700 leading-relaxed print:bg-white print:border-inset bg-gray-200">
                                 @{{ tag }}
@@ -260,7 +253,7 @@
 
 
     </div>
-    <!-- end Page -->
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>

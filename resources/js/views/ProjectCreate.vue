@@ -52,10 +52,10 @@
 
                         <div class="border-t p-6 bg-white">
                             <div class="flex justify-between items-center">
-                                <button class="button button-blue" type="submit">
+                                <button class="button button-primary" type="submit">
                                     New
                                 </button>
-                                <!-- :class="this.$v.$invalid ? ' button-blue-invalid ' : '' " -->
+                                <!-- :class="this.$v.$invalid ? ' button-primary-invalid ' : '' " -->
                                 <a class="px-6 py-3 text-blue-800 text-sm font-bold">Create a new Project</a>
                             </div>
                         </div>

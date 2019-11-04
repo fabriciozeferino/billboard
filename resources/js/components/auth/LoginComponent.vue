@@ -1,6 +1,6 @@
 <template>
-    <div class="flex justify-center items-center">
-        <div class="w-full max-w-md">
+    <div class="flex items-center w-full sm:px-10 md:max-w-md">
+        <div class="w-full">
             <div class="text-gray-700 hover:text-gray-900 text-xs text-center">
                 <a href="cv">
                     Fabricio Zeferino
@@ -9,13 +9,13 @@
                     </span>
                 </a>
             </div>
-            <div class="block mx-auto w-full max-w-sm bg-white my-6 shadow-lg rounded-lg overflow-hidden">
+            <div class="block bg-white my-10 shadow-2xl rounded-lg overflow-hidden">
                 <div>
                     <div
                         class="border-b py-8 font-bold text-black text-center text-xl tracking-widest uppercase bg-white">
                         Login
                     </div>
-                    <form class="bg-gray-100" @submit.prevent="login">
+                    <form @submit.prevent="login">
 
                         <div class="px-6 py-6">
                             <div>
@@ -25,7 +25,7 @@
                                        :class="$v.email.$error ? ' form-error' : null" id="inputEmail"
                                        autocomplete="off"
                                        placeholder="Email address"
-                                       type="text" v-model.lazy="$v.email.$model">
+                                       type="email" v-model.lazy="$v.email.$model">
                             </div>
                             <div v-if="$v.email.$dirty">
                                 <p class="form-error-message" v-if="!$v.email.email">
@@ -60,11 +60,11 @@
 
                         <div class="border-t p-6 bg-white">
                             <div class="flex justify-between items-center">
-                                <button class="button button-blue"
-                                        :class="this.$v.$invalid ? ' button-blue-invalid' : null"
+                                <button @click.prevent="login" :disabled="this.$v.$invalid"
+                                        class="button button-primary"
                                         type="submit">Sign in
                                 </button>
-                                <a class="form-label px-6 py-3 ">Forgot Your Password?</a>
+                                <!--<a class="form-label px-6 py-3 ">Forgot Your Password?</a>-->
                             </div>
                         </div>
 

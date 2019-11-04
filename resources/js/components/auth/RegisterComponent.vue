@@ -86,8 +86,8 @@
 
                         <div class="border-t p-6 bg-white">
                             <div class="flex justify-between items-center">
-                                <button class="button button-blue"
-                                        :class="this.$v.$invalid ? ' button-blue-invalid ' : '' "
+                                <button class="button button-activity"
+                                        :class="this.$v.$invalid ? ' button-primary-invalid ' : '' "
                                         type="submit">Register
                                 </button>
                                 <!--<a class="px-6 py-3 text-blue-800 text-sm font-bold">Welcome!</a>-->

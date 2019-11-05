@@ -41,10 +41,7 @@
                             <h3 class="text-lg text-gray-700 font-semibold leading-snug">Full-Stack PHP Developer</h3>
                         </header>
                         <p class="mt-2 text-gray-700 leading-normal">
-                            A full-stack passionate self-taught developer that is aways aiming to learn. I’ve commercial
-                            experience working in an application built in Laravel, jQuery, Bootstrap and MySQL where I
-                            was responsible for making new features from scratch, going through all the areas of the
-                            developemnt.
+                            A passionate full-stack self-taught developer that is aways aiming to learn. I’ve commercial experience working in an application built in Laravel, jQuery, Bootstrap and MySQL where I was responsible for making new features from scratch, going through all the areas of the development.
                         </p>
                     </section>
 
@@ -64,26 +61,10 @@
                         Developer</p>
                 </header>
                 <div class="text-gray-700 leading-normal">
-                    <p>
-                        Responsible for analysis issues and under the guidance of senior developer, analyze, design and
-                        code new features and improvements for an existing web application.
-                        Qualified to the development from Front end to Back end throughout the Database.
-                        Worked in a Multitenancy platform for 35 councils.
-                    </p>
-                    <p>
-                        Refactored the core of the application reducing class with thousands of lines and hundreds of
-                        requests to just a few, applying methods as DRY and OOP and clean code, making it much easier to
-                        maintain and productive to escalate.
-                        Restructured the database, creating referential integrity between registers running multiples
-                        SYNC to fix old hardcoding.
-                    </p>
-                    <p>
-                        I have worked directly in a creation of a Microservice for reports, wherein in a night routine
-                        all the data are migrated from MYSQL to a MongoDB making the reports much faster and the MYSQL
-                        free for others requests during the day.
-                        I helped to Migrate the server from Windows Server to Linux in AWS. Relevant tools used in this
-                        role: Docker, Continues Integration, GitLab, SSH.
-                    </p>
+                    <p>Under the guidance of senior developer, I am responsible for analysis issues, design and code new features and improvements for an existing web application. Qualified to the development from the frontend end to the backend end throughout the Database. Worked in a Multitenancy platform for 35 councils.</p>
+                    <p>Refactored the core of the application reducing class with thousands of lines and hundreds of requests to just a few, applying methods as DRY and OOP and clean code, making it much easier to maintain and productive to escalate. Restructured the database, creating referential integrity between registers running multiples SYNC to fix old hardcoding.</p>
+                    <p>I have worked directly in a creation of a Microservice for reports, wherein a night routine all the data are migrated from MYSQL to a MongoDB making the reports much faster and the MYSQL free for others requests during the day. I helped to Migrate the server from Windows Server to Linux in AWS. Most relevant tools used in this role: Docker, Continues Integration, GitLab, SSH.</p>
+
                 </div>
             </section>
 

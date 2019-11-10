@@ -11,7 +11,7 @@
                     <small class="uppercase text-black text-l">{{ link.description }}</small>
 
                     <span v-if="link.name === 'projects'"
-                          class="ml-3 bg-red-500 shadow-md text-white text-xs font-bold py-1 px-2 rounded-full">11{{numberOfProjects}}</span>
+                          class="ml-3 bg-red-500 shadow-md text-white text-xs font-bold py-1 px-2 rounded-full">{{numberOfProjects}}</span>
                 </div>
                 <!-- Arrow in the end of menu -->
                 <div class="invisible md:visible" :class="(currentPage === link.name) ? 'active' : 'inactive'">
@@ -64,6 +64,14 @@
             },
             ...projectComputed
         },
+        /*mounted(){
+            console.log(this.numberOfProjects)
+        },
+        watch: {
+            numberOfProjects(a){
+                console.log(a)
+            }
+        },*/
         methods: {
             ...projectMethods
         },

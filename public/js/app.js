@@ -2549,6 +2549,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this.$route.name;
     }
   }, _stores_modules_projectsHelper__WEBPACK_IMPORTED_MODULE_1__["projectComputed"]),
+
+  /*mounted(){
+      console.log(this.numberOfProjects)
+  },
+  watch: {
+      numberOfProjects(a){
+          console.log(a)
+      }
+  },*/
   methods: _objectSpread({}, _stores_modules_projectsHelper__WEBPACK_IMPORTED_MODULE_1__["projectMethods"])
 });
 
@@ -12298,7 +12307,7 @@ var render = function() {
                           staticClass:
                             "ml-3 bg-red-500 shadow-md text-white text-xs font-bold py-1 px-2 rounded-full"
                         },
-                        [_vm._v("11" + _vm._s(_vm.numberOfProjects))]
+                        [_vm._v(_vm._s(_vm.numberOfProjects))]
                       )
                     : _vm._e()
                 ],
@@ -31663,6 +31672,7 @@ var state = {
 var mutations = {
   GET_PROJECTS: function GET_PROJECTS(state, payload) {
     state.projects = payload.data;
+    state.numberOfProjects = payload.data.total;
   },
   GET_TRASHED_PROJECTS: function GET_TRASHED_PROJECTS(state, payload) {
     state.projectsTrashed = payload.data;
@@ -31672,13 +31682,17 @@ var mutations = {
   },
   CREATE: function CREATE(state, payload) {
     state.projects.push(payload);
+    state.numberOfProjects = ++state.numberOfProjects;
   },
   DELETE: function DELETE(state, project) {
     state.projects.data = state.projects.data.filter(function (item) {
       return item !== project;
     });
+    state.numberOfProjects = --state.numberOfProjects;
   },
-  NUMBER_OF_PROJECTS: function NUMBER_OF_PROJECTS(STATE) {}
+  NUMBER_OF_PROJECTS: function NUMBER_OF_PROJECTS(STATE, payload) {
+    state.numberOfProjects = payload;
+  }
 };
 var actions = {
   show: function show(_ref) {
@@ -31749,6 +31763,7 @@ var actions = {
   numberOfProjects: function numberOfProjects(_ref7, data) {
     var commit = _ref7.commit;
     return new Promise(function (resolve) {
+      commit('NUMBER_OF_PROJECTS', data.data.projects.number_of_projects);
       resolve(data);
     });
   }
@@ -31757,9 +31772,9 @@ var getters = {
   projects: function projects(state) {
     return state.projects;
   },
-  project: function project(state, id) {
-    console.log(state.projects.data);
-    console.log(id);
+  project: function project(state, id) {//console.log(state.projects.data)
+    //console.log(id)
+
     /*return keyword => state.projects.data.filter(id =>{
         return id.id === keyword
     });*/
@@ -31768,7 +31783,9 @@ var getters = {
     return state.projects;
   },
   numberOfProjects: function numberOfProjects(state) {
-    return state.projects.length;
+    console.log('Getter in store');
+    console.log(state.numberOfProjects);
+    return state.numberOfProjects;
   }
 };
 

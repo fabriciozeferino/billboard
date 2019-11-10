@@ -11,6 +11,7 @@ export const mutations = {
 
     GET_PROJECTS(state, payload) {
         state.projects = payload.data;
+        state.numberOfProjects = payload.data.total
     },
 
     GET_TRASHED_PROJECTS(state, payload) {
@@ -23,15 +24,16 @@ export const mutations = {
 
     CREATE(state, payload) {
         state.projects.push(payload);
+        state.numberOfProjects = ++state.numberOfProjects;
     },
 
     DELETE(state, project) {
-
         state.projects.data = state.projects.data.filter(item => item !== project);
+        state.numberOfProjects = --state.numberOfProjects;
     },
 
-    NUMBER_OF_PROJECTS(STATE) {
-
+    NUMBER_OF_PROJECTS(STATE, payload) {
+        state.numberOfProjects = payload;
     }
 };
 
@@ -41,12 +43,11 @@ export const actions = {
         return axios
             .get('projects')
             .then(response => {
-                commit('GET_PROJECTS', response.data)
+                commit('GET_PROJECTS', response.data);
             })
     },
 
     getProject({commit}, data){
-
         return axios
             .get(`projects/${data}`)
             .then(response => {
@@ -121,6 +122,8 @@ export const actions = {
     numberOfProjects({commit}, data) {
         return new Promise(resolve => {
 
+            commit('NUMBER_OF_PROJECTS', data.data.projects.number_of_projects);
+
             resolve(data)
         })
     }
@@ -133,8 +136,8 @@ export const getters = {
     },
 
     project(state, id) {
-        console.log(state.projects.data)
-        console.log(id)
+        //console.log(state.projects.data)
+        //console.log(id)
 
         /*return keyword => state.projects.data.filter(id =>{
             return id.id === keyword
@@ -144,7 +147,10 @@ export const getters = {
     projectsTrashed(state) {
         return state.projects
     },
+
     numberOfProjects(state) {
-        return state.projects.length;
+        console.log('Getter in store')
+        console.log(state.numberOfProjects)
+        return state.numberOfProjects;
     }
 };

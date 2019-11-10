@@ -29,7 +29,7 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot();
 
 
-        //Route::model('project', Project::class);
+
     }
 
     /**

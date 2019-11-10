@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @method static find($project_id)
+ * @property mixed id
+ */
 class Project extends AbstractModel
 {
     use SoftDeletes;

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Project;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TaskCreateRequest extends FormRequest
@@ -25,7 +26,6 @@ class TaskCreateRequest extends FormRequest
     {
         return [
             'title' => 'required',
-
         ];
     }
 
@@ -37,8 +37,8 @@ class TaskCreateRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'project_id' => (int)$this->project->id,
-            //'owner_id' => (int)auth()->id(),
+            'project_id' => (int)$this->route('project'),
+            'owner_id' => (int)auth()->id(),
             'title' => $this->get('title')
         ]);
     }

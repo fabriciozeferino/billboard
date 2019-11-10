@@ -6,9 +6,9 @@ use App\Http\Requests\TaskCreateRequest;
 use App\Http\Requests\TaskUpdateRequest;
 use App\Project;
 use App\Task;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 
 class TaskController extends Controller
@@ -16,59 +16,50 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @param Project $project
+     * @param Task $task
+     * @return LengthAwarePaginator
+     * @throws AuthorizationException
      */
-    public function index()
+    public function index(Project $project, Task $task)
     {
-        return view('projects.index', compact('projects'));
+        $this->authorize('view', $project);
+
+        return $project->tasks()->paginate();
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a new resource.
      *
-     * @return void
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * @param Project $project
      * @param TaskCreateRequest $request
-     * @return RedirectResponse|Redirector
-     */
-    public function store(Project $project, TaskCreateRequest $request)
-    {
-        if (auth()->user()->isNot($project->owner)) {
-            abort(403);
-        }
-
-        $project->addTask($request->all());
-
-        return redirect($project->path());
-    }
-
-    /**
-     * Display the specified resource.
-     *
      * @param Task $task
-     * @return void
+     * @return RedirectResponse|Redirector
+     * @throws AuthorizationException
      */
-    public function show(Task $task)
+    public function store(TaskCreateRequest $request, Task $task)
     {
-        //
+        $this->authorize('create', $task);
+
+        $task->create($request->all());
+
+        return response()->json($task, 201);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
+     * @param Project $project
      * @param Task $task
      * @return void
+     * @throws AuthorizationException
      */
-    public function edit(Task $task)
+    public function show(Project $project, Task $task)
     {
-        //
+        $this->authorize('view', $project);
+        $this->authorize('view', $task);
+
+        return response()->json($task, 200);
     }
 
     /**
@@ -78,16 +69,18 @@ class TaskController extends Controller
      * @param Task $task
      * @param TaskUpdateRequest $request
      * @return void
+     * @throws AuthorizationException
      */
     public function update(Project $project, Task $task, TaskUpdateRequest $request)
     {
-        if (auth()->user()->isNot($project->owner)) {
-            abort(403);
-        }
+        $this->authorize('view', $project);
+        $this->authorize('view', $task);
 
-        $project->tasks()->find($task->id)->update($request->all());
+        $task->update($request->all());
 
-        return redirect($project->path());
+        return response()->json([
+            'data' => $task
+        ], 201);
     }
 
     /**

@@ -15,7 +15,7 @@ class ProjectTest extends TestCase
     {
         $project = factory('App\Project')->create();
 
-        $this->assertEquals('/api/v1/projects/' . $project->id, $project->path());
+        $this->assertEquals(self::URI . '/projects/' . $project->id, $project->path());
     }
 
     /** @test */
@@ -32,7 +32,7 @@ class ProjectTest extends TestCase
         $project = factory('App\Project')->create();
         $task = factory('App\Task')->raw([
             'project_id' => $project->id,
-            //'owner_id' => $project->owner_id
+            'owner_id' => $project->owner_id
         ]);
 
         $task = $project->addTask($task);

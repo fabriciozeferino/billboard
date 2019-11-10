@@ -15,7 +15,7 @@ class AuthenticationTest extends TestCase
     /**  @test */
     public function register_page_displayed()
     {
-        $response = $this->json('GET', '/api/v1/auth/register', []);
+        $response = $this->json('GET', self::URI . 'auth/register', []);
         $response->assertStatus(200);
     }
 
@@ -31,7 +31,7 @@ class AuthenticationTest extends TestCase
             'password_confirmation' => 'secret123'
         ];
 
-        $response = $this->json('POST', '/api/v1/auth/register', $register_data);
+        $response = $this->json('POST', self::URI . '/auth/register', $register_data);
 
         $response->assertStatus(201);
 
@@ -64,7 +64,7 @@ class AuthenticationTest extends TestCase
             'password' => 'password'
         ];
 
-        $response = $this->json('POST', '/api/v1/auth/login', $credentials, ['Accept' => 'application/json']);
+        $response = $this->json('POST', self::URI . '/auth/login', $credentials, ['Accept' => 'application/json']);
 
         $response->assertStatus(200);
 
@@ -91,7 +91,7 @@ class AuthenticationTest extends TestCase
             'password' => 'invalid'
         ];
 
-        $response = $this->post('/api/v1/auth/login', $credentials);
+        $response = $this->post(self::URI . '/auth/login', $credentials);
 
         $response->assertStatus(401);
         $this->assertGuest();
@@ -102,7 +102,7 @@ class AuthenticationTest extends TestCase
     {
         $this->signIn();
 
-        $response = $this->post('/api/v1/auth/logout');
+        $response = $this->post(self::URI . '/auth/logout');
         $response->assertStatus(200);
         $this->assertGuest();
     }

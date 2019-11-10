@@ -24,9 +24,7 @@ class TaskUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
-            //'completed' => 'boolean'
-
+            'title' => 'required'
         ];
     }
 
@@ -38,10 +36,9 @@ class TaskUpdateRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'project_id' => (int)$this->project->id,
-            //'owner_id' => (int)auth()->id(),
-            'title' => $this->get('title'),
-            'completed' => $this->get('completed') ?: 0
+            'project_id' => (int)$this->route('project')->id,
+            'owner_id' => (int)auth()->id(),
+            'title' => $this->get('title')
         ]);
     }
 }

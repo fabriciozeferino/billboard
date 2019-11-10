@@ -9,7 +9,7 @@
             </a>
 
             <header class="flex items-center justify-between leading-tight p-2 md:p-4">
-                <h1 class="text-lg no-underline hover:underline text-black" href="#">
+                <h1 class="text-lg no-underline hover:underline text-black" @click="editProject(project.id)">
                         {{ project.title }}
                 </h1>
             </header>
@@ -55,9 +55,9 @@
         },
         methods: {
             ...projectMethods,
-            editProject(id) {
+            /*editProject(id) {
                 this.$router.push({name:'project-show',params:{id}})
-            }
+            }*/
         },
     }
 </script>

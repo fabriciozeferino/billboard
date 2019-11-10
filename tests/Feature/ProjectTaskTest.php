@@ -2,11 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Project;
 use App\Task;
+use Facades\Tests\Setup\ProjectFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Facades\Tests\Setup\ProjectFactory;
 use Tests\TestCase;
 
 class ProjectTaskTest extends TestCase
@@ -18,26 +17,71 @@ class ProjectTaskTest extends TestCase
     {
         $project = ProjectFactory::withTasks(1)->create();
 
-        $this->get("/projects/{$project->id}/tasks")->assertRedirect('login');
-        $this->get($project->tasks()->first()->path())->assertRedirect('login');
-        $this->get("/projects/{$project->id}/tasks/create")->assertRedirect('login');
-        $this->post("/projects/{$project->id}/tasks/", $project->toArray())->assertRedirect('login');
+        $this->json('GET', self::URI . '/projects/1/tasks', [])
+            ->assertStatus(401)
+            ->assertJsonStructure(SELF::RESPONSE_401);
+
+        $this->json('GET', self::URI . '/projects/1/tasks/1', [])
+            ->assertStatus(401)
+            ->assertJsonStructure(SELF::RESPONSE_401);
+
+        $this->json('POST', self::URI . '/projects/1/tasks', [], [])
+            ->assertStatus(401)
+            ->assertJsonStructure(SELF::RESPONSE_401);
+
+        $this->json('GET', self::URI . '/projects/1/tasks/1/edit', [])
+            ->assertStatus(401)
+            ->assertJsonStructure(SELF::RESPONSE_401);
+
+
+        $this->json('DELETE', self::URI . '/projects/1/tasks/1', [])
+            ->assertStatus(401)
+            ->assertJsonStructure(SELF::RESPONSE_401);
+
+        $this->assertGuest();
+    }
+
+    /** @test */
+    public function the_owner_of_a_project_may_add_tasks()
+    {
+        $owner = ($this->signIn())['user'];
+
+        $project = ProjectFactory::ownedBy($owner)->create();
+
+        $task = factory(Task::class)->raw(['project_id' => $project->id]);
+
+        $this->json('POST', $project->path() . '/tasks', $task)
+            ->assertStatus(201);
+
+        $this->assertDatabaseHas('tasks', $task);
     }
 
     /** @test */
     public function only_the_owner_of_a_project_may_add_tasks()
     {
-        //$this->withoutExceptionHandling();
         $this->signIn();
 
         $project = ProjectFactory::create();
+
         $task = factory(Task::class)->raw(['project_id' => $project->id]);
 
-
-        $this->post($project->path() . '/tasks', $task)
+        $this->json('POST', $project->path() . '/tasks', $task)
             ->assertStatus(403);
+    }
 
-        $this->assertDatabaseMissing('tasks', ['title' => $task['title']]);
+    /** @test */
+    public function the_owner_of_a_project_may_update_tasks()
+    {
+        $user = ($this->signIn())['user'];
+
+        $project = ProjectFactory::ownedBy($user)->withTasks(1)->create();
+
+        $task = factory(Task::class)->raw(['project_id' => $project->id]);
+
+        $this->json('PUT', $project->path() . '/tasks/' . $project->tasks->first()->id, $task)
+            ->assertStatus(201);
+
+        $this->assertDatabaseHas('tasks', $task);
     }
 
     /** @test */
@@ -45,58 +89,46 @@ class ProjectTaskTest extends TestCase
     {
         $this->signIn();
 
-        $project = ProjectFactory::create();
+        // Project belong to other user.
+        $project = ProjectFactory::withTasks(1)->create();
+
         $task = factory(Task::class)->raw(['project_id' => $project->id]);
 
-        $this->post($project->path() . '/tasks', $task)
+        $this->json('PUT', $project->path() . '/tasks/' . $project->tasks->first()->id, $task)
             ->assertStatus(403);
 
         $this->assertDatabaseMissing('tasks', $task);
     }
 
     /** @test */
-    public function a_project_can_have_tasks()
+    public function a_task_require_a_title()
     {
-        $project = ProjectFactory::create();
+        $owner = ($this->signIn())['user'];
+
+        $project = ProjectFactory::ownedBy($owner)->withTasks(3)->create();
 
         $task = factory(Task::class)->raw([
             'project_id' => $project->id,
+            'title' => ''
         ]);
 
-        $this->actingAs($project->owner)
-            ->post($project->path() . '/tasks', $task);
+        $this->json('POST', $project->path() . '/tasks', $task)
+            ->assertStatus(422)
+            ->assertJsonStructure([
+                'message',
+                'errors' => [
+                    'title'
+                ]
+            ]);
 
-        $this->get($project->path())
-            ->assertSee($task['title']);
-    }
-
-    /** @test */
-    public function a_task_require_a_title()
-    {
-        $project = ProjectFactory::create();
-
-        $task = factory(Task::class)->raw(['title' => '']);
-
-        $this->actingAs($project->owner)
-            ->post($project->path() . '/tasks', $task)
-            ->assertSessionHasErrors('title');
-    }
-
-    /** @test */
-    public function a_task_can_be_updated()
-    {
-        $project = ProjectFactory::withTasks(1)->create();
-
-        $this->actingAs($project->owner)
-            ->patch($project->tasks->first()->path(), [
-            'title' => 'Title changed',
-            'completed' => '1'
-        ]);
-
-        $this->assertDatabaseHas('tasks', [
-            'title' => 'Title changed',
-            'completed' => '1'
-        ]);
+        $this->json('PUT', $project->path() . '/tasks/' . $project->tasks->first()->id, $task)
+            ->assertStatus(422)
+            ->assertJsonStructure([
+                'message',
+                'errors' => [
+                    'title'
+                ]
+            ]);
     }
 
 

@@ -21,8 +21,10 @@ Route::prefix('v1')->group(function () {
         });
     });
 
-    // Projects
+    // Authenticated routes
     Route::middleware(['auth:api', 'jwt.auth'])->group(function () {
+
+        // Project
         Route::get('projects/trash', 'ProjectController@trash')
             ->name('projects.trasheed');
 
@@ -30,6 +32,12 @@ Route::prefix('v1')->group(function () {
             ->name('projects.delete');
 
         Route::resource('projects', 'ProjectController');
+
+        // Tasks
+        Route::resource('projects/{project}/tasks', 'TaskController');
+
+        // Logs
+        Route::get('projects/{project}/activities', 'ActivityController@show');
     });
 
 });

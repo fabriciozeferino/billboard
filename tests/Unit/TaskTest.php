@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Project;
 use App\Task;
+use Facades\Tests\Setup\ProjectFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -14,7 +15,8 @@ class TaskTest extends TestCase
     /** @test */
     public function it_belongs_to_a_project()
     {
-        $task = factory(Task::class)->create();
+        $project = ProjectFactory::withTasks(1)->create();
+        $task = $project->tasks->first();
 
         $this->assertInstanceOf(Project::class, $task->project);
     }
@@ -23,21 +25,23 @@ class TaskTest extends TestCase
     /** @test */
     public function it_has_a_path()
     {
-        $task = factory(Task::class)->create();
+        $project = ProjectFactory::withTasks(1)->create();
+        $task = $project->tasks->first();
 
-        $this->assertEquals('/projects/' . $task->project_id . '/tasks/' . $task->id, $task->path());
+        $this->assertEquals(SELF::URI . '/projects/' . $project->id . '/tasks/' . $task->id, $task->path());
     }
 
     /** @test */
     public function it_can_be_completed()
     {
-        $task = factory(Task::class)->create();
+        $project = ProjectFactory::withTasks(1)->create();
+        $task = $project->tasks->first();
 
         $this->assertFalse($task->completed);
 
-        //$task->complete();
+        $task->complete();
 
-        //$this->assertTrue($task->fresh()->completed);
+        $this->assertTrue($task->fresh()->completed);
     }
 
 

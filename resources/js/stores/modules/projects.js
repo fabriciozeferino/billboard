@@ -45,6 +45,17 @@ export const actions = {
             })
     },
 
+    getProject({commit}, data){
+
+        return axios
+            .get(`projects/${data}`)
+            .then(response => {
+                return response.response.data
+                //this.$store.dispatch('projects/setProjects', response.data.data);
+            })
+            .catch(error => console.log(error.response));
+    },
+
     showTrashed({commit}) {
         return axios
             .get('projects/trash')

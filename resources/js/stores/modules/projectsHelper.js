@@ -15,7 +15,8 @@ export const projectMethods = {
         'create',
         'setProjects',
         'deleteProjects',
-        'showTrashed'
+        'showTrashed',
+        'getProject'
     ]),
 };
 

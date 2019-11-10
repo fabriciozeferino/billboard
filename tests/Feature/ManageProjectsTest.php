@@ -17,31 +17,25 @@ class ManageProjectsTest extends TestCase
     {
         $project = ProjectFactory::create();
 
-        $header = ['Content-Type' => 'application/json'];
-        $response_401 = [
-            'message'
-        ];
-
-        $this->json('GET', 'api/v1/projects', $header)
+        $this->json('GET', self::URI . '/projects', [])
             ->assertStatus(401)
-            ->assertJsonStructure($response_401);
+            ->assertJsonStructure(SELF::RESPONSE_401);
 
-        $this->json('GET', $project->path(), $header)
+        $this->json('GET', $project->path(), [])
             ->assertStatus(401)
-            ->assertJsonStructure($response_401);
+            ->assertJsonStructure(SELF::RESPONSE_401);
 
-        $this->json('POST', 'api/v1/projects', $header, $project->toArray())
+        $this->json('POST', self::URI . '/projects', [], $project->toArray())
             ->assertStatus(401)
-            ->assertJsonStructure($response_401);
+            ->assertJsonStructure(SELF::RESPONSE_401);
 
-        $this->json('GET', $project->path() . '/edit', $header)
+        $this->json('GET', $project->path() . '/edit', [])
             ->assertStatus(401)
-            ->assertJsonStructure($response_401);
+            ->assertJsonStructure(SELF::RESPONSE_401);
 
-
-        $this->json('DELETE', $project->path(), $header)
+        $this->json('DELETE', $project->path(), [])
             ->assertStatus(401)
-            ->assertJsonStructure($response_401);
+            ->assertJsonStructure(SELF::RESPONSE_401);
 
         $this->assertGuest();
     }
@@ -56,15 +50,10 @@ class ManageProjectsTest extends TestCase
 
         $this->assertAuthenticated();
 
-        /*$this->json('GET', '/api/v1/projects/create')
-            ->assertStatus(200);*/
-
         $attributes = factory(Project::class)->raw(["owner_id" => $response['user']->id]);
-        //$attributes = ProjectFactory::ownedBy($response['user'])->create();
 
-        //dd($attributes);
-
-        $response = $this->actingAs($response['user'])->json('POST', 'api/v1/projects', $attributes);
+        $response = $this->actingAs($response['user'])
+            ->json('POST', self::URI . '/projects', $attributes);
 
         $response->assertStatus(201);
 
@@ -116,7 +105,7 @@ class ManageProjectsTest extends TestCase
 
         $this->assertSoftDeleted('projects', ['id' => $project->id]);
 
-        $this->json('DELETE', "api/v1/projects/1/delete");
+        $this->json('DELETE', self::URI . '/projects/1/delete');
 
         $this->assertDatabaseMissing('projects', $project->only('id'));
     }
@@ -150,18 +139,9 @@ class ManageProjectsTest extends TestCase
 
         ProjectFactory::ownedBy($user['user'])->create();
 
-        $response = $this->json('GET', 'api/v1/projects');
+        $response = $this->json('GET', self::URI . '/projects');
 
         $response->assertStatus(200);
-
-
-        /*$response->assertJsonStructure([
-            '*' => [
-                'id',
-                'owner_id',
-                'title'
-            ]
-        ]);*/
     }
 
     /** @test */
@@ -175,13 +155,11 @@ class ManageProjectsTest extends TestCase
 
         $project = ProjectFactory::ownedBy($response['user'])->create();
 
-
         $this->json('DELETE', $project->path());
 
         $this->assertSoftDeleted('projects', ['id' => $project->id]);
 
-        $project_trashed = $this->actingAs($response['user'])->json('GET', 'api/v1/projects/trash');
-
+        $project_trashed = $this->actingAs($response['user'])->json('GET', self::URI . 'projects/trash');
 
         $project_trashed->assertStatus(200);
 
@@ -215,7 +193,7 @@ class ManageProjectsTest extends TestCase
 
         $attributes = factory(Project::class)->raw(['title' => '']);
 
-        $response = $this->json('POST', 'api/v1/projects', $attributes);
+        $response = $this->json('POST', self::URI . '/projects', $attributes);
 
         $response->assertStatus(422);
 
@@ -239,7 +217,7 @@ class ManageProjectsTest extends TestCase
 
         $attributes = factory(Project::class)->raw(['description' => '']);
 
-        $response = $this->json('POST', 'api/v1/projects', $attributes);
+        $response = $this->json('POST', self::URI . '/projects', $attributes);
 
         $response->assertStatus(422);
 

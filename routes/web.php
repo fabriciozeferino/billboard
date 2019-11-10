@@ -1,11 +1,8 @@
 <?php
 
-Route::get('/resume', function (){
-   return view('resume/index');
-});
+Route::get('/resume', 'PublicController@resume');
 
-Route::get('{path}', function () {
-    return view('app');
-})->where('path', '(.*)');
+Route::get('{path}', 'PublicController@index')->where('path', '(.*)');
 
+Route::fallback('PublicController@registerNotFound')->name('fallback');
 

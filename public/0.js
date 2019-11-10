@@ -70,16 +70,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   components: {
     Icon: _shared_Icon__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  methods: _objectSpread({}, _stores_modules_projectsHelper__WEBPACK_IMPORTED_MODULE_1__["projectMethods"], {
-    editProject: function editProject(id) {
-      this.$router.push({
-        name: 'project-show',
-        params: {
-          id: id
-        }
-      });
-    }
-  })
+  methods: _objectSpread({}, _stores_modules_projectsHelper__WEBPACK_IMPORTED_MODULE_1__["projectMethods"])
 });
 
 /***/ }),
@@ -225,7 +216,11 @@ var render = function() {
               "h1",
               {
                 staticClass: "text-lg no-underline hover:underline text-black",
-                attrs: { href: "#" }
+                on: {
+                  click: function($event) {
+                    return _vm.editProject(_vm.project.id)
+                  }
+                }
               },
               [
                 _vm._v(

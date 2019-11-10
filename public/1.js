@@ -61,7 +61,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -146,7 +145,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".page-link {\n  padding: 0 .50rem !important;\n}\n", ""]);
+exports.push([module.i, "/*.page-link {\n    padding: 0 .50rem !important;\n}*/\n", ""]);
 
 // exports
 
@@ -203,39 +202,44 @@ var render = function() {
       "article",
       { staticClass: "overflow-hidden rounded-lg shadow-lg bg-white" },
       [
-        _vm._m(0),
-        _vm._v(" "),
         _c(
-          "header",
+          "router-link",
           {
-            staticClass:
-              "flex items-center justify-between leading-tight p-2 md:p-4"
+            attrs: {
+              to: { name: "project-show", params: { id: _vm.project.id } }
+            }
           },
           [
+            _c("img", {
+              staticClass: "block h-auto w-full",
+              attrs: {
+                alt: "Placeholder",
+                src: "https://picsum.photos/300/100/?random"
+              }
+            }),
+            _vm._v(" "),
             _c(
-              "h1",
+              "header",
               {
-                staticClass: "text-lg no-underline hover:underline text-black",
-                on: {
-                  click: function($event) {
-                    return _vm.editProject(_vm.project.id)
-                  }
-                }
+                staticClass:
+                  "flex items-center justify-between leading-tight p-2 md:p-4"
               },
               [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm.project.title) +
-                    "\n            "
-                )
+                _c("h1", { staticClass: "text-lg no-underline text-black" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.project.title) +
+                      "\n                "
+                  )
+                ])
               ]
-            )
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "p-2 md:p-4" }, [
+              _vm._v(_vm._s(_vm.project.description))
+            ])
           ]
         ),
-        _vm._v(" "),
-        _c("div", { staticClass: "p-2 md:p-4" }, [
-          _vm._v(_vm._s(_vm.project.description))
-        ]),
         _vm._v(" "),
         _c(
           "footer",
@@ -244,61 +248,53 @@ var render = function() {
               "flex items-center justify-between leading-none p-2 md:p-4"
           },
           [
-            _c(
-              "a",
-              {
-                staticClass:
-                  "flex items-center no-underline hover:underline text-black",
-                attrs: { href: "#" }
-              },
-              [
-                _c("img", {
-                  staticClass: "w-10 h-10 rounded-full mr-4",
-                  attrs: {
-                    alt: "Placeholder",
-                    src: "https://picsum.photos/32/32/?random"
-                  }
-                }),
+            _c("div", { staticClass: "flex items-center" }, [
+              _c("img", {
+                staticClass: "w-10 h-10 rounded-full mr-4",
+                attrs: {
+                  alt: "Placeholder",
+                  src: "https://picsum.photos/32/32/?random"
+                }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "text-sm" }, [
+                _c("p", { staticClass: "text-gray-900 leading-none" }, [
+                  _vm._v("Jonathan Reinink")
+                ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "text-sm" }, [
-                  _c("p", { staticClass: "text-gray-900 leading-none" }, [
-                    _vm._v("Jonathan Reinink")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "text-gray-600" }, [_vm._v("Aug 18")]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "mt-2 flex items-center" },
-                    _vm._l(5, function(i) {
-                      return _c(
-                        "svg",
-                        {
-                          staticClass: "h-4 w-4 fill-current",
-                          class:
-                            i <= _vm.project.id
-                              ? "text-blue-500"
-                              : "text-gray-400",
+                _c("p", { staticClass: "text-gray-600" }, [_vm._v("Aug 18")]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "mt-2 flex items-center" },
+                  _vm._l(5, function(i) {
+                    return _c(
+                      "svg",
+                      {
+                        staticClass: "h-4 w-4 fill-current",
+                        class:
+                          i <= _vm.project.id
+                            ? "text-blue-500"
+                            : "text-gray-400",
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          viewBox: "0 0 20 20"
+                        }
+                      },
+                      [
+                        _c("path", {
                           attrs: {
-                            xmlns: "http://www.w3.org/2000/svg",
-                            viewBox: "0 0 20 20"
+                            d:
+                              "M10 1.3l2.388 6.722H18.8l-5.232 3.948 1.871 6.928L10 14.744l-5.438 4.154 1.87-6.928-5.233-3.948h6.412L10 1.3z"
                           }
-                        },
-                        [
-                          _c("path", {
-                            attrs: {
-                              d:
-                                "M10 1.3l2.388 6.722H18.8l-5.232 3.948 1.871 6.928L10 14.744l-5.438 4.154 1.87-6.928-5.233-3.948h6.412L10 1.3z"
-                            }
-                          })
-                        ]
-                      )
-                    }),
-                    0
-                  )
-                ])
-              ]
-            ),
+                        })
+                      ]
+                    )
+                  }),
+                  0
+                )
+              ])
+            ]),
             _vm._v(" "),
             _c("Icon", {
               staticClass:
@@ -313,26 +309,12 @@ var render = function() {
           ],
           1
         )
-      ]
+      ],
+      1
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { attrs: { href: "#" } }, [
-      _c("img", {
-        staticClass: "block h-auto w-full",
-        attrs: {
-          alt: "Placeholder",
-          src: "https://picsum.photos/300/100/?random"
-        }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

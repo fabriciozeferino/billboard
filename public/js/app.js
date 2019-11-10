@@ -2532,11 +2532,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         name: 'project-create',
         description: 'Create',
         icon: 'users'
-      }, {
-        name: 'project-trash',
-        description: 'Trash',
-        icon: 'trash'
-      }, {
+      },
+      /*{
+       name: 'project-trash',
+       description: 'Trash',
+       icon: 'trash'
+      },*/
+      {
         name: 'reports',
         description: 'Reports',
         icon: 'printer'
@@ -2549,15 +2551,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this.$route.name;
     }
   }, _stores_modules_projectsHelper__WEBPACK_IMPORTED_MODULE_1__["projectComputed"]),
-
-  /*mounted(){
-      console.log(this.numberOfProjects)
-  },
-  watch: {
-      numberOfProjects(a){
-          console.log(a)
-      }
-  },*/
   methods: _objectSpread({}, _stores_modules_projectsHelper__WEBPACK_IMPORTED_MODULE_1__["projectMethods"])
 });
 
@@ -31783,8 +31776,6 @@ var getters = {
     return state.projects;
   },
   numberOfProjects: function numberOfProjects(state) {
-    console.log('Getter in store');
-    console.log(state.numberOfProjects);
     return state.numberOfProjects;
   }
 };

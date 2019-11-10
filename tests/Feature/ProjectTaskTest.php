@@ -79,7 +79,7 @@ class ProjectTaskTest extends TestCase
         $task = factory(Task::class)->raw(['project_id' => $project->id]);
 
         $this->json('PUT', $project->path() . '/tasks/' . $project->tasks->first()->id, $task)
-            ->assertStatus(201);
+            ->assertStatus(204);
 
         $this->assertDatabaseHas('tasks', $task);
     }

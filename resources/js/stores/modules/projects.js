@@ -149,8 +149,6 @@ export const getters = {
     },
 
     numberOfProjects(state) {
-        console.log('Getter in store')
-        console.log(state.numberOfProjects)
         return state.numberOfProjects;
     }
 };

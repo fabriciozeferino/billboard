@@ -45,8 +45,8 @@
     }
 </script>
 <style>
-    .page-link {
+    /*.page-link {
         padding: 0 .50rem !important;
-    }
+    }*/
 </style>
 

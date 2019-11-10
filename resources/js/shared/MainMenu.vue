@@ -45,11 +45,11 @@
                         name: 'project-create',
                         description: 'Create',
                         icon: 'users'
-                    }, {
+                    }, /*{
                         name: 'project-trash',
                         description: 'Trash',
                         icon: 'trash'
-                    }, {
+                    },*/ {
                         name: 'reports',
                         description: 'Reports',
                         icon: 'printer'
@@ -64,14 +64,6 @@
             },
             ...projectComputed
         },
-        /*mounted(){
-            console.log(this.numberOfProjects)
-        },
-        watch: {
-            numberOfProjects(a){
-                console.log(a)
-            }
-        },*/
         methods: {
             ...projectMethods
         },

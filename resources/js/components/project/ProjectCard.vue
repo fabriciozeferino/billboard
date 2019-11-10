@@ -2,22 +2,21 @@
     <div>
         <!-- Article -->
         <article class="overflow-hidden rounded-lg shadow-lg bg-white">
+            <router-link :to="{ name: 'project-show', params: {id: project.id} }">
 
-            <a href="#">
                 <img alt="Placeholder" class="block h-auto w-full"
                      src="https://picsum.photos/300/100/?random">
-            </a>
 
-            <header class="flex items-center justify-between leading-tight p-2 md:p-4">
-                <h1 class="text-lg no-underline hover:underline text-black" @click="editProject(project.id)">
+                <header class="flex items-center justify-between leading-tight p-2 md:p-4">
+                    <h1 class="text-lg no-underline text-black">
                         {{ project.title }}
-                </h1>
-            </header>
+                    </h1>
+                </header>
 
-            <div class="p-2 md:p-4">{{ project.description}}</div>
-
+                <div class="p-2 md:p-4">{{ project.description}}</div>
+            </router-link>
             <footer class="flex items-center justify-between leading-none p-2 md:p-4">
-                <a class="flex items-center no-underline hover:underline text-black" href="#">
+                <div class="flex items-center">
                     <img alt="Placeholder" class="w-10 h-10 rounded-full mr-4"
                          src="https://picsum.photos/32/32/?random">
                     <div class="text-sm">
@@ -31,8 +30,8 @@
                             </svg>
                         </div>
                     </div>
-                </a>
-                <!--@click.native="remove(project.id)"-->
+                </div>
+
                 <Icon :name="'trash'"
                       class="mr-1 fill-current text-gray-200 hover:text-red-400 inline-block h-5 w-5 cursor-pointer"
                       @click.native="deleteProjects(project)"/>

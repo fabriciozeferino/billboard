@@ -41,7 +41,7 @@ class TaskController extends Controller
     {
         $this->authorize('create', $task);
 
-        $task->create($request->all());
+        $task = $task->create($request->all());
 
         return response()->json($task, 201);
     }
@@ -80,7 +80,7 @@ class TaskController extends Controller
 
         return response()->json([
             'data' => $task
-        ], 201);
+        ], 204);
     }
 
     /**

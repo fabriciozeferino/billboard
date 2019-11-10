@@ -67,7 +67,10 @@ class ProjectController extends Controller
         $this->authorize('view', $project);
 
         return response()->json([
-            'data' => $project
+            'data' => [
+                'project' => $project,
+                'tasks' => $project->tasks()->get()
+                ]
         ], 200);
     }
 

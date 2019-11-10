@@ -77,8 +77,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -171,184 +169,166 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "flex items-center w-full sm:px-10 md:max-w-md" },
-    [
-      _c("div", { staticClass: "w-full" }, [
+  return _c("div", { staticClass: "w-full lg:max-w-lg" }, [
+    _c(
+      "div",
+      { staticClass: "w-full bg-white shadow-lg rounded-lg overflow-hidden" },
+      [
         _c(
           "div",
           {
             staticClass:
-              "mx-auto w-full max-w-sm bg-white my-6 shadow-lg rounded-lg overflow-hidden"
+              "border-b py-8 font-bold text-black text-center text-xl tracking-widest uppercase bg-white"
+          },
+          [_vm._v("\n            New Project\n        ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "form",
+          {
+            staticClass: "bg-gray-100",
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.createNewProject($event)
+              }
+            }
           },
           [
-            _c("div", [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "border-b py-8 font-bold text-black text-center text-xl tracking-widest uppercase bg-white"
-                },
-                [_vm._v("\n                    New Project\n                ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "form",
-                {
-                  staticClass: "bg-gray-100",
+            _c("div", { staticClass: "px-6 py-6" }, [
+              _c("div", [
+                _c(
+                  "label",
+                  { staticClass: "form-label", attrs: { for: "inputTitle" } },
+                  [_vm._v("Title")]
+                ),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.lazy",
+                      value: _vm.$v.title.$model,
+                      expression: "$v.title.$model",
+                      modifiers: { lazy: true }
+                    }
+                  ],
+                  staticClass: "form-input",
+                  class: _vm.$v.title.$error ? " form-error" : "",
+                  attrs: {
+                    autofocus: "",
+                    id: "inputTitle",
+                    placeholder: "Project's title",
+                    type: "text"
+                  },
+                  domProps: { value: _vm.$v.title.$model },
                   on: {
-                    submit: function($event) {
-                      $event.preventDefault()
-                      return _vm.createNewProject($event)
+                    change: function($event) {
+                      return _vm.$set(
+                        _vm.$v.title,
+                        "$model",
+                        $event.target.value
+                      )
                     }
                   }
-                },
-                [
-                  _c("div", { staticClass: "px-6 py-6" }, [
-                    _c("div", [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-label",
-                          attrs: { for: "inputTitle" }
-                        },
-                        [_vm._v("Title")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model.lazy",
-                            value: _vm.$v.title.$model,
-                            expression: "$v.title.$model",
-                            modifiers: { lazy: true }
-                          }
-                        ],
-                        staticClass: "form-input",
-                        class: _vm.$v.title.$error ? " form-error" : "",
-                        attrs: {
-                          autofocus: "",
-                          id: "inputTitle",
-                          placeholder: "Project's title",
-                          type: "text"
-                        },
-                        domProps: { value: _vm.$v.title.$model },
-                        on: {
-                          change: function($event) {
-                            return _vm.$set(
-                              _vm.$v.title,
-                              "$model",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _vm.$v.title.$dirty
-                      ? _c("div", [
-                          !_vm.$v.title.required
-                            ? _c("p", { staticClass: "form-error-message" }, [
-                                _vm._v(
-                                  "\n                                Project Title is required.\n                            "
-                                )
-                              ])
-                            : _vm._e()
+                })
+              ]),
+              _vm._v(" "),
+              _vm.$v.title.$dirty
+                ? _c("div", [
+                    !_vm.$v.title.required
+                      ? _c("p", { staticClass: "form-error-message" }, [
+                          _vm._v(
+                            "\n                        Project Title is required.\n                    "
+                          )
                         ])
                       : _vm._e()
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "px-6 pb-6" }, [
-                    _c("div", [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "form-label",
-                          attrs: { for: "inputDescription" }
-                        },
-                        [_vm._v("Description")]
-                      ),
-                      _vm._v(" "),
-                      _c("textarea", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model.lazy",
-                            value: _vm.$v.description.$model,
-                            expression: "$v.description.$model",
-                            modifiers: { lazy: true }
-                          }
-                        ],
-                        staticClass: "form-textarea",
-                        class: _vm.$v.description.$error ? " form-error" : "",
-                        attrs: {
-                          autofocus: "",
-                          rows: "6",
-                          id: "inputDescription",
-                          placeholder: "Description",
-                          type: "text"
-                        },
-                        domProps: { value: _vm.$v.description.$model },
-                        on: {
-                          change: function($event) {
-                            return _vm.$set(
-                              _vm.$v.description,
-                              "$model",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "px-6 pb-6" }, [
+              _c("div", [
+                _c(
+                  "label",
+                  {
+                    staticClass: "form-label",
+                    attrs: { for: "inputDescription" }
+                  },
+                  [_vm._v("Description")]
+                ),
+                _vm._v(" "),
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.lazy",
+                      value: _vm.$v.description.$model,
+                      expression: "$v.description.$model",
+                      modifiers: { lazy: true }
+                    }
+                  ],
+                  staticClass: "form-textarea",
+                  class: _vm.$v.description.$error ? " form-error" : "",
+                  attrs: {
+                    autofocus: "",
+                    rows: "6",
+                    id: "inputDescription",
+                    placeholder: "Description",
+                    type: "text"
+                  },
+                  domProps: { value: _vm.$v.description.$model },
+                  on: {
+                    change: function($event) {
+                      return _vm.$set(
+                        _vm.$v.description,
+                        "$model",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _vm.$v.description.$dirty
+                ? _c("div", [
+                    !_vm.$v.description.minLength
+                      ? _c("p", { staticClass: "form-error-message" }, [
+                          _vm._v(
+                            "\n                        The description must not have more than " +
+                              _vm._s(_vm.$v.description.$params.minLength.min) +
+                              "\n                        characters.\n                    "
+                          )
+                        ])
+                      : _vm._e(),
                     _vm._v(" "),
-                    _vm.$v.description.$dirty
-                      ? _c("div", [
-                          !_vm.$v.description.minLength
-                            ? _c("p", { staticClass: "form-error-message" }, [
-                                _vm._v(
-                                  "\n                                The description must not have more than " +
-                                    _vm._s(
-                                      _vm.$v.description.$params.minLength.min
-                                    ) +
-                                    "\n                                characters.\n                            "
-                                )
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          !_vm.$v.description.maxLength
-                            ? _c("p", { staticClass: "form-error-message" }, [
-                                _vm._v(
-                                  "\n                                The description must have at least " +
-                                    _vm._s(
-                                      _vm.$v.description.$params.maxLength.min
-                                    ) +
-                                    "\n                                characters.\n                            "
-                                )
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          !_vm.$v.description.required
-                            ? _c("p", { staticClass: "form-error-message" }, [
-                                _vm._v(
-                                  "\n                                The description is required.\n                            "
-                                )
-                              ])
-                            : _vm._e()
+                    !_vm.$v.description.maxLength
+                      ? _c("p", { staticClass: "form-error-message" }, [
+                          _vm._v(
+                            "\n                        The description must have at least " +
+                              _vm._s(_vm.$v.description.$params.maxLength.min) +
+                              "\n                        characters.\n                    "
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    !_vm.$v.description.required
+                      ? _c("p", { staticClass: "form-error-message" }, [
+                          _vm._v(
+                            "\n                        The description is required.\n                    "
+                          )
                         ])
                       : _vm._e()
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(0)
-                ]
-              )
-            ])
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _vm._m(0)
           ]
         )
-      ])
-    ]
-  )
+      ]
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -360,11 +340,7 @@ var staticRenderFns = [
         _c(
           "button",
           { staticClass: "button button-primary", attrs: { type: "submit" } },
-          [
-            _vm._v(
-              "\n                                New\n                            "
-            )
-          ]
+          [_vm._v("\n                        New\n                    ")]
         )
       ])
     ])

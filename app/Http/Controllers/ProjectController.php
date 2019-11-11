@@ -10,19 +10,17 @@ use Illuminate\Http\JsonResponse;
 
 class ProjectController extends Controller
 {
-
     /**
      * @return JsonResponse
      */
     public function index()
     {
-        $projects = Project::where('owner_id', auth()->id())->paginate(10);
+        $projects = Project::where('owner_id', auth()->id())->paginate(9);
 
         return response()->json([
             'data' => $projects
         ], 200);
     }
-
 
     /**
      * @param ProjectCreateRequest $request
@@ -38,7 +36,6 @@ class ProjectController extends Controller
 
         return response()->json($project, 201);
     }
-
 
     /**
      * @param Project $project
@@ -69,8 +66,8 @@ class ProjectController extends Controller
         return response()->json([
             'data' => [
                 'project' => $project,
-                'tasks' => $project->tasks()->get()
-                ]
+                'tasks' => $project->tasks()->orderBy('created_at', 'desc')->get()
+            ]
         ], 200);
     }
 
@@ -80,6 +77,7 @@ class ProjectController extends Controller
      * @param Project $project
      * @return JsonResponse
      * @throws AuthorizationException
+     * @throws \Exception
      */
     public function destroy(Project $project)
     {
@@ -121,7 +119,7 @@ class ProjectController extends Controller
      */
     public function trash()
     {
-        $projects = Project::onlyTrashed()->where('owner_id', auth()->id())->paginate();
+        $projects = Project::onlyTrashed()->where('owner_id', auth()->id())->paginate(9);
 
         return response()->json([
             'data' => $projects

@@ -10,6 +10,8 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
+use Illuminate\Http\Request;
+
 
 class TaskController extends Controller
 {
@@ -31,7 +33,6 @@ class TaskController extends Controller
     /**
      * Store a new resource.
      *
-     * @param Project $project
      * @param TaskCreateRequest $request
      * @param Task $task
      * @return RedirectResponse|Redirector
@@ -76,7 +77,16 @@ class TaskController extends Controller
         $this->authorize('view', $project);
         $this->authorize('view', $task);
 
-        $task->update($request->all());
+        $task = $task->update($request->all());
+
+        return response()->json([
+            'data' => $task
+        ], 204);
+    }
+
+    public function complete(Project $project, Task $task, Request $request)
+    {
+        $task->complete();
 
         return response()->json([
             'data' => $task

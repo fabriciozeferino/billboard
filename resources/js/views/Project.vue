@@ -14,6 +14,7 @@
                     <div class="text-gray-700">{{ project.description}}</div>
                 </header>
 
+                <!-- Form to add new task -->
                 <section class="p-4">
                     <form @submit.prevent="createNewTask(project)">
                         <div class="flex items-center py-2">
@@ -133,7 +134,7 @@
             },
 
             toggleComplete(task) {
-                axios.put(`projects/${this.$route.params.id}/tasks/${task.id}`, task)
+                axios.put(`projects/${this.$route.params.id}/tasks/${task.id}/complete`)
                     .then(
                         data => {
                             console.log(data);

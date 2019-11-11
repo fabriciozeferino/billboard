@@ -34,6 +34,7 @@ Route::prefix('v1')->group(function () {
         Route::resource('projects', 'ProjectController');
 
         // Tasks
+        Route::put('projects/{project}/tasks/{task}/complete', 'TaskController@complete');
         Route::resource('projects/{project}/tasks', 'TaskController');
 
         // Logs

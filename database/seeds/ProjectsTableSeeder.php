@@ -13,7 +13,7 @@ class ProjectsTableSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        for ($i = 1; $i <= 100; $i++) {
+        for ($i = 1; $i <= 20; $i++) {
             DB::table('projects')->insert([
                 [
                     'owner_id' => 1,
